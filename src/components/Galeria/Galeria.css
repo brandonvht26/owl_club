@@ -1,17 +1,12 @@
-/* src/components/Galeria/Galeria.css */
+
+    :root {
+        --colorUno: #3498db;  
+        --colorTres: #2ecc71; 
+        --colorCuatro: #f39c12; 
+    }
 
 
-  /* Asegúrate de que tus variables CSS como --colorUno, --colorTres, --colorCuatro
-   estén definidas en un scope global (ej. en :root o App.css)
-   Ejemplo:*/
-   :root {
-       --colorUno: #3498db;  
-       --colorTres: #2ecc71; 
-       --colorCuatro: #f39c12; 
-   }
 
-
-/* Animación de fondo (si no la tienes definida en otro lugar) */
 @keyframes fondoMovil {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -19,97 +14,77 @@
 }
 
 .gallery__section {
-    width: 100%; /* Ocupa todo el ancho disponible */
-    display: flexbox; /* Usamos flexbox para centrar su contenido */
-    justify-content: center; /* Centra horizontalmente el .gallery__container */
-    align-items: flex-start; /* Alinea al inicio verticalmente (o 'center' si quieres todo al medio) */
-    padding: 20px 0; /* Un poco de padding arriba y abajo para separar del contenido adyacente */
-    box-sizing: border-box; /* Incluye padding en el ancho total */
+    width: 100%; 
+    display: flexbox; 
+    justify-content: center; 
+    align-items: flex-start; 
+    padding: 20px 0; 
+    box-sizing: border-box; 
 }
-/* SEPARADOR (si aún lo necesitas y no es un componente aparte) */
+
 .separator-block {
     width: 100%;
-    height: 50px; /* Ajusta según sea necesario */
-    /* Puedes añadir un color o imagen de fondo aquí si lo deseas */
+    height: 50px;   
 }
 
 
-/* Título de la galería */
+
 .titulo__gallery {
-    /* Aquí es donde se muestra "Galería" en tu HTML/JSX */
+    
     border-bottom: 4px solid var(--colorTres);
-    /* max-width: 100%; // Esto es redundante para un elemento de bloque por defecto */
     font-size: 1.8rem;
     font-weight: bold;
     color: var(--colorUno);
     margin-bottom: 1rem;
-    text-align: center; /* Asegura que el texto "Galería" esté centrado */
-    padding-bottom: 5px; /* Pequeño padding para separar el texto del borde */
-    /* Puedes añadir un ancho específico si quieres que el borde sea más corto que el 100% */
-    /* Por ejemplo: width: fit-content; margin: 0 auto 1rem auto; */
+    text-align: center; 
+    padding-bottom: 5px; 
 }
 
-/* Contenedor principal de la galería */
+
 .gallery__container {
-    /* Corregido de 'display: flexbox;' a 'display: flex;' o se puede quitar si no se necesita flex para este contenedor */
-    /* Si solo buscas centrar su contenido, 'text-align: center;' para bloques o 'margin: 0 auto;' */
-    display: flexbox; /* Usamos flexbox para centrar el contenido, especialmente la galería interna */
-    flex-direction: column; /* Apila el título y la galería verticalmente */
-    align-items: center; /* Centra horizontalmente los ítems hijos */
-    
+    display: flexbox; 
+    flex-direction: column; 
+    align-items: center; 
     padding: 20px;
     background: linear-gradient(315deg, #6b2e8c, var(--colorCuatro), var(--colorTres));
     background-size: 200% 200%;
     animation: fondoMovil 10s ease infinite;
-
-    /* Añadido para que el gradiente ocupe todo el ancho si el contenido es menor */
     width: 100%;
-    box-sizing: border-box; /* Incluye padding en el ancho total */
-}
+    box-sizing: border-box; 
 
-/* Contenedor de las imágenes de la galería */
+
 .gallery {
-    justify-content: center; /* Centra las columnas de la grilla si hay espacio extra */
+    justify-content: center; 
     display: grid;
-    /* 'auto-fill' es excelente aquí, mantiene las columnas llenas */
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px; /* Espacio entre las imágenes */
-    width: 100%; /* La galería ocupa todo el ancho disponible del contenedor */
-    max-width: 1200px; /* Puedes definir un ancho máximo para la galería interna si quieres que no se estire demasiado */
-    /* Si tienes un max-width en .gallery__container, este podría ser igual o menor */
+    gap: 15px; 
+    width: 100%; 
+    max-width: 1200px; 
 }
 
-/* Estilo para cada imagen individual */
 .gallery img {
-    width: 100%; /* La imagen ocupa el 100% del ancho de su celda en la grilla */
-    height: 200px; /* Altura fija para uniformidad */
-    object-fit: cover; /* Recorta la imagen para que cubra el área sin distorsionarse */
-    border-radius: 5px; /* Bordes redondeados */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave para hover */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
-    display: block; /* Para eliminar el espacio extra debajo de las imágenes si están en línea */
+    width: 100%; 
+    height: 200px;
+    object-fit: cover; 
+    border-radius: 5px; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+    display: block; 
 }
 
-/* Efecto hover en las imágenes */
+
 .gallery img:hover {
-    transform: translateY(-5px) scale(1.03); /* Ligeramente hacia arriba y un poco de zoom */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Sombra más pronunciada al pasar el ratón */
+    transform: translateY(-5px) scale(1.03); 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
 }
 
-/* Media Query para pantallas grandes */
-@media (min-width: 992px) { /* Usamos min-width para "desktop first" o para aplicar a partir de este tamaño */
+
+@media (min-width: 992px) {
     .gallery {
-        /* Para alinear al centro cuando no hay muchas imágenes en pantallas grandes */
-        justify-content: center; /* Centra las columnas dentro del grid */
-        grid-template-columns: repeat(auto-fit, 200px); /* Columnas de tamaño fijo */
-        padding: 20px; /* Añade padding dentro de la galería en pantallas grandes */
+        justify-content: center; 
+        grid-template-columns: repeat(auto-fit, 200px); 
+        padding: 20px; 
     }
 }
 
-/* Consideraciones adicionales para el título de la galería */
-/* Si quieres que el título también tenga un ancho máximo y se centre */
-/* .titulo__gallery h2 {
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-} */
+}
