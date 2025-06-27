@@ -13,41 +13,34 @@
     100% { background-position: 0% 50%; }
 }
 
-/* SECCIÓN GLOBAL DE LA GALERÍA */
+
 .gallery__section {
     width: 100%;
-    /* Corregido de 'display: flexbox;' a 'display: flex;' */
-    display: flex; /* Para centrar el gallery__container */
-    justify-content: center; /* Centra horizontalmente el .gallery__container */
-    align-items: flex-start; /* Alineación vertical */
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start; 
     padding: 20px 0;
     box-sizing: border-box;
 }
 
-.separator-block {
-    width: 100%;
-    height: 50px;
-}
 
-/* TÍTULO DE LA GALERÍA */
 .titulo__gallery {
-    border-bottom: 4px solid var(--colorTres);
+    border-bottom: 4px solid var(#ffff);
     font-size: 1.8rem;
     font-weight: bold;
     color: var(--colorUno);
     margin-bottom: 1rem;
     text-align: center;
     padding-bottom: 5px;
-    width: fit-content; /* Para que el borde se ajuste al texto */
-    margin-left: auto;   /* Para centrar el título dentro de .gallery__container */
+    width: fit-content; 
+    margin-left: auto;   
     margin-right: auto;
 }
 
-/* CONTENEDOR PRINCIPAL DE LA GALERÍA (con fondo degradado) */
+
 .gallery__container {
-    /* Mantenemos el max-width y el centrado del bloque completo */
-    max-width: 900px; /* Puedes ajustar este valor según desees que se vea de ancho */
-    width: 100%; /* Ocupa el 100% del max-width o del espacio disponible */
+    max-width: 900px;
+    width: 100%; 
     
     padding: 20px;
     background: linear-gradient(315deg, #6b2e8c, var(--colorCuatro), var(--colorTres));
@@ -58,27 +51,17 @@
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-
-    /* Quitamos display: flexbox; flex-direction: column; align-items: center; de aquí,
-       ya que .gallery__section lo centrará como un bloque normal */
-} /* <--- ¡CORCHETE DE CIERRE AGREGADO AQUÍ! */
-
-
-/* GALERÍA DE IMÁGENES (EL GRID) */
+} 
 .gallery {
     display: grid;
-    /* CLAVE PARA OCUPAR EL ESPACIO: minmax(200px, 1fr) */
-    /* Crea columnas de al menos 200px, y las expande (1fr) para ocupar el espacio restante */
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px; /* Espacio entre las imágenes */
-    width: 100%; /* Ocupa el 100% del ancho de .gallery__container */
-    /* ELIMINADO: max-width: 1200px; aquí, para que no limite la expansión */
-    
-    justify-content: center; /* Centra las columnas si no llenan todo el ancho */
+    gap: 15px; 
+    width: 100%;
+    justify-content: center;
     align-items: center;
 }
 
-/* ESTILO DE CADA IMAGEN INDIVIDUAL */
+
 .gallery img {
     width: 100%;
     height: 200px;
@@ -89,27 +72,25 @@
     display: block;
 }
 
-/* EFECTO HOVER EN IMÁGENES */
+
 .gallery img:hover {
     transform: translateY(-5px) scale(1.03);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-/* MEDIA QUERIES */
 
-/* Para pantallas grandes (desktop) */
+
 @media (min-width: 992px) {
     .gallery {
-        /* Para asegurar que las columnas se expandan en pantallas grandes */
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Mantener 1fr para expansión */
-        /* Eliminado: padding: 20px; aquí, si ya el contenedor padre tiene padding */
+        
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
     }
     .gallery__container {
-        max-width: 1000px; /* Ajusta este max-width para desktop si 900px es muy pequeño */
+        max-width: 1000px; 
     }
 }
 
-/* Para pantallas medianas (tablets) */
+
 @media (max-width: 768px) {
     .gallery__container {
         max-width: 700px;
@@ -127,7 +108,7 @@
     }
 }
 
-/* Para pantallas pequeñas (móviles) */
+
 @media (max-width: 480px) {
     .gallery__section {
         padding: 10px 0;
@@ -143,7 +124,7 @@
         margin-bottom: 0.5rem;
     }
     .gallery {
-        grid-template-columns: 1fr; /* Una sola columna para móviles */
+        grid-template-columns: 1fr; 
         gap: 10px;
     }
     .gallery img {
