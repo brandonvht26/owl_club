@@ -16,7 +16,6 @@ function App() {
       <Galeria />
       <Download />
       <Footer />
-      {/* Aquí puedes agregar otros componentes como ContactForm, MemberCard, etc. */}
     </div>
   );
 }
