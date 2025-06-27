@@ -1,0 +1,146 @@
+/*Arda apuntes: Debo ajustar los colores para que estos no quiten visibilidad al texto, no me acuerdo si ese era el slogan y centrar algunas cosas mas, ademas de pribar las otras fuentes a ver si me convense otra convinacion*/
+
+.footer {
+    /* Fondo en gradiente inspirado en tu imagen de galería */
+    background: linear-gradient(-135deg, var(--AcolorCuatro), var(--AcolorCuatro), var(--AcolorTres));
+    color: var(--AcolorUno); 
+    padding: 4rem 1.5rem 2rem;
+    font-family: var(--AfuentePrincipal);
+    box-shadow: 0 -5px 15px -5px rgba(156, 82, 151, 0.5); 
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 2.5rem;
+}
+
+.footer-logo-socials,
+.footer-links,
+.footer-contact,
+.footer-slogan {
+    text-align: center;
+}
+
+.footer h4 {
+    color: var(--AcolorTres); 
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-family: var(--AfuenteSecundaria);
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.footer-logo-socials .footer-logo {
+    width: 140px;
+    margin: 0 auto 1.5rem auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-icons a {
+    color: var(--AcolorUno); 
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.social-icons a:hover {
+    background-color: var(--AcolorTres);  
+    color: var(--AcolorCuatro);          
+    transform: translateY(-3px) scale(1.05);
+}
+
+.footer-links ul,
+.footer-contact ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li,
+.footer-contact li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a,
+.footer-contact p,
+.footer-contact span,
+.footer-slogan p {
+    color: var(--AcolorSeis);
+    text-decoration: none;
+    transition: color 0.3s;
+    line-height: 1.6;
+}
+
+.footer-links a:hover {
+    color: var(--AcolorTres); 
+}
+
+.footer-contact i {
+    color: var(--AcolorTres);
+    margin-right: 10px;
+}
+
+.footer-slogan p {
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--AcolorUno);
+    opacity: 0.9;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin-top: 2rem;
+}
+
+.footer-bottom p {
+    margin: 0;
+    color: var(--AcolorSeis);
+    font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+    .footer {
+        padding: 5rem 2rem 2rem;
+    }
+
+    .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 2rem;
+    }
+
+    .footer-logo-socials,
+    .footer-links,
+    .footer-contact,
+    .footer-slogan {
+        text-align: left;
+    }
+    
+    .footer-logo-socials .footer-logo {
+        margin: 0 0 1.5rem 0;
+    }
+
+    .social-icons {
+        justify-content: flex-start;
+    }
+}
