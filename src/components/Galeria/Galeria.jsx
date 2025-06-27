@@ -1,13 +1,11 @@
-// src/components/Galeria/Galeria.jsx
-
 import React from 'react';
 import './Galeria.css'; 
 
-// Rutas corregidas para las imágenes:
-import buho from '../../assets/images/buho.png'; // Subimos de Galeria/ a components/, luego de components/ a src/, y luego bajamos a assets/images/
+
+import buho from '../../assets/images/buho.png'; 
 import buho_biblioteca from '../../assets/images/buho_biblioteca.png';
 import buho_lector from '../../assets/images/buho_lector.png';
-import buho_soleado from '../../assets/images/buho_soleado.png'; // Asegúrate de que esta imagen exista si la mencionas
+import buho_soleado from '../../assets/images/buho_soleado.png'; 
 import buholaptop from '../../assets/images/buholaptop.png';
 import buhotablet from '../../assets/images/buhotablet.png';
 
