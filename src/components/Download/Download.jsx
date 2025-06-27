@@ -1,7 +1,7 @@
 import React from "react";
 import "./Download.css";
 
-import googlePlayBadge from "../../assets/images/GetitOnGooglePlay.png";
+import googlePlayBadge from "../../assets/images/GetItOnGooglePlay.png";
 import appStoreBadge from "../../assets/black.svg";
 import owlClubLogo from "../../assets/images/logo1.png";
 
