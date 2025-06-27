@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
 /* src/index.css - CORREGIDO */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -14,9 +16,19 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Asegúrate que tus variables de color estén aquí o en App.css */
-  --colorUno: #3498db;
-  --colorTres: #2ecc71;
-  --colorCuatro: #f39c12;
+  --colorUno: #FFFFFF;
+  --colorDos: #D9D9D9;
+  --colorSeis:#d6c4d6;
+  --colorTres: #FFC70F;
+  --colorSiete:#ef48e1;
+  --colorCuatro: #9C5297;
+  --colorCinco: #000000;
+
+
+  --fuentePrincipal: "Comic Neue", sans-serif;
+  --fuenteSecundaria: "Coiny", sans-serif;
+  --fuenteForo: "Delicious Handrawn", sans-serif;
+  --border-color: #D3D3D3; 
 }
 
 a {
