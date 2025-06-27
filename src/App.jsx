@@ -1,6 +1,6 @@
 // src/App.js (Ejemplo)
 import React from 'react';
-import Header from './components/Header/Header'
+import Header from './components/Header/Header';
 import Galeria from './components/Galeria/Galeria'; 
 import Hero from './components/Hero/Hero';
 import Services from './components/Services/Services'
