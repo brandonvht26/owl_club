@@ -1,0 +1,159 @@
+/* ========================================= */
+/* VARIABLES Y ESTILOS GLOBALES              */
+/* ========================================= */
+:root {
+    --color-light: #FFFFFF;
+    --color-primary: #9C5297;
+    --color-primary-dark: #7E427A;
+    --color-secondary: #FFC70F;
+    --color-dark: #333333;
+    /* --font-main: "Comic Neue", sans-serif; */
+    /* --font-display: "Coiny", sans-serif; */
+}
+
+/* Contenedor para centrar la sección en la página de ejemplo */
+.section-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: #f4f5f7; */
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+
+/* ========================================= */
+/* SECCIÓN CTA (CALL TO ACTION)              */
+/* ========================================= */
+.cta-section {
+    width: 100%;
+    max-width: 1100px;
+    padding: 4rem 3rem;
+    /* Fondo con gradiente sutil para dar profundidad */
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    border-radius: 24px;
+    color: var(--color-light);
+    box-shadow: 0 20px 50px -10px rgba(126, 66, 122, 0.5);
+    overflow: hidden;
+}
+
+.cta-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    text-align: center;
+}
+
+/* Contenido: Títulos y texto */
+.cta-content {
+    max-width: 580px;
+}
+
+.cta-title {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 400;
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cta-description {
+    font-family: var(--font-main);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin: 0 0 2.5rem 0;
+    opacity: 0.95; /* Ligera transparencia para suavizar el texto */
+}
+
+/* Botones de descarga */
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.cta-store-button img {
+    height: 58px;
+    transition: all 0.25s ease-out;
+}
+
+.cta-store-button:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+/* Imagen de la App */
+.cta-image-wrapper {
+    perspective: 1000px; /* Para efecto 3D en la imagen */
+}
+
+.cta-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border-radius: 16px;
+    background: var(--color-light);
+    padding: 0.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease;
+}
+
+.cta-image-wrapper:hover .cta-image {
+    transform: rotateY(10deg) rotateX(2deg) scale(1.02);
+}
+
+
+/* ========================================= */
+/* RESPONSIVE: TABLET (>=768px)              */
+/* ========================================= */
+@media (min-width: 768px) {
+    .cta-container {
+        flex-direction: row;
+        text-align: left;
+        gap: 4rem;
+    }
+
+    .cta-content {
+        flex: 1;
+    }
+    
+    .cta-title {
+        font-size: 3.8rem;
+    }
+
+    .cta-buttons {
+        justify-content: flex-start;
+    }
+
+    .cta-image-wrapper {
+        flex-shrink: 0; /* Evita que la imagen se encoja */
+    }
+
+    .cta-image {
+        max-width: 320px;
+    }
+}
+
+
+/* ========================================= */
+/* RESPONSIVE: DESKTOP (>=1024px)            */
+/* ========================================= */
+@media (min-width: 1024px) {
+    .cta-section {
+        padding: 5rem;
+    }
+
+    .cta-title {
+        font-size: 4.2rem;
+    }
+
+    .cta-image {
+        max-width: 350px;
+    }
+}

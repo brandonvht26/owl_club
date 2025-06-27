@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Coiny&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Coiny&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap'); /* Brandon */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap'); /* Ariel */
 
 /* src/index.css - CORREGIDO */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -16,19 +16,23 @@
   -moz-osx-font-smoothing: grayscale;
 
   /* Asegúrate que tus variables de color estén aquí o en App.css */
-  --colorUno: #FFFFFF;
-  --colorDos: #D9D9D9;
-  --colorSeis:#d6c4d6;
-  --colorTres: #FFC70F;
-  --colorSiete:#ef48e1;
-  --colorCuatro: #9C5297;
-  --colorCinco: #000000;
+  --AcolorUno: #FFFFFF;
+  --AcolorDos: #D9D9D9;
+  --AcolorSeis:#d6c4d6;
+  --AcolorTres: #FFC70F;
+  --AcolorSiete:#ef48e1;
+  --AcolorCuatro: #9C5297;
+  --AcolorCinco: #000000;
+  --AfuentePrincipal: "Comic Neue", sans-serif;
+  --AfuenteSecundaria: "Coiny", sans-serif;
+  --AfuenteForo: "Delicious Handrawn", sans-serif;
+  --Aborder-color: #D3D3D3; 
 
+  --colorUno: #3498db;
+  --colorTres: #2ecc71;
+  --colorCuatro: #f39c12;
+  --font-principal: 'Inter', sans-serif;
 
-  --fuentePrincipal: "Comic Neue", sans-serif;
-  --fuenteSecundaria: "Coiny", sans-serif;
-  --fuenteForo: "Delicious Handrawn", sans-serif;
-  --border-color: #D3D3D3; 
 }
 
 a {
@@ -49,6 +53,11 @@ body {
   min-height: 100vh;
   */
   /* Ahora el body simplemente ocupará todo el espacio y #root se centrará dentro de él */
+  font-family: var(--font-principal);
+  background-color: #f4f5f7; /* Un color de fondo suave para la página */
+  color: var(--color-texto);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {
