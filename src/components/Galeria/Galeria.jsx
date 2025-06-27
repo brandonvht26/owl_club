@@ -21,7 +21,6 @@ const Galeria = () => {
 
   return (
     <section className="gallery__section">
-      <div className="separator-block"></div>
       
       <div className="gallery__container">
         <div className="titulo__gallery">
