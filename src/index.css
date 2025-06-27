@@ -1,3 +1,4 @@
+/* src/index.css - CORREGIDO */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -5,12 +6,17 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #242424; /* Puedes ajustar este color de fondo general de la página */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Asegúrate que tus variables de color estén aquí o en App.css */
+  --colorUno: #3498db;
+  --colorTres: #2ecc71;
+  --colorCuatro: #f39c12;
 }
 
 a {
@@ -23,11 +29,14 @@ a:hover {
 }
 
 body {
-  margin: 0;
+  margin: 0; /* Quita los márgenes por defecto del body */
+  /* ELIMINAR O COMENTAR ESTO:
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  */
+  /* Ahora el body simplemente ocupará todo el espacio y #root se centrará dentro de él */
 }
 
 h1 {

@@ -1,8 +1,18 @@
+/* src/App.css - CORREGIDO */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  max-width: 1280px; /* Ancho máximo de tu aplicación */
+  margin: 0 auto;    /* Centra #root horizontalmente */
   padding: 2rem;
-  text-align: center;
+  /* text-align: center; // <--- ¡¡QUITAR ESTO DE AQUÍ!! No centra bloques. */
+}
+
+.App {
+    display: flex; /* Usamos flexbox para alinear los componentes hijos (Header, Galeria) */
+    flex-direction: column; /* Los apila verticalmente */
+    align-items: center; /* Centra los componentes hijos horizontalmente */
+    width: 100%; /* Ocupa el 100% del ancho de #root */
+    box-sizing: border-box;
+    /* Puedes añadir un gap entre componentes si quieres, ej: gap: 40px; */
 }
 
 .logo {
