@@ -3,7 +3,8 @@ html {
 }
 
 body {
-    font-family: "Coiny", sans-serif;
+    /* font-family: "Coiny", sans-serif; */
+    font-family: var(--font-principal);
     margin: 0;
     padding: 0;
 }

@@ -6,9 +6,9 @@
     --colorCinco: #000000;
     --colorSeis:rgb(214, 196, 214);
     --colorSiete:#d179ca;
-    --fuentePrincipal: "Comic Neue", sans-serif;
-    --fuenteSecundaria: "Coiny", sans-serif;
-    --fuenteForo: "Delicious Handrawn", sans-serif;
+    /* --fuentePrincipal: "Comic Neue", sans-serif; */
+    --fuenteTitulo: "Coiny", sans-serif;
+    /* --fuenteForo: "Delicious Handrawn", sans-serif; */
     --border-color: #D3D3D3; 
 }
 
@@ -35,7 +35,7 @@ body{
 
 .title{
     font-size: clamp(1.8rem, 5vw, 2.5rem);
-    font-family: var(--fuenteSecundaria);
+    font-family: var(--fuenteTitulo);
     color: var(--colorCinco);
     letter-spacing: 1px;
     display: flex;

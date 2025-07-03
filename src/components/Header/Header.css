@@ -1,0 +1,224 @@
+/* ========================================= */
+/* NAVBAR - MOBILE FIRST */
+/* ========================================= */
+
+.navbar {
+    background-color: var(--colorTres); 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    position: relative;
+    height: 70px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-family: var(--fuenteSecundaria);
+    font-size: 2.2em;
+    color: var(--colorCuatro); 
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    margin-right: auto;
+}
+
+.navbar-brand img {
+    margin-top: 50px;
+    height: 95px;
+    margin-right: 0px;
+    vertical-align: middle;
+}
+
+.brand-text {
+    display: inline-block;
+    vertical-align: middle;
+    font-family: var(--fuenteSecundaria);
+}
+
+.navbar-toggler {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    z-index: 100;
+}
+
+.toggler-icon {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: var(--colorCuatro); 
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler.active .toggler-icon:nth-child(1) {
+    transform: translateY(11px) rotate(45deg);
+}
+
+.navbar-toggler.active .toggler-icon:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-toggler.active .toggler-icon:nth-child(3) {
+    transform: translateY(-11px) rotate(-45deg);
+}
+
+.navbar-nav {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 250px;
+    background-color: var(--colorCuatro); 
+    box-shadow: -5px 5px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 90;
+}
+
+.navbar-nav.active {
+    transform: translateX(0);
+}
+
+.navbar-nav li {
+    padding: 0;
+    border-bottom: 1px solid var(--colorUno);
+}
+
+.navbar-nav li:last-child {
+    border-bottom: none;
+}
+
+.navbar-nav li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 20px;
+    color: var(--colorUno); 
+    font-size: 1.1em;
+    font-family: var(--fuentePrincipal); 
+    transition: background-color 0.2s ease;
+    height: 100%;
+}
+
+.navbar-nav li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navbar-nav .btn-login {
+    background-color: var(--colorTres); 
+    color: var(--colorCuatro); 
+    text-align: center;
+    padding: 15px 20px;
+    border-radius: 5px;
+    margin: 15px 20px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+}
+
+.navbar-nav .btn-login:hover {
+    background-color: #E6B400; 
+    transform: translateY(-2px);
+}
+
+/* ========================================= */
+/* Media Query para Desktop (MacBook Air) */
+/* ========================================= */
+
+@media (min-width: 1024px) {
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    
+    .navbar {
+        justify-content: flex-start;
+        padding: 0 40px;
+        overflow: visible;
+        height: 80px; 
+    }
+
+    .navbar-brand {
+        margin-right: 50px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-toggler {
+        display: none;
+    }
+
+    .navbar-nav {
+        position: static;
+        flex-direction: row;
+        background-color: transparent;
+        box-shadow: none;
+        transform: translateX(0);
+        width: auto;
+        margin-left: auto;
+        height: 100%;
+        align-items: center;
+    }
+
+    .navbar-nav li {
+        border-bottom: none;
+        margin-left: 30px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-nav li a {
+        padding: 0;
+        color: var(--colorCuatro); 
+        font-size: 1.1em;
+        position: relative;
+        transition: color 0.3s ease;
+        background: transparent;
+        height: auto;
+        display: inline-block;
+    }
+
+    .navbar-nav li a:hover {
+        background-color: transparent;
+    }
+
+    .navbar-nav li a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--colorCuatro);
+        transition: width 0.3s ease-out;
+    }
+
+    .navbar-nav li a:hover::after {
+        width: 100%;
+    }
+
+    .navbar-nav .btn-login {
+        background-color: var(--colorCuatro); 
+        color: var(--colorUno); 
+        padding: 10px 25px;
+        border-radius: 50px;
+        margin-left: 40px;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: inline-block;
+    }
+
+    .navbar-nav .btn-login:hover {
+        background-color: #8A4185; 
+        transform: translateY(-2px);
+    }
+}
