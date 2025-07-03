@@ -1,6 +1,7 @@
 import React from 'react';
 import './Header.css'
 import buhoLogo from '../../assets/images/buho.png';
+import { Link } from 'react-router-dom';
 
 
 function Header() {
@@ -22,7 +23,7 @@ function Header() {
                         <li><a href="#">Galeria</a></li>
                         <li><a href="#">Foro</a></li>
                         <li><a href="#">Descargas</a></li>
-                        <li><a href="#" className="btn-login">Log In</a></li>
+                        <li><Link to="/login" className="btn-login">Log In</Link></li>
                     </ul>
                 </nav>
             </header>
