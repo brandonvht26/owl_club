@@ -124,7 +124,7 @@
         margin-bottom: 0.5rem;
     }
     .gallery {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
         gap: 10px;
     }
     .gallery img {
