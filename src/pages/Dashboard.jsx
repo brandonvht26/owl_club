@@ -4,7 +4,10 @@ const Dashboard = () => {
     return (
         <>
             <h1>Dashboard</h1>
-            <Link to="/">Regresar a la pagina principal</Link>
+            <button>
+                <Link to="/home">Regresar a la pagina principal</Link>
+            </button>
+            
         </>
     )
 }

@@ -6,7 +6,7 @@ const Login = () => {
         <>
             <h1>Pagina de inicio de Sesión</h1>
             <button>
-                <Link to="/">Regresar a la pagina principal</Link>
+                <Link to="/home">Ingresar</Link>
             </button>
         </>
 

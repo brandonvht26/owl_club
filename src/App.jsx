@@ -13,10 +13,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
+        <Route 
+          path="/home"
           element={
-            <div className="App">
+            <div className="LandingPage">
               <Header />
               <Hero />
               <Services />
