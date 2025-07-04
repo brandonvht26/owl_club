@@ -9,6 +9,10 @@ import Login from './pages/Login';
 import { BrowserRouter, Route, Routes, Link } from "react-router";
 import Dashboard from './pages/Dashboard';
 import LandingPage from './pages/LandingPage';
+import NotFound from './components/NotFound/NotFound';
+import Register from './components/Register/Register';
+import RegisterPage from './pages/RegisterPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -18,6 +22,8 @@ function App() {
         <Route path="/home" element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

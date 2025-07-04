@@ -1,0 +1,46 @@
+/* src/pages/NotFound.css */
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    font-family: var(--fuentePrincipal);
+    color: #333;
+    background-color: #f4f5f7;
+}
+
+.not-found-title {
+    font-size: 8rem;
+    font-weight: bold;
+    color: var(--colorCinco, #9C5297);
+    margin: 0;
+    font-family: var(--fuenteSecundaria, 'Coiny');
+}
+
+.not-found-message {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.not-found-submessage {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.not-found-link {
+    margin-top: 2rem;
+    padding: 10px 25px;
+    background-color: var(--colorTres, #FFC70F);
+    color: var(--colorSeis, #000000);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.not-found-link:hover {
+    background-color: #E6B400;
+    transform: translateY(-2px);
+}

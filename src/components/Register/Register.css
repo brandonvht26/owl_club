@@ -1,0 +1,80 @@
+/* src/pages/Register.css */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f5f7;
+    font-family: var(--fuentePrincipal);
+}
+
+.register-card {
+    background-color: var(--colorUno, #FFFFFF);
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.register-title {
+    font-family: var(--fuenteSecundaria, 'Coiny');
+    color: var(--colorCinco, #9C5297);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.register-subtitle {
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.register-form .input-group {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.register-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #444;
+}
+
+.register-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.register-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--colorCinco, #9C5297);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-button:hover {
+    background-color: #7E427A;
+}
+
+.login-link-container {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.login-link {
+    color: var(--colorCinco, #9C5297);
+    font-weight: bold;
+    text-decoration: none;
+}
