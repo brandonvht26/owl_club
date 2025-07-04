@@ -8,26 +8,16 @@ import Footer from './components/Footer/Footer';
 import Login from './pages/Login';
 import { BrowserRouter, Route, Routes, Link } from "react-router";
 import Dashboard from './pages/Dashboard';
+import LandingPage from './pages/LandingPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route 
-          path="/home"
-          element={
-            <div className="LandingPage">
-              <Header />
-              <Hero />
-              <Services />
-              <Galeria />
-              <Download />
-              <Footer />
-            </div>
-          }
-        />
-        <Route index element={<Login />} />
-        <Route path='/dashboard' element={<Dashboard/>} />
+        <Route index element={<LandingPage />} />
+        <Route path="/home" element={<LandingPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );
