@@ -13,7 +13,7 @@ import NotFound from './components/NotFound/NotFound';
 import Register from './components/Register/Register';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
-
+/* hola */
 function App() {
   return (
     <BrowserRouter>
