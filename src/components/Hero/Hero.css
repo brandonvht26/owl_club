@@ -55,14 +55,6 @@ body {
     margin: 0;
 }
 
-.hero-text2 {
-    font-family: "Coiny", sans-serif;
-    font-size: 1.6rem;
-    font-weight: bold;
-    line-height: 1.4;
-    margin: 0;
-}
-
 .yellow {
     color: #FFC70F;
     font-family: "Coiny", sans-serif;
@@ -105,9 +97,8 @@ body {
         gap: 1rem;
     }
 
-    .hero-text,
-    .hero-text2 {
-        font-size: 3rem;
+    .hero-text{
+        font-size: 2rem;
         text-align: left;
         line-height: 1.2;
     }
@@ -136,8 +127,5 @@ body {
     .hero-text {
         font-size: 4rem;
     }
-
-    .hero-text2 {
-        font-size: 3.8rem;
-    }
+        
 }
