@@ -23,6 +23,7 @@ function Header() {
                         <li><a href="#">Galeria</a></li>
                         <li><a href="#">Foro</a></li>
                         <li><a href="#">Descargas</a></li>
+                        <li><Link to="/memes">Memes API</Link></li> 
                         <li><Link to= "/dashboard" className='btn-dashboard'>Dashboard</Link></li>
                         <li><Link to="/register" className="btn-register">Regístrate</Link></li> 
                         <li><Link to="/login" className="btn-login">Log In</Link></li>

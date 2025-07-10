@@ -12,6 +12,7 @@ import NotFound from './components/NotFound/NotFound';
 import Register from './components/Register/Register';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
+import MemesPage from './pages/MemesPage'; 
 
 import React, { useEffect } from 'react'; 
 import AOS from 'aos'; 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/memes" element={<MemesPage />} /> 
         <Route path="*" element={<NotFound />} /> 
       </Routes>
     </BrowserRouter>
