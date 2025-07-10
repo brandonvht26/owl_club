@@ -1,8 +1,8 @@
 /* src/App.css - CORREGIDO */
 #root {
-  max-width: 1280px; /* Ancho máximo de tu aplicación */
-  margin: 0 auto;    /* Centra #root horizontalmente */
-  padding: 2rem;
+  /*max-width: 1280px;*/ /* Ancho máximo de tu aplicación */
+  /*margin: 0 auto; */   /* Centra #root horizontalmente */
+  /*padding: 2rem;*/
   /* text-align: center; // <--- ¡¡QUITAR ESTO DE AQUÍ!! No centra bloques. */
 }
 

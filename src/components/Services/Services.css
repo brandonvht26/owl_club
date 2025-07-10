@@ -6,9 +6,9 @@
     --colorCinco: #000000;
     --colorSeis:rgb(214, 196, 214);
     --colorSiete:#d179ca;
-    /* --fuentePrincipal: "Comic Neue", sans-serif; */
+    --fuentePrincipal: "Comic Neue", sans-serif; 
     --fuenteTitulo: "Coiny", sans-serif;
-    /* --fuenteForo: "Delicious Handrawn", sans-serif; */
+    --fuenteForo: "Delicious Handrawn", sans-serif; 
     --border-color: #D3D3D3; 
 }
 
@@ -18,9 +18,9 @@ body{
 
 .services{
     padding: 1.5rem;
-    max-width: 1200px;
+    /*max-width: 1200px;*/
     width: 100%;
-    margin: 0 auto;
+    /*margin: 0 auto;*/
     box-sizing: border-box;
     background-color: var(--colorDos);
 }

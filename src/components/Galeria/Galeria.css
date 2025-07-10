@@ -67,17 +67,22 @@
     height: 200px;
     object-fit: cover;
     border-radius: 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* La transición base se puede dejar aquí, pero es crucial que AOS.init no tenga una duración
+       demasiado larga que solape con el tiempo que el usuario podría querer hacer hover. */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Mantenemos esta transición */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     display: block;
 }
 
-
-.gallery img:hover {
+/*
+Aseguramos que el efecto hover solo se aplique a las imágenes
+cuando ya tienen la clase 'aos-animate' (es decir, ya terminaron su animación de entrada).
+Esto da prioridad a tu hover y evita conflictos con la animación inicial de AOS.
+*/
+.gallery img.aos-animate:hover {
     transform: translateY(-5px) scale(1.03);
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
-
 
 
 @media (min-width: 992px) {
