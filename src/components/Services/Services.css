@@ -241,47 +241,6 @@ body {
     }
 }
 
-/* Parte del swiper  */
-
-.topics_swiper {
-    padding-bottom: 2rem;
-}
-.swiper-button-next,
-.swiper-button-prev {
-    color: var(--colorCinco);
-}
-.swiper-pagination-bullet {
-    background: var(--colorCuatro);
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-    color: var(--colorCinco);
-    background: rgba(226, 226, 226, 0.65); /* Amarillo opaco */
-    border-radius: 25%;
-    width: 44px;
-    height: 44px;
-    box-shadow: 0 2px 12px rgba(8, 8, 8, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.7rem;
-    transition: background 0.2s, transform 0.2s, color 0.2s, border 0.2s;
-    opacity: 0.92;
-    border: 2px solid rgba(0,0,0,0.12);
-    backdrop-filter: blur(2px);
-}
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-    background: rgba(189, 106, 183, 0.85); /* Morado opaco */
-    color: var(--colorUno);
-    transform: scale(1.12);
-    opacity: 1;
-    border-color: var(--colorCuatro);
-    box-shadow: 0 4px 18px rgba(156,82,151,0.18);
-}
-
 @media (min-width: 768px) {
     .questions {
         flex-direction: row;
@@ -299,11 +258,5 @@ body {
         max-width: 400px;
         padding: 0.8rem 1.5rem;
     }
-
-    .swiper-button-next,
-    .swiper-button-prev {
-        width: 36px;
-        height: 36px;
-        font-size: 1.2rem;
-    }
 }
+
