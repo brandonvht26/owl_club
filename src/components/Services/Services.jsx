@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import AOS from "aos";
 import './Services.css'
 
 const Services = () => {
+    useEffect(() => {
+        AOS.init({ duration: 1000, once: true }); 
+    }, []);
+
     return (
         <section className="services">
             <div className="questions">
@@ -16,7 +21,7 @@ const Services = () => {
                 <h3 className="container_title">Temas recientes</h3>
             </div>
             <div className="topics_grid">{["Matemática", "Física", "Biología", "Artes", "Inglés", "ECA"].map((tema) => (
-                <div className="topic_item" key={tema}>
+                <div className="topic_item" key={tema} data-aos="zoom-in">
                     <div className="topic_box">
                     <div className="header">
                         <h4 className="title_box">
