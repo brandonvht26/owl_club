@@ -2,10 +2,10 @@
 
 .footer {
     /* Fondo en gradiente inspirado en tu imagen de galería */
-    background: linear-gradient(-135deg, var(--AcolorCuatro), var(--AcolorCuatro), var(--AcolorTres));
-    color: var(--AcolorUno); 
+    background: linear-gradient(-135deg, var(--colorCuatro), var(--colorCuatro), var(--colorTres));
+    color: var(--colorUno);
     padding: 4rem 1.5rem 2rem;
-    font-family: var(--AfuentePrincipal);
+    font-family: var(--fuentePrincipal);
     box-shadow: 0 -5px 15px -5px rgba(156, 82, 151, 0.5); 
 }
 
@@ -26,10 +26,10 @@
 }
 
 .footer h4 {
-    color: var(--AcolorTres); 
+    color: var(red); 
     font-size: 1.3rem;
     margin-bottom: 1rem;
-    font-family: var(--AfuenteSecundaria);
+    font-family: var(--fuenteSecundaria);
     letter-spacing: 1px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -47,7 +47,7 @@
 }
 
 .social-icons a {
-    color: var(--AcolorUno); 
+    color: var(--colorUno); 
     font-size: 1.2rem;
     width: 40px;
     height: 40px;
@@ -62,8 +62,8 @@
 }
 
 .social-icons a:hover {
-    background-color: var(--AcolorTres);  
-    color: var(--AcolorCuatro);          
+    background-color: var(--colorTres);  
+    color: var(--colorCuatro);          
     transform: translateY(-3px) scale(1.05);
 }
 
@@ -83,25 +83,25 @@
 .footer-contact p,
 .footer-contact span,
 .footer-slogan p {
-    color: var(--AcolorSeis);
+    color: var(--colorSeis);
     text-decoration: none;
     transition: color 0.3s;
     line-height: 1.6;
 }
 
 .footer-links a:hover {
-    color: var(--AcolorTres); 
+    color: var(--colorTres); 
 }
 
 .footer-contact i {
-    color: var(--AcolorTres);
+    color: var(--colorTres);
     margin-right: 10px;
 }
 
 .footer-slogan p {
     font-style: italic;
     font-size: 1.1rem;
-    color: var(--AcolorUno);
+    color: var(--colorUno);
     opacity: 0.9;
 }
 
@@ -114,7 +114,7 @@
 
 .footer-bottom p {
     margin: 0;
-    color: var(--AcolorSeis);
+    color: var(--colorSeis);
     font-size: 0.9rem;
 }
 
