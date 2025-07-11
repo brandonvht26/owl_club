@@ -1,15 +1,19 @@
+// src/components/Footer/Footer.jsx
+
 import React from 'react';
 import './Footer.css';
 import owlClubLogo from '../../assets/images/buho.png';
 
 const Footer = () => {
   return (
-    <footer className="footer">
+    // El contenedor principal también puede tener una animación base
+    <footer className="footer" data-aos="fade-in">
       <div className="footer-container">
-        <div className="footer-logo-socials">
+        
+        {/* Columna 1: Logo y Redes Sociales (Aparece desde la izquierda) */}
+        <div className="footer-logo-socials" data-aos="fade-right" data-aos-delay="100">
           <img src={owlClubLogo} alt="Owl Club Logo" className="footer-logo" />
           <div className="social-icons">
-            {/* Los enlaces de redes sociales permanecen igual */}
             <a href="#" aria-label="Facebook"><i className="fab fa-facebook-f"></i></a>
             <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
             <a href="#" aria-label="Instagram"><i className="fab fa-instagram"></i></a>
@@ -17,7 +21,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer-links">
+        {/* Columna 2: Links (Aparece hacia arriba con retraso) */}
+        <div className="footer-links" data-aos="fade-up" data-aos-delay="200">
           <h4>Secciones</h4>
           <ul>
             <li><a href="#">Inicio</a></li>
@@ -27,7 +32,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="footer-contact">
+        {/* Columna 3: Contacto (Aparece hacia arriba con más retraso) */}
+        <div className="footer-contact" data-aos="fade-up" data-aos-delay="300">
           <h4>Contacto</h4>
           <ul>
             <li><i className="fas fa-map-marker-alt"></i> Quito, Ecuador</li>
@@ -36,12 +42,15 @@ const Footer = () => {
           </ul>
         </div>
 
-        <div className="footer-slogan">
+        {/* Columna 4: Slogan (Aparece desde la derecha) */}
+        <div className="footer-slogan" data-aos="fade-left" data-aos-delay="400">
           <h4>Slogan</h4>
           <p>"Conocimiento que nunca duerme"</p>
         </div>
       </div>
-      <div className="footer-bottom">
+      
+      {/* Parte inferior del footer (Aparece al final) */}
+      <div className="footer-bottom" data-aos="fade-up" data-aos-delay="500">
         <p>&copy; 2024 Owl Club. Todos los derechos reservados.</p>
       </div>
     </footer>
