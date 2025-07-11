@@ -1,8 +1,29 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import Typed from "typed.js";
 import "./Hero.css";
 import logo from "../../assets/images/logo1.png";
 
 const Hero = () => {
+  const text = useRef(null);
+
+  useEffect(() => {
+    const typed = new Typed(text.current, {
+      strings: [
+        '<span class="yellow">Preguntar</span> es el primer paso para <span class="yellow">aprender</span>. <span class="purple">¡Estamos contigo!</span>'
+      ],
+      typeSpeed: 40,
+      showCursor: false,
+      backSpeed: 20,
+      backDelay: 1000,
+      loop: false,
+    });
+
+    // Limpiar Typed cuando el componente se desmonte
+    return () => {
+      typed.destroy();
+    };
+  }, []);
+
   return (
     <section className="hero">
       <div className="hero-container">
@@ -11,13 +32,7 @@ const Hero = () => {
         </div>
 
         <div className="hero-content">
-          <p className="hero-text">
-            <span className="yellow">Preguntar</span> es el primer paso para{" "}
-            <span className="yellow">aprender</span>
-          </p>
-          <p className="hero-text2">
-            <span className="purple">¡Estamos contigo!</span>
-          </p>
+          <span ref={text} className="hero-text"></span>
         </div>
       </div>
     </section>

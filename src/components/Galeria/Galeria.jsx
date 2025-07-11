@@ -1,7 +1,6 @@
 import React from 'react';
 import './Galeria.css'; 
 
-
 import buho from '../../assets/images/buho.png'; 
 import buho_biblioteca from '../../assets/images/buho_biblioteca.png';
 import buho_lector from '../../assets/images/buho_lector.png';
@@ -21,7 +20,6 @@ const Galeria = () => {
 
   return (
     <section className="gallery__section">
-      
       <div className="gallery__container">
         <div className="titulo__gallery">
           <h2>Galería</h2>
@@ -29,7 +27,13 @@ const Galeria = () => {
         
         <div className="gallery">
           {images.map((image, index) => (
-            <img key={index} src={image.src} alt={image.alt} />
+            <img 
+              key={index} 
+              src={image.src} 
+              alt={image.alt} 
+              data-aos="fade-up" 
+              
+            />
           ))}
         </div>
       </div>
