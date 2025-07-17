@@ -29,7 +29,7 @@ const Login = () => {
     return (
         <div className="login-container">
             <div className="login-card">
-                <h1 className="login-title">Bienvenido de Vuelta</h1>
+                <h1 className="login-title">Bienvenido de Nuevo</h1>
                 <p className="login-subtitle">Inicia sesión en tu cuenta de Owl Club</p>
 
                 {/* El formulario ahora está controlado por react-hook-form */}
