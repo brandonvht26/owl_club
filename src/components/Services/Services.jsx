@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import AOS from "aos";
 import './Services.css';
 
-// Importa Swiper React y estilos
+// Swiper imports
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css/pagination';
 
 const temas = ["Matemática", "Física", "Biología", "Artes", "Inglés", "ECA"];
 
 const Services = () => {
+    useEffect(() => {
+        AOS.init({ duration: 1000, once: true });
+    }, []);
+
     return (
         <section className="services">
             <div className="questions">
@@ -32,13 +38,17 @@ const Services = () => {
                 pagination={{ clickable: true }}
                 breakpoints={{
                     640: { slidesPerView: 2 },
-                    900: { slidesPerView: 3 },
+                    1024: { slidesPerView: 3 },
                 }}
                 className="topics_swiper"
             >
-                {temas.map((tema) => (
+                {temas.map((tema, idx) => (
                     <SwiperSlide key={tema}>
-                        <div className="topic_item">
+                        <div
+                            className="topic_item"
+                            data-aos="zoom-in"
+                            data-aos-delay={100 * idx}
+                        >
                             <div className="topic_box">
                                 <div className="header">
                                     <h4 className="title_box">
