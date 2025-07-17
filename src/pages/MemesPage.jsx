@@ -7,11 +7,11 @@ import Footer from '../components/Footer/Footer'; // Si quieres que el footer ap
 function MemesPage() {
   return (
     <>
-      <Header /> {/* Muestra el Header de tu app */}
-      <main style={{ padding: '20px' }}> {/* Contenedor principal de la página, opcional */}
-        <MemeGallery /> {/* Aquí se renderiza la galería de memes */}
+      <Header /> 
+      <main style={{ padding: '20px' }}> 
+        <MemeGallery /> 
       </main>
-      <Footer /> {/* Muestra el Footer de tu app */}
+      <Footer /> 
     </>
   );
 }
