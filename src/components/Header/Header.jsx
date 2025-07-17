@@ -1,17 +1,17 @@
 import React from 'react';
 import './Header.css';
 import buhoLogo from '../../assets/images/buho.png';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
-import { useAuth } from '../../context/AuthContext'; // Import useAuth hook
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 function Header() {
-    const { currentUser, logout } = useAuth(); // Get currentUser and logout function from context
+    const { currentUser, logout } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
         try {
             await logout();
-            navigate('/login'); // Redirect to login page after logout
+            navigate('/home'); // ¡Cambiado de '/login' a '/home' para ir a la landing page!
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
             alert("No se pudo cerrar sesión. Inténtalo de nuevo.");
@@ -36,15 +36,13 @@ function Header() {
                         <li><a href="#">Foro</a></li>
                         <li><a href="#">Descargas</a></li>
                         <li><Link to="/memes">Memes API</Link></li>
-                        {currentUser && ( // Show Dashboard link only if logged in
-                            <li><Link to="/dashboard" className='btn-dashboard'>Dashboard</Link></li>
-                        )}
-                        {!currentUser ? ( // Show Register/Login if not logged in
+                        <li><Link to="/dashboard" className='btn-dashboard'>Dashboard</Link></li>
+                        {!currentUser ? (
                             <>
                                 <li><Link to="/register" className="btn-register">Regístrate</Link></li>
                                 <li><Link to="/login" className="btn-login">Log In</Link></li>
                             </>
-                        ) : ( // Show Logout button if logged in
+                        ) : (
                             <li>
                                 <button onClick={handleLogout} className="btn-login" style={{ cursor: 'pointer' }}>
                                     Cerrar Sesión
