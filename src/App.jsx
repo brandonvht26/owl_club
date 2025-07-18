@@ -13,6 +13,7 @@ import Register from './components/Register/Register';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 import MemesPage from './pages/MemesPage';
+import ForumPage from './pages/ForumPage';
 
 import React, { useEffect } from 'react';
 import AOS from 'aos';
@@ -46,6 +47,7 @@ function App() {
           <Route element={<PrivateRoute />}> {/* All nested routes under this will be protected */}
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/memes" element={<MemesPage />} />
+            <Route path="/foro" element={<ForumPage />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

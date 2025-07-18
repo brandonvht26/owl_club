@@ -1,38 +1,37 @@
-/* ========================================= */
-/* NAVBAR - MOBILE FIRST */
-/* ========================================= */
+/* ========================================= /
+/ NAVBAR - MOBILE FIRST                     /
+/ ========================================= */
 
 .navbar {
-    background-color: var(--colorTres); 
+    background-color: var(--color-primary);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    position: relative;
+    padding: 0 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     height: 70px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .navbar-brand {
     display: flex;
     align-items: center;
-    font-family: var(--fuenteSecundaria);
-    font-size: 2.2em;
-    color: var(--colorCuatro); 
+    font-family: var(--font-display);
+    font-size: 1.8em;
+    color: var(--color-secondary); 
     text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    margin-right: auto;
 }
 
 .navbar-brand img {
-    margin-top: 50px;
-    height: 95px;
-    margin-right: 0px;
-    vertical-align: middle;
+    height: 80px;
+    margin-top: 10px;
+    margin-right: 5px;
 }
 
-.brand-text {
-    display: inline-block;
-    vertical-align: middle;
-    font-family: var(--fuentePrincipal);
+.navbar-brand .brand-text {
+    font-family: var(--font-display);
 }
 
 .navbar-toggler {
@@ -44,28 +43,26 @@
     justify-content: space-around;
     width: 30px;
     height: 25px;
-    z-index: 100;
+    z-index: 1050;
 }
 
 .toggler-icon {
     display: block;
     width: 100%;
     height: 3px;
-    background-color: var(--colorCuatro); 
+    background-color: var(--color-secondary); /* Ahora Morado */
     border-radius: 5px;
     transition: all 0.3s ease;
 }
 
 .navbar-toggler.active .toggler-icon:nth-child(1) {
-    transform: translateY(11px) rotate(45deg);
+    transform: translateY(8px) rotate(45deg);
 }
-
 .navbar-toggler.active .toggler-icon:nth-child(2) {
     opacity: 0;
 }
-
 .navbar-toggler.active .toggler-icon:nth-child(3) {
-    transform: translateY(-11px) rotate(-45deg);
+    transform: translateY(-8px) rotate(-45deg);
 }
 
 .navbar-nav {
@@ -73,13 +70,13 @@
     top: 70px;
     right: 0;
     width: 250px;
-    background-color: var(--colorCuatro); 
+    background-color: var(--color-primary-dark); /* Un tono oscuro del Amarillo */
     box-shadow: -5px 5px 15px rgba(0,0,0,0.3);
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
-    z-index: 90;
+    z-index: 1040;
 }
 
 .navbar-nav.active {
@@ -88,68 +85,77 @@
 
 .navbar-nav li {
     padding: 0;
-    border-bottom: 1px solid var(--colorUno);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Línea divisoria más oscura */
+    text-align: center;
 }
 
 .navbar-nav li:last-child {
     border-bottom: none;
 }
 
-.navbar-nav li a {
+.navbar-nav li a,
+.navbar-nav li button {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px 20px;
-    color: var(--colorUno); 
+    width: 100%;
+    padding: 1rem 1.25rem;
+    color: var(--color-light);
     font-size: 1.1em;
-    font-family: var(--fuentePrincipal); 
+    font-family: var(--font-main);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
     transition: background-color 0.2s ease;
-    height: 100%;
 }
 
-.navbar-nav li a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+.navbar-nav li a:hover,
+.navbar-nav li button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Hover oscuro */
+    color: var(--color-secondary); /* Texto morado al hacer hover */
 }
 
-.navbar-nav .btn-login {
-    background-color: var(--colorTres); 
-    color: var(--colorCuatro); 
-    text-align: center;
-    padding: 15px 20px;
+.navbar-nav li .btn-login,
+.navbar-nav li .btn-register {
+    display: block;
+    background-color: var(--color-secondary); /* Ahora Morado */
+    color: var(--color-light); /* Ahora texto claro */
     border-radius: 5px;
-    margin: 15px 20px;
+    margin: 1rem 1.25rem;
+    padding: 0.8rem 1.25rem;
     font-weight: bold;
     box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 
-.navbar-nav .btn-login:hover {
-    background-color: #E6B400; 
+.navbar-nav li .btn-register {
+    background-color: transparent;
+    color: var(--color-secondary); /* Texto morado */
+    border: 2px solid var(--color-secondary); /* Borde morado */
+}
+
+.navbar-nav li .btn-login:hover,
+.navbar-nav li .btn-register:hover {
+    filter: brightness(1.1);
     transform: translateY(-2px);
 }
 
+
 /* ========================================= */
-/* Media Query para Desktop (MacBook Air) */
+/* Media Query para Desktop                  */
 /* ========================================= */
 
 @media (min-width: 1024px) {
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 15px;
-    }
-    
     .navbar {
-        justify-content: flex-start;
-        padding: 0 40px;
-        overflow: visible;
-        height: 80px; 
+        padding: 0 2.5rem;
+        height: 80px;
     }
 
     .navbar-brand {
-        margin-right: 50px;
-        height: 100%;
-        display: flex;
-        align-items: center;
+        margin-right: 3rem;
+    }
+
+    .navbar-brand img {
+        height: 95px;
     }
 
     .navbar-toggler {
@@ -161,7 +167,7 @@
         flex-direction: row;
         background-color: transparent;
         box-shadow: none;
-        transform: translateX(0);
+        transform: none;
         width: auto;
         margin-left: auto;
         height: 100%;
@@ -170,55 +176,72 @@
 
     .navbar-nav li {
         border-bottom: none;
-        margin-left: 30px;
+        margin-left: 2rem;
         height: 100%;
         display: flex;
         align-items: center;
     }
 
-    .navbar-nav li a {
+    .navbar-nav li a,
+    .navbar-nav li button {
         padding: 0;
-        color: var(--colorCuatro); 
-        font-size: 1.1em;
+        color: var(--color-secondary); /* Ahora Morado */
         position: relative;
-        transition: color 0.3s ease;
         background: transparent;
         height: auto;
         display: inline-block;
     }
 
-    .navbar-nav li a:hover {
+    .navbar-nav li a:hover,
+    .navbar-nav li button:hover {
         background-color: transparent;
+        
     }
 
-    .navbar-nav li a::after {
+    .navbar-nav li a::after,
+    .navbar-nav li button::after {
         content: '';
         position: absolute;
         width: 0;
         height: 2px;
         bottom: -5px;
-        left: 0;
-        background-color: var(--colorCuatro);
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--color-secondary); /* Subrayado morado */
         transition: width 0.3s ease-out;
     }
 
-    .navbar-nav li a:hover::after {
+    .navbar-nav li a:hover::after,
+    .navbar-nav li button:hover::after {
         width: 100%;
     }
 
-    .navbar-nav .btn-login {
-        background-color: var(--colorCuatro); 
-        color: var(--colorUno); 
-        padding: 10px 25px;
+    .navbar-nav li .btn-login,
+    .navbar-nav li .btn-register {
+        background-color: var(--color-secondary); /* Ahora Morado */
+        color: var(--color-light); /* Texto claro */
+        padding: 0.6rem 1.5rem;
         border-radius: 50px;
-        margin-left: 40px;
+        margin: 0;
+        margin-left: 1rem;
         box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        display: inline-block;
+        transition: all 0.3s ease;
     }
 
-    .navbar-nav .btn-login:hover {
-        background-color: #8A4185; 
+    .navbar-nav li .btn-register {
+        background-color: transparent;
+        color: var(--color-secondary); /* Texto morado */
+        border: 2px solid var(--color-secondary); /* Borde morado */
+    }
+
+    .navbar-nav li .btn-register:hover {
+        background-color: var(--color-primary); /* Fondo amarillo al hacer hover */
         transform: translateY(-2px);
+    }
+
+    
+    .navbar-nav li .btn-login::after,
+    .navbar-nav li .btn-register::after {
+        display: none;
     }
 }

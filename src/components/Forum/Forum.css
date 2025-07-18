@@ -1,0 +1,292 @@
+/* src/components/Forum/Forum.css */
+
+.forum-page {
+    font-family: var(--font-main);
+    background-color: var(--color-bg);
+}
+
+.forum-hero {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: var(--color-light);
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.forum-hero-title {
+    font-family: var(--font-handwritten);
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    margin-bottom: 1rem;
+}
+
+.forum-hero-subtitle {
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    margin-bottom: 2rem;
+    max-width: 60ch;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-bar {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    color: var(--color-dark);
+    border: none;
+}
+.search-bar input:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--color-secondary);
+}
+
+.search-bar .btn-secondary {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.forum-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+@media (min-width: 768px) {
+    .forum-container {
+    flex-direction: row;
+    }
+}
+
+.sidebar {
+    flex-shrink: 0;
+    width: 100%;
+}
+@media (min-width: 768px) {
+    .sidebar {
+        width: 25%;
+    }
+    .sidebar.sticky-sidebar {
+        position: sticky;
+        top: 6rem; /* Ajusta según la altura de tu header */
+        align-self: flex-start;
+    }
+}
+
+.main-content {
+    width: 100%;
+    }
+    @media (min-width: 768px) {
+    .main-content {
+        width: 50%;
+    }
+}
+
+.card {
+    background-color: var(--color-light);
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+/* === Componentes específicos === */
+.categories-list li {
+    margin-bottom: 0.75rem;
+}
+.categories-list a {
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+.categories-list a:hover {
+    color: var(--color-primary);
+}
+    .categories-list .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+}
+
+.top-users .user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.top-users .rank {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--color-dark);
+    background-color: var(--color-border);
+}
+.top-users .rank.gold {
+    background-color: var(--color-secondary);
+    color: var(--color-dark);
+}
+.top-users .user-name {
+    font-weight: bold;
+}
+.top-users .user-points {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+
+.question-feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.question-feed-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+.question-feed-filters button {
+    background-color: var(--color-light);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border: 1px solid var(--color-border);
+    transition: background-color 0.2s;
+}
+.question-feed-filters button:hover {
+    background-color: #f0f0f0;
+}
+
+
+.question-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.question-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(156, 82, 151, 0.2);
+}
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+.question-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.author-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--color-light);
+}
+.author-name {
+    font-weight: 700;
+}
+.author-time {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+.question-tag {
+    color: var(--color-dark);
+    background-color: var(--color-secondary);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 700;
+}
+.question-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+.question-body {
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+}
+.question-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.question-stats button {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--color-text-light);
+    transition: color 0.2s ease;
+}
+.question-stats button:hover {
+    color: var(--color-primary);
+}
+
+.btn-primary, .btn-secondary {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-light);
+}
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+.btn-secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-dark);
+}
+.btn-secondary:hover {
+    background-color: #e6b30e; /* Un poco más oscuro para el hover */
+    transform: translateY(-2px);
+}
+
+.floating-action-button {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    color: var(--color-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease;
+}
+.floating-action-button:hover {
+    transform: scale(1.1);
+}
