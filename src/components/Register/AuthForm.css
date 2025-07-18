@@ -1,0 +1,131 @@
+/* src/components/Login/AuthForm.css - ARCHIVO NUEVO */
+
+.auth-page {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    font-family: var(--font-main);
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--color-light);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.auth-logo {
+    width: 80px;
+    margin: 0 auto 1rem auto;
+}
+
+.auth-title {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+    color: var(--color-text-light);
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+}
+
+    .auth-form .input-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+    position: relative;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: var(--color-text);
+    font-size: 0.9rem;
+}
+
+.auth-form .input-wrapper {
+    position: relative;
+}
+
+.auth-form .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-light);
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 12px 15px 12px 45px; /* Espacio para el icono */
+    border: 1px solid var(--color-border);
+    background-color: #fafafa;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(156, 82, 151, 0.2);
+}
+
+/* Estilo para los mensajes de error de react-hook-form */
+.error-message {
+    color: var(--color-error);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    text-align: left;
+    font-weight: bold;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-primary);
+    color: var(--color-light);
+    font-size: 1.1rem;
+    font-weight: bold;
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 1rem;
+}
+
+.auth-button:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+}
+
+.auth-link-container {
+    margin-top: 2rem;
+    font-size: 1rem;
+}
+
+.auth-link {
+    color: var(--color-primary);
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.auth-link:hover {
+    color: var(--color-primary-dark);
+}

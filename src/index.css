@@ -1,31 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Coiny&family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap'); /* Brandon */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap'); /* Ariel */
+/* ========================================= */
+/* ESTILOS GLOBALES Y VARIABLES DE DISEÑO    */
+/* ========================================= */
 
-/* src/index.css - CORREGIDO */
-:root {
-  background-color: #ffffff;
-
-  /* Estilos */
-
-  --colorUno: #FFFFFF;
-  --colorDos:#d6c4d6;
-  --colorTres: #FFC70F;
-  --colorCuatro:#ef48e1;
-  --colorCinco: #9C5297;
-  --colorSeis: #000000;
-  --fuentePrincipal: "Comic Neue", sans-serif;
-  --fuenteSecundaria: "Coiny", sans-serif;
-  --fuenteForo: 'Inter', sans-serif;
-  --Aborder-color: #D3D3D3; 
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+/* 1. Reseteo de estilos moderno */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -33,47 +14,61 @@ html {
 }
 
 body {
-  margin: 0;
-  font-family: var(--font-principal);
-  background-color: #f4f5f7; /* Un color de fondo suave para la página */
-  color: var(--color-texto);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  background-color: var(--color-bg);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+input, button, textarea, select {
+  font: inherit;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+/* 2. Definición de la paleta de colores y tipografías del proyecto */
+:root {
+  /* Paleta de Colores Principal */
+  --color-primary: #9C5297;
+  --color-primary-dark: #7E427A;
+  --color-secondary: #FFC70F;
+  --color-accent: #d179ca;
+
+  /* Tonos Neutros y de Fondo */
+  --color-light: #FFFFFF;
+  --color-dark: #333333;
+  --color-bg: #F4F5F7;
+  --color-text: #444444;
+  --color-text-light: #666666;
+  --color-border: #DDDDDD;
+
+  /* Colores de Estado (para errores, éxito, etc.) */
+  --color-error: #e74c3c;
+
+  /* Tipografías */
+  --font-main: "Comic Neue", sans-serif;
+  --font-display: "Coiny", sans-serif;
+  --font-handwritten: "Delicious Handrawn", sans-serif;
+}
+
+/* 3. Estilos base para la App */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1; /* Asegura que el contenido principal empuje el footer hacia abajo */
 }

@@ -26,6 +26,7 @@
 
 .titulo__gallery {
     border-bottom: 4px solid var(#ffff);
+    font-family: var(--fuentePrincipal);
     font-size: 1.8rem;
     font-weight: bold;
     color: var(--colorUno);

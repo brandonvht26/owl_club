@@ -32,7 +32,7 @@
 .brand-text {
     display: inline-block;
     vertical-align: middle;
-    font-family: var(--fuenteSecundaria);
+    font-family: var(--fuentePrincipal);
 }
 
 .navbar-toggler {

@@ -60,7 +60,7 @@ body {
     border: 1px solid var(--colorTres);
     border-radius: 25px;
     background-color: var(--colorSeis);
-    font-family: var(--fuenteSecundaria);
+    font-family: var(--fuentePrincipal);
     font-size: clamp(0.9rem, 3vw, 1rem);
     color: var(--colorCinco);
     display: flex;
@@ -86,7 +86,7 @@ body {
 .container_title {
     margin-bottom: 3rem;
     position: relative;
-    font-family: var(--fuenteSecundaria);
+    font-family: var(--fuentePrincipal);
     font-size: clamp(1.2rem, 2.5vw, 1.5rem);
     letter-spacing: 1px;
 }
@@ -95,7 +95,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: var(--fuenteSecundaria);
+    font-family: var(--fuentePrincipal);
     margin-top: 0;
     color: var(--colorCinco);
 }
@@ -152,7 +152,7 @@ body {
 
 .topic_content {
     margin-top: -10px;
-    font-family: var(--fuenteSecundaria);
+    font-family: var(--fuentePrincipal);
     font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
