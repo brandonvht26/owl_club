@@ -6,7 +6,7 @@ import Download from './components/Download/Download';
 import Footer from './components/Footer/Footer';
 import Login from './pages/LoginPage';
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
-import Dashboard from './pages/Dashboard';
+import DashboardPage from './pages/DashboardPage';
 import LandingPage from './pages/LandingPage';
 import NotFound from './components/NotFound/NotFound';
 import Register from './components/Register/Register';
@@ -45,7 +45,7 @@ function App() {
 
           {/* Protected Routes */}
           <Route element={<PrivateRoute />}> {/* All nested routes under this will be protected */}
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/memes" element={<MemesPage />} />
             <Route path="/foro" element={<ForumPage />} />
           </Route>

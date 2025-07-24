@@ -1,0 +1,136 @@
+
+main {
+    font-family: var(--font-principal);
+    background-color: #f9f9f9;
+    padding: 2rem;
+    color: #333;
+}
+
+.header_dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #9C5297;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.header_dashboard h2 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.header-actions{
+    display: flex;
+    gap: 1rem;
+}
+
+.header-actions button {
+    background-color: #FFC70F;
+    color: #9C5297;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.header-actions button:hover {
+    background-color: #FFC70F;
+}
+
+.container_dashboard {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.form-section, .list-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    flex: 1;
+    min-width: 300px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.form-section h4, .list-section h4 {
+    color: #9C5297;
+    margin-bottom: 0.5rem;
+}
+
+.form-section p, .list-section p {
+    margin-bottom: 1rem;
+}
+
+.question-form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 1rem;
+    color: #9C5297;
+}
+
+.question-form input[type="text"],
+.question-form input[type="number"],
+.question-form input[type="url"],
+.question-form select,
+.question-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    margin-top: 0.3rem;
+    font-size: 1rem;
+}
+
+.question-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.errors {
+    color: red;
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 0.3rem;
+    margin-bottom: 1rem; /* agrega este margen inferior */
+}
+
+.question-form .btn {
+    background-color: #9C5297;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.question-form .btn:hover {
+    background-color: #9C5297;
+}
+
+.list-section .no-questions {
+    background-color: #f3e5f5; /* lila claro */
+    color: #9C5297;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.footer_dashboard {
+    margin-top: 3rem;
+    text-align: center;
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.footer_dashboard p:first-child {
+    font-style: italic;
+    font-weight: bold;
+    color: #9C5297;
+}
