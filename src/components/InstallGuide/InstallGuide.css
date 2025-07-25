@@ -1,0 +1,87 @@
+.install-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f4f5f7;
+    font-family: var(--font-main);
+    padding: 1rem;
+}
+
+.install-card {
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.install-logo {
+    width: 100px;
+    margin: 0 auto 1.5rem auto;
+}
+
+.install-content h2 {
+    font-family: var(--font-display);
+    color: var(--color-primary); /* <-- CORREGIDO: Morado */
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.install-content p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.install-button {
+    background-color: var(--color-primary); /* <-- CORREGIDO: Morado */
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.install-button:hover {
+    transform: translateY(-3px);
+    background-color: var(--color-primary-dark); /* <-- CORREGIDO: Morado oscuro */
+    box-shadow: 0 4px 15px rgba(156, 82, 151, 0.4);
+}
+
+.steps-list {
+    text-align: left;
+    list-style-position: inside;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 300px;
+}
+
+.steps-list li {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.steps-list i {
+    color: var(--color-primary); /* <-- CORREGIDO: Morado */
+}
+
+.fallback-text {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 1.5rem;
+}
+
+.fallback-text i {
+    font-size: 0.8em;
+    vertical-align: middle;
+}

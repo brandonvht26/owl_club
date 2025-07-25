@@ -1,40 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Download.css";
-
-import googlePlayBadge from "../../assets/images/GetItOnGooglePlay.png";
-import appStoreBadge from "../../assets/black.svg";
 import owlClubLogo from "../../assets/images/logo1.png";
 
-const App = () => {
+const Download = () => {
     return (
-        // Usamos 'div' como contenedor principal para centrar la sección en la página.
-        <div className="section-wrapper">
-        <section className="cta-section">
-            <div className="cta-container">
-            
-            <div className="cta-content">
-                <h2 className="cta-title">Lleva Owl Club Contigo</h2>
-                <p className="cta-description">
-                Toda la ayuda que necesitas, ahora en tu bolsillo. Descarga la app y accede a un universo de conocimiento universitario donde sea que estés.
-                </p>
-                <div className="cta-buttons">
-                <a href="#" className="cta-store-button">
-                    <img src={googlePlayBadge} alt="Descargar en Google Play" />
-                </a>
-                <a href="#" className="cta-store-button">
-                    <img src={appStoreBadge} alt="Descargar en App Store" />
-                </a>
+        <div className="section-wrapper" id="download"> 
+            <section className="cta-section">
+                <div className="cta-container">
+                    <div className="cta-content">
+                        <h2 className="cta-title">Lleva Owl Club Contigo</h2>
+                        <p className="cta-description">
+                            Instala nuestra Aplicación Web (PWA) directamente en tu celular o computadora para un acceso rápido y sin conexión.
+                        </p>
+                        <div className="cta-buttons">
+                            <Link to="/instalar" className="install-app-button">
+                                <i className="fas fa-download"></i> Instalar Aplicación Web
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="cta-image-wrapper">
+                        <img src={owlClubLogo} alt="Vista previa de la App Owl Club" className="cta-image" />
+                    </div>
                 </div>
-            </div>
-            
-            <div className="cta-image-wrapper">
-                <img src={owlClubLogo} alt="Vista previa de la App Owl Club" className="cta-image" />
-            </div>
-
-            </div>
-        </section>
+            </section>
         </div>
     );
 };
 
-export default App;
+export default Download;

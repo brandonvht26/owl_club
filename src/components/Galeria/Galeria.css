@@ -1,12 +1,4 @@
 
-    :root {
-        --colorUno: #3498db;  
-        --colorTres: #2ecc71; 
-        --colorCuatro: #f39c12; 
-    }
-
-
-
 @keyframes fondoMovil {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
