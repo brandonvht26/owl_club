@@ -7,4 +7,4 @@ const DashboardPage = () => {
     )
 }
 
-export default Dashboard
+export default DashboardPage

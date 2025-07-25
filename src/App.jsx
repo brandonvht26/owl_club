@@ -1,18 +1,30 @@
+// src/App.js (ACTUALIZADO)
+
+import Header from './components/Header/Header';
+import Galeria from './components/Galeria/Galeria';
+import Hero from './components/Hero/Hero';
+import Services from './components/Services/Services';
+import Download from './components/Download/Download';
+import Footer from './components/Footer/Footer';
+import Login from './pages/LoginPage';
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import DashboardPage from './pages/DashboardPage';
+import LandingPage from './pages/LandingPage';
+import NotFound from './components/NotFound/NotFound';
+import Register from './components/Register/Register';
+import RegisterPage from './pages/RegisterPage';
+import NotFoundPage from './pages/NotFoundPage';
+import MemesPage from './pages/MemesPage';
+import ForumPage from './pages/ForumPage';
+import ForumDashboardPage from './pages/ForumDashboardPage'; // NUEVA IMPORTACIÓN
+
 import React, { useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
-
-import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
-import Register from './components/Register/Register';
-import DashboardPage from './pages/DashboardPage';
-import MemesPage from './pages/MemesPage';
-import ForumPage from './pages/ForumPage';
-import InstallGuidePage from './pages/InstallGuidePage';
-import NotFound from './components/NotFound/NotFound';
 
+// Import AuthProvider and PrivateRoute
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
@@ -30,12 +42,13 @@ function App() {
         <Routes>
           <Route index element={<LandingPage />} />
           <Route path="/home" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage/>} />
           <Route path="/register" element={<Register />} />
-          <Route path="/instalar" element={<InstallGuidePage />} />
 
+          {/* Protected Routes */}
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/forum-dashboard" element={<ForumDashboardPage />} /> {/* NUEVA RUTA */}
             <Route path="/memes" element={<MemesPage />} />
             <Route path="/foro" element={<ForumPage />} />
           </Route>
