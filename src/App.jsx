@@ -1,4 +1,4 @@
-// src/App.js (ACTUALIZADO)
+// src/App.jsx (ACTUALIZADO)
 
 import Header from './components/Header/Header';
 import Galeria from './components/Galeria/Galeria';
@@ -16,7 +16,7 @@ import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 import MemesPage from './pages/MemesPage';
 import ForumPage from './pages/ForumPage';
-import ForumDashboardPage from './pages/ForumDashboardPage'; // NUEVA IMPORTACIÓN
+import ForumDashboardPage from './pages/ForumDashboardPage';
 
 import React, { useEffect } from 'react';
 import AOS from 'aos';
@@ -27,6 +27,7 @@ import LoginPage from './pages/LoginPage';
 // Import AuthProvider and PrivateRoute
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import InstallGuidePage from './pages/InstallGuidePage'; // <-- 1. AÑADE ESTA LÍNEA
 
 function App() {
   useEffect(() => {
@@ -44,11 +45,12 @@ function App() {
           <Route path="/home" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/register" element={<Register />} />
+          <Route path="/instalar" element={<InstallGuidePage />} /> {/* <-- 2. AÑADE ESTA LÍNEA */}
 
           {/* Protected Routes */}
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/forum-dashboard" element={<ForumDashboardPage />} /> {/* NUEVA RUTA */}
+            <Route path="/forum-dashboard" element={<ForumDashboardPage />} />
             <Route path="/memes" element={<MemesPage />} />
             <Route path="/foro" element={<ForumPage />} />
           </Route>
