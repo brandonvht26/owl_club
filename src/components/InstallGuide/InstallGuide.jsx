@@ -37,14 +37,14 @@ const InstallGuide = () => {
                                 <i className="fas fa-download"></i> Instalar Aplicación
                             </button>
                         ) : (
-                             <p className="fallback-text">Si no ves el botón, busca "Instalar aplicación" en el menú (⋮) de Chrome.</p>
+                             <p className="fallback-text">Si no ves el botón, busca "Instalar aplicación" en el menú (⋮) de tu navegador. No todos los navegadores son compatibles con esta opcion.</p>
                         )}
                     </>
                 );
             case 'ios':
                 return (
                     <>
-                        <h2>Pasos para Instalar en tu iPhone</h2>
+                        <h2>¡Casi listo!</h2>
                         <p>Para instalar Owl Club, sigue estos 2 sencillos pasos:</p>
                         <ol className="steps-list">
                             <li>Toca el ícono de <strong>Compartir</strong> <i className="fas fa-share-square"></i> en Safari.</li>
@@ -55,7 +55,7 @@ const InstallGuide = () => {
             default: // Esto ahora manejará la instalación en Escritorio
                 return (
                     <>
-                        <h2>Instala Owl Club en tu Computadora</h2>
+                        <h2>¡Casi listo!</h2>
                         <p>Haz clic en el botón de abajo para añadir la aplicación a tu escritorio y acceder a ella directamente.</p>
                         {deferredPrompt ? (
                             <button className="install-button" onClick={handleInstallClick}>
@@ -63,8 +63,7 @@ const InstallGuide = () => {
                             </button>
                         ) : (
                              <p className="fallback-text">
-                                 Tu navegador podría no ser compatible o la app ya está instalada. 
-                                 Busca el ícono de instalación (<i className="fas fa-download"></i>) en la barra de direcciones.
+                                 Si no ves el botón, busca "Instalar aplicación" en el menú (⋮) de tu navegador. No todos los navegadores son compatibles con esta opcion.
                              </p>
                         )}
                     </>
