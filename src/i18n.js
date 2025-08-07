@@ -20,6 +20,10 @@ i18n
     interpolation: {
       escapeValue: false, // No es necesario para React, ya que escapa los valores por defecto
     },
+
+    react: {
+      useSuspense: true,
+    },
     
     // Configuración para el backend que carga los archivos
     backend: {
