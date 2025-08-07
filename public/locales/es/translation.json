@@ -1,0 +1,73 @@
+{
+  "header": {
+    "gallery": "Galería",
+    "services": "Servicios",
+    "downloads": "Descargas",
+    "forum": "Foro",
+    "register": "Regístrate",
+    "login": "Inicia Sesión",
+    "dashboard": "Dashboard",
+    "logout": "Cerrar Sesión"
+  },
+  "hero": {
+    "title": "<span class='yellow'>Preguntar</span> es el primer paso para <span class='yellow'>aprender</span>. <span class='purple'>¡Estamos contigo!</span>"
+  },
+  "services": {
+    "title": "¿Tienes una duda?",
+    "search_placeholder": "Escribe tu pregunta aquí...",
+    "recent_topics": "Temas recientes"
+  },
+  "gallery": {
+    "title": "Galería"
+  },
+  "downloads": {
+    "title": "Lleva Owl Club Contigo",
+    "description": "Instala nuestra Aplicación Web (PWA) directamente en tu celular o computadora para un acceso rápido y sin conexión.",
+    "button": "Instalar Aplicación Web"
+  },
+  "footer": {
+    "sections": "Secciones",
+    "home": "Inicio",
+    "contact": "Contacto",
+    "slogan_title": "Slogan",
+    "slogan_text": "\"Conocimiento que nunca duerme\"",
+    "copyright": "&copy; 2024 Owl Club. Todos los derechos reservados."
+  },
+  "login": {
+    "welcome": "Bienvenido",
+    "subtitle": "Inicia sesión para continuar",
+    "email_label": "Correo Electrónico",
+    "email_placeholder": "tu.correo@ejemplo.com",
+    "password_label": "Contraseña",
+    "password_placeholder": "••••••••",
+    "button": "Iniciar Sesión",
+    "no_account": "¿No tienes una cuenta?",
+    "register_link": "Regístrate"
+  },
+  "register": {
+    "create_account": "Crea tu Cuenta",
+    "subtitle": "Únete a la comunidad del saber",
+    "confirm_password_label": "Confirmar Contraseña",
+    "confirm_password_placeholder": "Repite la contraseña",
+    "button": "Crear Cuenta",
+    "have_account": "¿Ya tienes una cuenta?",
+    "login_link": "Inicia Sesión"
+  },
+  "not_found": {
+    "title": "404",
+    "message": "Oops! La página que buscas no existe.",
+    "submessage": "Parece que te has perdido en el universo del conocimiento.",
+    "button": "Volver a la página principal"
+  },
+  "install_guide": {
+    "almost_ready": "¡Casi listo!",
+    "android_text": "Toca el botón de abajo para instalar Owl Club en tu dispositivo.",
+    "install_button": "Instalar Aplicación",
+    "ios_text": "Para instalar Owl Club, sigue estos 2 sencillos pasos:",
+    "ios_step1": "Toca el ícono de <strong>Compartir</strong> <i class='fas fa-share-square'></i> en Safari.",
+    "ios_step2": "Selecciona <strong>\"Agregar a la pantalla de inicio\"</strong>.",
+    "desktop_text": "Haz clic en el botón de abajo para añadir la aplicación a tu escritorio y acceder a ella directamente.",
+    "desktop_button": "Instalar en Escritorio",
+    "fallback_text": "Si no ves el botón, busca \"Instalar aplicación\" en el menú (⋮) de tu navegador. No todos los navegadores son compatibles con esta opcion."
+  }
+}

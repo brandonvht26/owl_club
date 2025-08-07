@@ -1,0 +1,73 @@
+{
+  "header": {
+    "gallery": "Gallery",
+    "services": "Services",
+    "downloads": "Downloads",
+    "forum": "Forum",
+    "register": "Sign Up",
+    "login": "Log In",
+    "dashboard": "Dashboard",
+    "logout": "Log Out"
+  },
+  "hero": {
+    "title": "<span class='yellow'>Asking</span> is the first step to <span class='yellow'>learn</span>. <span class='purple'>With you all the way!</span>"
+  },
+  "services": {
+    "title": "Have a question?",
+    "search_placeholder": "Write your question here...",
+    "recent_topics": "Recent Topics"
+  },
+  "gallery": {
+    "title": "Gallery"
+  },
+  "downloads": {
+    "title": "Take Owl Club With You",
+    "description": "Install our Progressive Web App (PWA) directly on your phone or computer for fast, offline access.",
+    "button": "Install Web App"
+  },
+  "footer": {
+    "sections": "Sections",
+    "home": "Home",
+    "contact": "Contact",
+    "slogan_title": "Slogan",
+    "slogan_text": "\"Knowledge that never sleeps\"",
+    "copyright": "&copy; 2024 Owl Club. All rights reserved."
+  },
+  "login": {
+    "welcome": "Welcome",
+    "subtitle": "Log in to continue",
+    "email_label": "Email Address",
+    "email_placeholder": "your.email@example.com",
+    "password_label": "Password",
+    "password_placeholder": "••••••••",
+    "button": "Log In",
+    "no_account": "Don't have an account?",
+    "register_link": "Sign Up"
+  },
+  "register": {
+    "create_account": "Create Your Account",
+    "subtitle": "Join the community of knowledge",
+    "confirm_password_label": "Confirm Password",
+    "confirm_password_placeholder": "Repeat the password",
+    "button": "Create Account",
+    "have_account": "Already have an account?",
+    "login_link": "Log In"
+  },
+  "not_found": {
+    "title": "404",
+    "message": "Oops! The page you're looking for doesn't exist.",
+    "submessage": "It seems you've gotten lost in the universe of knowledge.",
+    "button": "Back to Homepage"
+  },
+  "install_guide": {
+    "almost_ready": "Almost there!",
+    "android_text": "Tap the button below to install Owl Club on your device.",
+    "install_button": "Install App",
+    "ios_text": "To install Owl Club, follow these 2 simple steps:",
+    "ios_step1": "Tap the <strong>Share</strong> icon <i class='fas fa-share-square'></i> in Safari.",
+    "ios_step2": "Select <strong>\"Add to Home Screen\"</strong>.",
+    "desktop_text": "Click the button below to add the app to your desktop for direct access.",
+    "desktop_button": "Install on Desktop",
+    "fallback_text": "If you don't see the button, look for \"Install app\" in your browser's menu (⋮). Not all browsers support this option."
+  }
+}

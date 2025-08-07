@@ -1,8 +1,12 @@
+// src/components/InstallGuide/InstallGuide.jsx - ACTUALIZADO
+
 import React, { useState, useEffect } from 'react';
+import { useTranslation, Trans } from 'react-i18next'; // 1. Importar hooks
 import './InstallGuide.css';
 import buhoLogo from '../../assets/images/buho.png';
 
 const InstallGuide = () => {
+    const { t } = useTranslation(); // 2. Usar el hook
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [os, setOs] = useState('desktop');
 
@@ -14,10 +18,16 @@ const InstallGuide = () => {
             setOs('ios');
         }
 
-        window.addEventListener('beforeinstallprompt', (e) => {
+        const handleBeforeInstallPrompt = (e) => {
             e.preventDefault();
             setDeferredPrompt(e);
-        });
+        };
+
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+        return () => {
+            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        };
     }, []);
 
     const handleInstallClick = () => {
@@ -30,41 +40,40 @@ const InstallGuide = () => {
             case 'android':
                 return (
                     <>
-                        <h2>¡Casi listo!</h2>
-                        <p>Toca el botón de abajo para instalar Owl Club en tu dispositivo.</p>
+                        <h2>{t('install_guide.almost_ready')}</h2>
+                        <p>{t('install_guide.android_text')}</p>
                         {deferredPrompt ? (
                             <button className="install-button" onClick={handleInstallClick}>
-                                <i className="fas fa-download"></i> Instalar Aplicación
+                                <i className="fas fa-download"></i> {t('install_guide.install_button')}
                             </button>
                         ) : (
-                             <p className="fallback-text">Si no ves el botón, busca "Instalar aplicación" en el menú (⋮) de tu navegador. No todos los navegadores son compatibles con esta opcion.</p>
+                             <p className="fallback-text">{t('install_guide.fallback_text')}</p>
                         )}
                     </>
                 );
             case 'ios':
                 return (
                     <>
-                        <h2>¡Casi listo!</h2>
-                        <p>Para instalar Owl Club, sigue estos 2 sencillos pasos:</p>
+                        <h2>{t('install_guide.almost_ready')}</h2>
+                        <p>{t('install_guide.ios_text')}</p>
                         <ol className="steps-list">
-                            <li>Toca el ícono de <strong>Compartir</strong> <i className="fas fa-share-square"></i> en Safari.</li>
-                            <li>Selecciona <strong>"Agregar a la pantalla de inicio"</strong>.</li>
+                            {/* Usamos Trans para renderizar el HTML de las traducciones */}
+                            <li><Trans i18nKey="install_guide.ios_step1" components={{ strong: <strong />, i: <i /> }} /></li>
+                            <li><Trans i18nKey="install_guide.ios_step2" components={{ strong: <strong />}} /></li>
                         </ol>
                     </>
                 );
-            default: // Esto ahora manejará la instalación en Escritorio
+            default:
                 return (
                     <>
-                        <h2>¡Casi listo!</h2>
-                        <p>Haz clic en el botón de abajo para añadir la aplicación a tu escritorio y acceder a ella directamente.</p>
+                        <h2>{t('install_guide.almost_ready')}</h2>
+                        <p>{t('install_guide.desktop_text')}</p>
                         {deferredPrompt ? (
                             <button className="install-button" onClick={handleInstallClick}>
-                                <i className="fas fa-desktop"></i> Instalar en Escritorio
+                                <i className="fas fa-desktop"></i> {t('install_guide.desktop_button')}
                             </button>
                         ) : (
-                             <p className="fallback-text">
-                                 Si no ves el botón, busca "Instalar aplicación" en el menú (⋮) de tu navegador. No todos los navegadores son compatibles con esta opcion.
-                             </p>
+                             <p className="fallback-text">{t('install_guide.fallback_text')}</p>
                         )}
                     </>
                 );

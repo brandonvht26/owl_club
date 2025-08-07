@@ -1,4 +1,7 @@
+// src/components/Services/Services.jsx - ACTUALIZADO
+
 import React, { useEffect } from "react";
+import { useTranslation } from 'react-i18next'; // 1. Importar hook
 import AOS from "aos";
 import './Services.css';
 
@@ -12,24 +15,28 @@ import 'swiper/css/pagination';
 const temas = ["Matemática", "Física", "Biología", "Artes", "Inglés", "ECA"];
 
 const Services = () => {
+    const { t } = useTranslation(); // 2. Usar el hook
+
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
     }, []);
 
     return (
-        <section className="services">
+        // Añadimos el id para que el scroll del header funcione
+        <section className="services" id="services">
             <div className="questions">
-                <h1 className="title">¿Tienes una duda?</h1>
+                {/* 3. Reemplazar texto */}
+                <h1 className="title">{t('services.title')}</h1>
             </div>
             <div className="search">
                 <h2 className="search_box">
-                    <i className="fas fa-search"></i> Escribe tu pregunta aquí...
+                    <i className="fas fa-search"></i> {t('services.search_placeholder')}
                 </h2>
             </div>
             <div className="topics_container">
-                <h3 className="container_title">Temas recientes</h3>
+                <h3 className="container_title">{t('services.recent_topics')}</h3>
             </div>
-            {/* Swiper Carrusel */}
+            {/* Swiper Carrusel (el contenido dentro del carrusel es de ejemplo, lo dejamos como está) */}
             <Swiper
                 modules={[Navigation, Pagination]}
                 spaceBetween={24}

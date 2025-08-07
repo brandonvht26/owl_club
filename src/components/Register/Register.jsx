@@ -1,16 +1,19 @@
-// src/components/Register/Register.jsx (MODIFICADO)
+// src/components/Register/Register.jsx - ACTUALIZADO
+
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
-import './AuthForm.css'; // <-- USAMOS EL MISMO CSS
+import { useTranslation } from 'react-i18next'; // 1. Importar hook
+import './AuthForm.css';
 import owlLogo from '../../assets/images/buho.png';
 
 const Register = () => {
     const navigate = useNavigate();
-    const { registerUser } = useAuth(); // Usamos la función del contexto
+    const { registerUser } = useAuth();
     const { register, handleSubmit, formState: { errors }, watch } = useForm();
     const password = watch("password");
+    const { t } = useTranslation(); // 2. Usar el hook
 
     const handleRegister = async (data) => {
         try {
@@ -31,16 +34,17 @@ const Register = () => {
         <div className="auth-page">
             <div className="auth-card">
                 <img src={owlLogo} alt="Owl Club Logo" className="auth-logo" />
-                <h1 className="auth-title">Crea tu Cuenta</h1>
-                <p className="auth-subtitle">Únete a la comunidad del saber</p>
+                {/* 3. Reemplazar textos con la función t() */}
+                <h1 className="auth-title">{t('register.create_account')}</h1>
+                <p className="auth-subtitle">{t('register.subtitle')}</p>
 
                 <form className="auth-form" onSubmit={handleSubmit(handleRegister)} noValidate>
                     <div className="input-group">
-                        <label htmlFor="email">Correo Electrónico</label>
+                        <label htmlFor="email">{t('login.email_label')}</label> {/* Reutilizamos clave de login */}
                         <div className="input-wrapper">
                             <i className="fas fa-envelope input-icon"></i>
                             <input
-                                type="email" id="email" placeholder="tu.correo@ejemplo.com"
+                                type="email" id="email" placeholder={t('login.email_placeholder')} 
                                 {...register("email", { 
                                     required: "El correo es obligatorio",
                                     pattern: { value: /^\S+@\S+$/i, message: "Correo inválido" }
@@ -51,8 +55,8 @@ const Register = () => {
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="password">Contraseña</label>
-                            <div className="input-wrapper">
+                        <label htmlFor="password">{t('login.password_label')}</label> {/* Reutilizamos clave de login */}
+                        <div className="input-wrapper">
                             <i className="fas fa-lock input-icon"></i>
                             <input
                                 type="password" id="password" placeholder="Mínimo 6 caracteres"
@@ -66,11 +70,11 @@ const Register = () => {
                     </div>
 
                     <div className="input-group">
-                        <label htmlFor="confirmPassword">Confirmar Contraseña</label>
+                        <label htmlFor="confirmPassword">{t('register.confirm_password_label')}</label>
                         <div className="input-wrapper">
                             <i className="fas fa-check-circle input-icon"></i>
                             <input
-                                type="password" id="confirmPassword" placeholder="Repite la contraseña"
+                                type="password" id="confirmPassword" placeholder={t('register.confirm_password_placeholder')}
                                 {...register("confirmPassword", { 
                                     required: "Confirma tu contraseña",
                                     validate: value => value === password || "Las contraseñas no coinciden"
@@ -80,11 +84,11 @@ const Register = () => {
                         {errors.confirmPassword && <p className="error-message">{errors.confirmPassword.message}</p>}
                     </div>
 
-                    <button type="submit" className="auth-button">Crear Cuenta</button>
+                    <button type="submit" className="auth-button">{t('register.button')}</button>
                 </form>
 
                 <div className="auth-link-container">
-                    <p>¿Ya tienes una cuenta? <Link to="/login" className="auth-link">Inicia Sesión</Link></p>
+                    <p>{t('register.have_account')} <Link to="/login" className="auth-link">{t('register.login_link')}</Link></p>
                 </div>
             </div>
         </div>
