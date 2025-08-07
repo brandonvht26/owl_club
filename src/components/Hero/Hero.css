@@ -1,35 +1,25 @@
-html {
-    background-color: #FFFFFF;
-}
+/* src/components/Hero/Hero.css - ACTUALIZADO */
 
-body {
-    /* font-family: "Coiny", sans-serif; */
-    font-family: var(--font-principal);
-    margin: 0;
-    padding: 0;
-}
-
-/* --------------------- */
-/*  MOBILE FIRST         */
-/* --------------------- */
 .hero {
     padding: 2rem 1rem;
-    background-color: #FFFFFF;
+    /* ANTES: background-color: #FFFFFF; */
+    background-color: var(--color-light); /* Fondo con variable global */
 }
 
 .hero-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* Cambiado a columna para mobile first */
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 2rem; /* Aumentado el espacio */
     flex-wrap: wrap;
+    text-align: center; /* Centrado para móvil */
 }
 
 .hero-image {
     flex: 0 0 auto;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center; /* Centrado */
     align-items: center;
 }
 
@@ -42,12 +32,13 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
+    align-items: center; /* Centrado para móvil */
+    text-align: center; /* Centrado para móvil */
 }
 
 .hero-text {
-    color: #000000;
+    /* ANTES: color: #000000; */
+    color: var(--color-text); /* Color de texto con variable global */
     font-family: "Coiny", sans-serif;
     font-size: 1.6rem;
     font-weight: bold;
@@ -56,24 +47,26 @@ body {
 }
 
 .yellow {
-    color: #FFC70F;
+    /* ANTES: color: #FFC70F; */
+    color: var(--color-secondary); /* AHORA: Usa la variable global */
     font-family: "Coiny", sans-serif;
     font-weight: bold;
 }
 
 .purple {
-    color: #9C5297;
+    /* ANTES: color: #9C5297; */
+    color: var(--color-primary); /* AHORA: Usa la variable global */
     font-family: "Coiny", sans-serif;
     font-weight: bold;
 }
 
 /* --------------------- */
-/*  iPad (vertical) (>=768px)     */
+/* iPad (vertical) (>=768px)     */
 /* --------------------- */
 @media (min-width: 768px) {
     .hero-container {
         flex-direction: row;
-        align-items: left;
+        align-items: center; /* Mantenido central */
         justify-content: space-between;
         padding: 3rem;
         gap: 2rem;
@@ -82,8 +75,6 @@ body {
 
     .hero-image {
         flex: 1;
-        display: flex;
-        justify-content: center;
     }
 
     .hero-logo {
@@ -92,9 +83,7 @@ body {
 
     .hero-content {
         flex: 1;
-        flex-direction: column;
-        justify-content: left;
-        gap: 1rem;
+        align-items: flex-start; /* Alineado a la izquierda */
     }
 
     .hero-text{
@@ -105,15 +94,11 @@ body {
 }
 
 /* --------------------- */
-/*  DESKTOP (>=900px)    */
+/* DESKTOP (>=900px)    */
 /* --------------------- */
 @media (min-width: 900px) {
     .hero-container {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
         padding: 2rem 5rem;
-        text-align: left;
     }
 
     .hero-logo {
@@ -127,5 +112,4 @@ body {
     .hero-text {
         font-size: 4rem;
     }
-        
 }

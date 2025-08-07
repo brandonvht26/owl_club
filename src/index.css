@@ -1,9 +1,7 @@
-/* ========================================= */
-/* ESTILOS GLOBALES Y VARIABLES DE DISEÑO    */
-/* ========================================= */
-
-/* 1. Reseteo de estilos moderno */
-*, *::before, *::after {
+/* 1. Reseteo de estilos moderno (sin cambios) */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -11,20 +9,30 @@
 
 html {
   scroll-behavior: smooth;
+  /* Transición suave para los cambios de color */
+  transition: background-color 0.3s, color 0.3s;
 }
 
 body {
   -webkit-font-smoothing: antialiased;
   line-height: 1.6;
   background-color: var(--color-bg);
+  color: var(--color-text); /* Color de texto por defecto */
 }
 
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
 
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
@@ -33,27 +41,24 @@ a {
   color: inherit;
 }
 
-ul, ol {
-    list-style: none;
+ul,
+ol {
+  list-style: none;
 }
 
-/* 2. Definición de la paleta de colores y tipografías del proyecto */
+/* 2. Definición de la paleta de colores y tipografías */
 :root {
-  /* Paleta de Colores Principal */
+  /* TEMA CLARO (POR DEFECTO) */
   --color-primary: #9C5297;
-  --color-primary-dark: #7E427A;
+  --color-primary-dark: #6A1B9A;
   --color-secondary: #FFC70F;
   --color-accent: #d179ca;
-
-  /* Tonos Neutros y de Fondo */
   --color-light: #FFFFFF;
   --color-dark: #333333;
   --color-bg: #F4F5F7;
   --color-text: #444444;
   --color-text-light: #666666;
   --color-border: #DDDDDD;
-
-  /* Colores de Estado (para errores, éxito, etc.) */
   --color-error: #e74c3c;
 
   /* Tipografías */
@@ -61,6 +66,22 @@ ul, ol {
   --font-display: "Coiny", sans-serif;
   --font-handwritten: "Delicious Handrawn", sans-serif;
 }
+
+/* NUEVO: TEMA OSCURO */
+[data-theme='dark'] {
+  --color-primary: #9C5297; 
+  --color-primary-dark: #6A1B9A;
+  --color-secondary: #FFC70F; 
+  --color-accent: #9370DB;
+  --color-light: #2D2E30; 
+  --color-dark: #FFFFFF; 
+  --color-bg: #1E1F20; 
+  --color-text: #E8EAED; 
+  --color-text-light: #A0A0A0; 
+  --color-border: #444444; 
+  --color-error: #FF5252;
+}
+
 
 /* 3. Estilos base para la App */
 #root {
@@ -70,5 +91,5 @@ ul, ol {
 }
 
 main {
-  flex-grow: 1; /* Asegura que el contenido principal empuje el footer hacia abajo */
+  flex-grow: 1;
 }

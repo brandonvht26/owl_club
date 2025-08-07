@@ -245,3 +245,47 @@
         display: none;
     }
 }
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.theme-toggle-btn {
+    background: none;
+    border: 2px solid var(--color-secondary);
+    color: var(--color-secondary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-btn:hover {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+    transform: rotate(15deg);
+}
+
+/* Ocultar el botón de tema en el menú desplegable móvil
+   para evitar duplicados si decides moverlo allí. */
+.navbar-nav .theme-toggle-btn {
+    display: none;
+}
+
+
+@media (min-width: 1024px) {
+    .nav-controls {
+        order: 3; /* Asegura que los controles estén a la derecha */
+        margin-left: 2rem;
+    }
+    .navbar-toggler {
+        display: none;
+    }
+}

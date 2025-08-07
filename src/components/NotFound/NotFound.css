@@ -1,4 +1,4 @@
-/* src/pages/NotFound.css */
+/* src/components/NotFound/NotFound.css - ACTUALIZADO */
 .not-found-container {
     display: flex;
     flex-direction: column;
@@ -6,17 +6,18 @@
     align-items: center;
     height: 100vh;
     text-align: center;
-    font-family: var(--fuentePrincipal);
-    color: #333;
-    background-color: #f4f5f7;
+    font-family: var(--font-main);
+    /* ANTES: color: #333; background-color: #f4f5f7; */
+    color: var(--color-text);
+    background-color: var(--color-bg);
 }
 
 .not-found-title {
     font-size: 8rem;
     font-weight: bold;
-    color: var(--colorCinco, #9C5297);
+    color: var(--color-primary); /* Usa variable global */
     margin: 0;
-    font-family: var(--fuenteSecundaria, 'Coiny');
+    font-family: var(--font-display);
 }
 
 .not-found-message {
@@ -26,21 +27,21 @@
 
 .not-found-submessage {
     font-size: 1.1rem;
-    color: #666;
+    color: var(--color-text-light); /* Usa variable global */
 }
 
 .not-found-link {
     margin-top: 2rem;
     padding: 10px 25px;
-    background-color: var(--colorTres, #FFC70F);
-    color: var(--colorSeis, #000000);
+    background-color: var(--color-secondary); /* Usa variable global */
+    color: var(--color-dark); /* Usa variable global */
     text-decoration: none;
     border-radius: 50px;
     font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .not-found-link:hover {
-    background-color: #E6B400;
+    filter: brightness(1.1);
     transform: translateY(-2px);
 }

@@ -1,12 +1,12 @@
-/*Arda apuntes: Debo ajustar los colores para que estos no quiten visibilidad al texto, no me acuerdo si ese era el slogan y centrar algunas cosas mas, ademas de pribar las otras fuentes a ver si me convense otra convinacion*/
+/* src/components/Footer/Footer.css - ACTUALIZADO */
 
 .footer {
-    /* Fondo en gradiente inspirado en tu imagen de galería */
-    background: linear-gradient(-135deg, var(--colorCuatro), var(--colorCuatro), var(--colorTres));
-    color: var(--colorUno);
+    /* ANTES: background: linear-gradient(-135deg, var(--colorCuatro), var(--colorCuatro), var(--colorTres)); */
+    background: linear-gradient(-135deg, var(--color-primary-dark), var(--color-primary)); /* Gradiente con variables globales */
+    color: var(--color-light); /* Texto principal claro */
     padding: 4rem 1.5rem 2rem;
-    font-family: var(--fuentePrincipal);
-    box-shadow: 0 -5px 15px -5px rgba(156, 82, 151, 0.5); 
+    font-family: var(--font-main);
+    box-shadow: 0 -5px 15px -5px rgba(0,0,0,0.1);
 }
 
 .footer-container {
@@ -26,10 +26,10 @@
 }
 
 .footer h4 {
-    color: var(red); 
+    color: var(--color-secondary); /* Color secundario (amarillo/verde neón) */
     font-size: 1.3rem;
     margin-bottom: 1rem;
-    font-family: var(--fuenteSecundaria);
+    font-family: var(--font-display);
     letter-spacing: 1px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -47,7 +47,7 @@
 }
 
 .social-icons a {
-    color: var(--colorUno); 
+    color: var(--color-light);
     font-size: 1.2rem;
     width: 40px;
     height: 40px;
@@ -62,8 +62,8 @@
 }
 
 .social-icons a:hover {
-    background-color: var(--colorTres);  
-    color: var(--colorCuatro);          
+    background-color: var(--color-secondary);
+    color: var(--color-primary-dark);
     transform: translateY(-3px) scale(1.05);
 }
 
@@ -83,25 +83,26 @@
 .footer-contact p,
 .footer-contact span,
 .footer-slogan p {
-    color: var(--colorSeis);
+    color: var(--color-light); /* Texto claro */
+    opacity: 0.9;
     text-decoration: none;
     transition: color 0.3s;
     line-height: 1.6;
 }
 
 .footer-links a:hover {
-    color: var(--colorTres); 
+    color: var(--color-secondary); /* Color secundario al pasar el mouse */
 }
 
 .footer-contact i {
-    color: var(--colorTres);
+    color: var(--color-secondary);
     margin-right: 10px;
 }
 
 .footer-slogan p {
     font-style: italic;
     font-size: 1.1rem;
-    color: var(--colorUno);
+    color: var(--color-light);
     opacity: 0.9;
 }
 
@@ -114,7 +115,8 @@
 
 .footer-bottom p {
     margin: 0;
-    color: var(--colorSeis);
+    color: var(--color-light);
+    opacity: 0.8;
     font-size: 0.9rem;
 }
 
@@ -135,7 +137,7 @@
     .footer-slogan {
         text-align: left;
     }
-    
+
     .footer-logo-socials .footer-logo {
         margin: 0 0 1.5rem 0;
     }
