@@ -5,6 +5,8 @@ import { doc, getDoc, collection, query, orderBy, getDocs, addDoc, runTransactio
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import katex from 'katex';
+import MathEditor from '../MathEditor/MathEditor'; // <--- ¡ASEGÚRATE DE IMPORTAR ESTO!
+import 'react-quill-new/dist/quill.snow.css';  
 import 'katex/dist/katex.min.css';
 import './QuestionDetail.css';
 
