@@ -83,25 +83,23 @@ function Header() {
 
                 <ul className={`navbar-nav ${isMenuOpen ? 'active' : ''}`}>
                     {/* --- 3. REEMPLAZAR TEXTO CON LA FUNCIÓN t() --- */}
-                    <li><button onClick={() => scrollToSection('galeria')}>{t('header.gallery')}</button></li>
-                    <li><button onClick={() => scrollToSection('services')}>{t('header.services')}</button></li>
-                    <li><button onClick={() => scrollToSection('download')}>{t('header.downloads')}</button></li>
-                    <li><Link to="/foro" onClick={handleLinkClick}>{t('header.forum')}</Link></li>
+                    <li><button onClick={() => scrollToSection('galeria')}>{t('header.gallery', 'Galería')}</button></li>
+                    <li><button onClick={() => scrollToSection('services')}>{t('header.services', 'Servicios')}</button></li>
+                    <li><button onClick={() => scrollToSection('download')}>{t('header.downloads', 'Descargas')}</button></li>
+                    <li><Link to="/foro" onClick={handleLinkClick}>{t('header.forum', 'Foro')}</Link></li>
 
                     {!currentUser ? (
                         <>
-                            <li><Link to="/register" className="btn-register" onClick={handleLinkClick}>{t('header.register')}</Link></li>
-                            <li><Link to="/login" className="btn-login" onClick={handleLinkClick}>{t('header.login')}</Link></li>
+                            <li><Link to="/register" className="btn-register" onClick={handleLinkClick}>{t('header.register', 'Regístrate')}</Link></li>
+                            <li><Link to="/login" className="btn-login" onClick={handleLinkClick}>{t('header.login', 'Log In')}</Link></li>
                         </>
                     ) : (
-                        <> 
-                            <li><Link to="/dashboard" onClick={handleLinkClick}>{t('header.dashboard')}</Link></li>
-                            <li><button onClick={handleLogout} className="btn-login">{t('header.logout')}</button></li>
-                            <li><Link to="/dashboard" onClick={handleLinkClick}>Dashboard</Link></li>
-                            <li><Link to="/perfil" onClick={handleLinkClick}>Perfil</Link></li>
+                        <>
+                            <li><Link to="/dashboard" onClick={handleLinkClick}>{t('header.dashboard', 'Dashboard')}</Link></li>
+                            <li><Link to="/perfil" onClick={handleLinkClick}>{t('header.profile', 'Perfil')}</Link></li>
                             <li>
                                 <button onClick={handleLogout} className="btn-login" style={{ cursor: 'pointer' }}>
-                                    Cerrar Sesión
+                                    {t('header.logout', 'Cerrar Sesión')}
                                 </button>
                             </li>
                         </>

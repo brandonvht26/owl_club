@@ -60,12 +60,12 @@
 
 .answers-sort span {
     font-size: 0.875rem; /* 14px */
-    color: #6B7280; /* text-gray-500 */
+    color: var(--color-text-light);
 }
 
 .answers-sort select {
-    background-color: white;
-    border: 1px solid #D1D5DB; /* border-gray-300 */
+    background-color: var(--color-light);
+    border: 1px solid var(--color-border);
     border-radius: 0.5rem; /* rounded-lg */
     padding: 4px 12px;
     font-size: 0.875rem; /* 14px */
@@ -84,7 +84,7 @@
 
 /* --- Estilos para cada Tarjeta de Respuesta (AnswerCard) --- */
 .answer-card {
-    background-color: white;
+    background-color: var(--color-light);
     border-radius: 0.5rem;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     overflow: hidden;
@@ -128,7 +128,7 @@
 
 .answer-date {
     font-size: 0.875rem; /* 14px */
-    color: #6B7280; /* text-gray-500 */
+    color: var(--color-text-light);
 }
 
 .best-answer-badge {
@@ -148,7 +148,7 @@
 
 .answer-card.best-answer {
     border-left: 4px solid var(--color-secondary);
-    background-color: rgba(255, 199, 15, 0.05);
+    background-color: rgba(255, 199, 15, 0.05); /* Nota: Este color es específico. Si lo usas mucho, considera crear una variable --color-secondary-transparent */
 }
 
 .answer-card-footer {
@@ -157,7 +157,7 @@
     align-items: center;
     justify-content: space-between;
     padding-top: 16px;
-    border-top: 1px solid #E5E7EB; /* border-gray-200 */
+    border-top: 1px solid var(--color-border);
     margin-top: 24px;
 }
 
@@ -171,7 +171,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: #6B7280; /* text-gray-500 */
+    color: var(--color-text-light);
     transition: color 0.2s;
 }
 .vote-btn:hover {
@@ -197,7 +197,7 @@
 
 /* --- Estilos del Formulario de Respuesta --- */
 .answer-form-card {
-    background-color: white;
+    background-color: var(--color-light);
     border-radius: 0.5rem;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     margin-bottom: 40px;
@@ -216,10 +216,12 @@
 }
 .textarea-wrapper textarea {
     width: 100%;
-    border: 1px solid #D1D5DB; /* border-gray-300 */
+    border: 1px solid var(--color-border);
     border-radius: 0.5rem; /* rounded-lg */
     padding: 16px;
     min-height: 160px;
+    background-color: var(--color-bg); /* Fondo sutil para el textarea */
+    color: var(--color-text);
 }
 .textarea-wrapper textarea:focus {
     outline: none;
@@ -232,7 +234,7 @@
 }
 .submit-answer-btn {
     background-color: var(--color-primary);
-    color: white;
+    color: var(--color-light);
     padding: 8px 24px;
     border: none;
     border-radius: 0.5rem; /* rounded-lg */

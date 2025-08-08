@@ -65,6 +65,15 @@ ol {
   --font-main: "Comic Neue", sans-serif;
   --font-display: "Coiny", sans-serif;
   --font-handwritten: "Delicious Handrawn", sans-serif;
+
+  
+  --color-primary-transparent-10: rgba(156, 82, 151, 0.1);
+  --color-primary-transparent-15: rgba(156, 82, 151, 0.15);
+  --color-solved-bg: rgba(16, 185, 129, 0.1);
+  --color-solved-text: #059669;
+  --color-archived-bg: rgba(107, 114, 128, 0.1);
+  --color-archived-text: #6b7280;
+  
 }
 
 /* NUEVO: TEMA OSCURO */
@@ -80,6 +89,13 @@ ol {
   --color-text-light: #A0A0A0; 
   --color-border: #444444; 
   --color-error: #FF5252;
+
+  --color-primary-transparent-10: rgba(156, 82, 151, 0.15);
+  --color-primary-transparent-15: rgba(156, 82, 151, 0.25);
+  --color-solved-bg: rgba(16, 185, 129, 0.15);
+  --color-solved-text: #34D399;
+  --color-archived-bg: rgba(156, 163, 175, 0.15);
+  --color-archived-text: #9CA3AF;
 }
 
 

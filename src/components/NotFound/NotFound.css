@@ -1,4 +1,4 @@
-/* src/components/NotFound/NotFound.css - ACTUALIZADO */
+/* src/components/NotFound/NotFound.css */
 .not-found-container {
     display: flex;
     flex-direction: column;
@@ -7,7 +7,6 @@
     height: 100vh;
     text-align: center;
     font-family: var(--font-main);
-    /* ANTES: color: #333; background-color: #f4f5f7; */
     color: var(--color-text);
     background-color: var(--color-bg);
 }
@@ -15,7 +14,7 @@
 .not-found-title {
     font-size: 8rem;
     font-weight: bold;
-    color: var(--color-primary); /* Usa variable global */
+    color: var(--color-primary);
     margin: 0;
     font-family: var(--font-display);
 }
@@ -23,18 +22,19 @@
 .not-found-message {
     font-size: 1.5rem;
     margin: 10px 0;
+    color: var(--color-text);
 }
 
 .not-found-submessage {
     font-size: 1.1rem;
-    color: var(--color-text-light); /* Usa variable global */
+    color: var(--color-text-light);
 }
 
 .not-found-link {
     margin-top: 2rem;
     padding: 10px 25px;
-    background-color: var(--color-secondary); /* Usa variable global */
-    color: var(--color-dark); /* Usa variable global */
+    background-color: var(--color-secondary);
+    color: var(--color-dark);
     text-decoration: none;
     border-radius: 50px;
     font-weight: bold;
