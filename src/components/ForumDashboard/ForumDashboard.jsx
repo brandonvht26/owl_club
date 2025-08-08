@@ -208,6 +208,19 @@ const ForumCard = ({ forum, categories, onEdit, onDelete }) => {
             <div className="card-header">
                 <div className="category-badge"><i className={`fas ${category?.icon || 'fa-question-circle'}`}></i><span>{category?.name || forum.categoria}</span></div>
                 <div className="status-badges">{forum.solved && <span className="badge solved">Resuelto</span>}{forum.archived && <span className="badge archived">Archivado</span>}</div>
+
+                <div className="actions">
+                    <button className="action-btn" onClick={() => setShowMenu(!showMenu)} onBlur={() => setTimeout(() => setShowMenu(false), 200)}>
+                        <i className="fas fa-ellipsis-h"></i>
+                    </button>
+                    {showMenu && (
+                        <div className="action-menu">
+                            <button onClick={onEdit}><i className="fas fa-edit"></i> Editar</button>
+                            <button onClick={onDelete} className="delete"><i className="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                    )}
+                </div>
+            
             </div>
             <h3 className="forum-title">{forum.titulo}</h3>
             <p className="forum-content">{forum.descripcion.substring(0, 100).replace(/<[^>]*>/g, '')}{forum.descripcion.length > 100 && '...'}</p>
@@ -221,15 +234,7 @@ const ForumCard = ({ forum, categories, onEdit, onDelete }) => {
                     <img src={forum.userPhotoURL} alt={forum.userName} className="user-avatar-small" />
                     <span>{forum.userName}</span>
                 </div>
-                <div className="actions">
-                    <button className="action-btn" onClick={() => setShowMenu(!showMenu)}><i className="fas fa-ellipsis-h"></i></button>
-                    {showMenu && (
-                        <div className="action-menu">
-                            <button onClick={() => { onEdit(); setShowMenu(false); }}><i className="fas fa-edit"></i> Editar</button>
-                            <button onClick={() => { onDelete(); setShowMenu(false); }} className="delete"><i className="fas fa-trash"></i> Eliminar</button>
-                        </div>
-                    )}
-                </div>
+            
             </div>
         </div>
     );

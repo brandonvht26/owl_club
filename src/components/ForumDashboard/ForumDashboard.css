@@ -579,3 +579,78 @@
     }
 }
 
+/* --- Estilos para el Menú de Acciones CRUD --- */
+
+/* Contenedor para el menú flotante */
+.actions {
+    position: relative; 
+}
+
+/* Estilo del botón de 3 puntos */
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-light);
+    padding: 4px 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.action-btn:hover {
+    background-color: var(--color-bg);
+}
+
+/* El menú desplegable */
+.action-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: var(--color-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    border: 1px solid var(--color-border);
+    animation: fadeIn 0.2s ease-out;
+}
+
+.action-menu button {
+    background: none;
+    border: none;
+    padding: 12px 16px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+
+.action-menu button:hover {
+    background-color: var(--color-bg);
+}
+
+.action-menu button.delete {
+    color: var(--color-error);
+}
+
+.action-menu button i {
+    width: 16px;
+    text-align: center;
+    color: var(--color-text-light);
+}
+
+.action-menu button.delete i {
+    color: var(--color-error);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
