@@ -1,123 +1,202 @@
-// src/components/Forum/Forum.jsx
+// src/components/Forum/Forum.jsx (ACTUALIZADO)
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { dbFirebase } from '../../firebase';
+import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import './Forum.css';
-import { Link } from 'react-router-dom'; // Para enlaces internos
 
-// --- Datos de ejemplo (en una app real, vendrían de una API) ---
-const questions = [
-    { id: 1, author: 'MariaP', initials: 'MP', time: 'hace 2 horas', tag: 'Matemáticas', color: 'var(--color-secondary)', title: '¿Cómo se resuelve esta ecuación cuadrática: x² + 5x + 6 = 0?', body: 'Estoy teniendo problemas para factorizar esta ecuación. ¿Alguien podría explicarme paso a paso cómo resolverla?', replies: 5, votes: 12 },
-    { id: 2, author: 'CarlosBio', initials: 'CB', time: 'hace 5 horas', tag: 'Ciencias', color: 'var(--color-primary)', title: '¿Cuál es la diferencia entre mitosis y meiosis?', body: 'Necesito una explicación clara con las principales diferencias entre estos dos procesos de división celular para mi examen.', replies: 3, votes: 8 },
-    { id: 3, author: 'LuisHistoria', initials: 'LH', time: 'hace 1 día', tag: 'Historia', color: 'var(--color-accent)', title: '¿Cuáles fueron las principales causas de la Primera Guerra Mundial?', body: 'Estoy preparando un trabajo y necesito entender las causas subyacentes, no solo el detonante inmediato.', replies: 7, votes: 15 },
-];
+// --- NUEVO: Función para formatear el tiempo transcurrido ---
+const timeSince = (date) => {
+    if (!date) return 'Fecha desconocida';
+    const seconds = Math.floor((new Date() - date.toDate()) / 1000);
 
-// --- Sub-componentes para mayor orden ---
+    let interval = seconds / 31536000;
+    if (interval > 1) return `hace ${Math.floor(interval)} años`;
+    interval = seconds / 2592000;
+    if (interval > 1) return `hace ${Math.floor(interval)} meses`;
+    interval = seconds / 86400;
+    if (interval > 1) return `hace ${Math.floor(interval)} días`;
+    interval = seconds / 3600;
+    if (interval > 1) return `hace ${Math.floor(interval)} horas`;
+    interval = seconds / 60;
+    if (interval > 1) return `hace ${Math.floor(interval)} minutos`;
+    return `hace ${Math.floor(seconds)} segundos`;
+};
 
-// Componente para una tarjeta de pregunta
-const QuestionCard = ({ question }) => (
-    <div className="card question-card">
-        <div className="question-header">
-        <div className="question-author">
-            <div className="author-avatar" style={{ backgroundColor: question.color }}>{question.initials}</div>
-            <div>
-            <p className="author-name">{question.author}</p>
-            <p className="author-time">{question.time}</p>
+
+// --- Componente para una tarjeta de pregunta (MODIFICADO) ---
+const QuestionCard = ({ question }) => {
+    // Fallback por si no hay datos de categoría
+    const categoryColor = predefinedCategories.find(c => c.id === question.categoria)?.color || 'var(--color-primary)';
+
+    return (
+        // Envolvemos la tarjeta en un Link para que sea clickeable
+        <Link to={`/foro/${question.id}`} className="card-link">
+            <div className="card question-card">
+                <div className="question-header">
+                    {/* El perfil del autor ahora es un Link al perfil público */}
+                    <Link to={`/perfil/${question.userId}`} className="question-author" onClick={(e) => e.stopPropagation()}>
+                        <img
+                            src={question.userPhotoURL || `https://i.pravatar.cc/150?u=${question.userId}`}
+                            alt={question.userName}
+                            className="author-avatar"
+                        />
+                        <div>
+                            <p className="author-name">{question.userName}</p>
+                            <p className="author-time">{timeSince(question.createdAt)}</p>
+                        </div>
+                    </Link>
+                    <span className="question-tag" style={{ backgroundColor: categoryColor, color: 'white' }}>
+                        {predefinedCategories.find(c => c.id === question.categoria)?.name || question.categoria}
+                    </span>
+                </div>
+                <h3 className="question-title">{question.titulo}</h3>
+                <p className="question-body">{question.descripcion.substring(0, 150)}{question.descripcion.length > 150 && '...'}</p>
+                <div className="question-footer">
+                    <div className="question-stats">
+                        <button><i className="far fa-comment-dots"></i> {question.replies || 0}</button>
+                        <button><i className="far fa-thumbs-up"></i> {question.likes || 0}</button>
+                        <button><i className="far fa-eye"></i> {question.views || 0}</button>
+                    </div>
+                    {/* El botón ahora es parte del Link de la tarjeta */}
+                    <span className="btn-primary">Ver Pregunta</span>
+                </div>
             </div>
-        </div>
-        <span className="question-tag" style={{ backgroundColor: question.color, color: 'white' }}>{question.tag}</span>
-        </div>
-        <h3 className="question-title">{question.title}</h3>
-        <p className="question-body">{question.body}</p>
-        <div className="question-footer">
-        <div className="question-stats" style={{ display: 'flex', gap: '1rem' }}>
-            <button><i className="far fa-comment-dots"></i> {question.replies} respuestas</button>
-            <button><i className="far fa-thumbs-up"></i> {question.votes} votos</button>
-        </div>
-        <button className="btn-primary">Responder</button>
-        </div>
-    </div>
-);
+        </Link>
+    );
+};
+
+// Categorías para dar estilo a las etiquetas (puedes mover esto a un archivo de config)
+const predefinedCategories = [
+    { id: 'matematicas', name: 'Matemáticas', color: '#9C5297' },
+    { id: 'ciencias', name: 'Ciencias', color: '#FFC70F' },
+    { id: 'lenguaje', name: 'Lenguaje', color: '#d179ca' },
+    { id: 'historia', name: 'Historia', color: '#63a375' },
+    { id: 'programacion', name: 'Programación', color: '#3b82f6' },
+    { id: 'fisica', name: 'Física', color: '#ef4444' },
+    { id: 'biologia', name: 'Biología', color: '#10b981' },
+    { id: 'arte', name: 'Arte', color: '#f59e0b' }
+];
 
 
 const Forum = () => {
+    // --- NUEVO: Estados para manejar los datos, carga y errores ---
+    const [questions, setQuestions] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [topUsers, setTopUsers] = useState([]);
+
+    // --- NUEVO: useEffect para cargar los foros desde Firebase ---
+    useEffect(() => {
+        const fetchForumData = async () => {
+            try {
+                setLoading(true);
+                // Cargar preguntas
+                const q = query(collection(dbFirebase, "foros"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                const questionsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setQuestions(questionsData);
+                
+                // --- NUEVO: Cargar Top Users ---
+                const usersQuery = query(collection(dbFirebase, "users"), orderBy("points", "desc"), limit(5));
+                const usersSnapshot = await getDocs(usersQuery);
+                const topUsersData = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setTopUsers(topUsersData);
+
+                setError(null);
+            } catch (err) {
+                console.error("Error fetching data:", err);
+                setError("No se pudieron cargar los datos del foro.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchForumData();
+    }, []);
+
     return (
         <div className="forum-page">
-        {/* --- Hero Section --- */}
-        <section className="forum-hero">
-            <h2 className="forum-hero-title">¡Bienvenido a Owl Club!</h2>
-            <p className="forum-hero-subtitle">La comunidad donde los sabios como tú comparten conocimiento y resuelven dudas.</p>
-            <div className="search-bar">
-            <input type="text" placeholder="¿Qué quieres preguntar hoy?" />
-            <button className="btn-secondary">
-                <i className="fas fa-search" style={{ marginRight: '0.25rem' }}></i> Buscar
-            </button>
-            </div>
-        </section>
+            {/* --- Hero Section (sin cambios) --- */}
+            <section className="forum-hero">
+                <h2 className="forum-hero-title">¡Bienvenido a Owl Club!</h2>
+                <p className="forum-hero-subtitle">La comunidad donde los sabios como tú comparten conocimiento y resuelven dudas.</p>
+                <div className="search-bar">
+                    <input type="text" placeholder="¿Qué quieres preguntar hoy?" />
+                    <button className="btn-secondary">
+                        <i className="fas fa-search" style={{ marginRight: '0.25rem' }}></i> Buscar
+                    </button>
+                </div>
+            </section>
 
-        {/* --- Main Content --- */}
-        <main className="forum-container">
-            {/* --- Left Sidebar --- */}
-            <aside className="sidebar sticky-sidebar">
-            <div className="card">
-                <h3 className="card-title">Categorías</h3>
-                <ul className="categories-list">
-                <li><Link to="#"><span className="dot" style={{backgroundColor: 'var(--color-primary)'}}></span> Matemáticas</Link></li>
-                <li><Link to="#"><span className="dot" style={{backgroundColor: 'var(--color-secondary)'}}></span> Ciencias</Link></li>
-                <li><Link to="#"><span className="dot" style={{backgroundColor: 'var(--color-accent)'}}></span> Historia</Link></li>
-                <li><Link to="#"><span className="dot" style={{backgroundColor: '#63a375'}}></span> Lenguaje</Link></li>
-                <li><Link to="#"><span className="dot" style={{backgroundColor: '#3b82f6'}}></span> Tecnología</Link></li>
-                <li><Link to="#"><span className="dot" style={{backgroundColor: '#ef4444'}}></span> Arte</Link></li>
-                </ul>
-            </div>
-            <div className="card">
-                <h3 className="card-title">Top Sabios</h3>
-                <div className="top-users">
-                <div className="user"><div className="rank gold">1</div><div><p className="user-name">AnaPerez</p><p className="user-points">1,245 puntos</p></div></div>
-                <div className="user"><div className="rank">2</div><div><p className="user-name">MateoG</p><p className="user-points">1,120 puntos</p></div></div>
-                <div className="user"><div className="rank">3</div><div><p className="user-name">CarlaBio</p><p className="user-points">980 puntos</p></div></div>
-                </div>
-            </div>
-            </aside>
+            {/* --- Main Content --- */}
+            <main className="forum-container">
+                {/* --- Left Sidebar (sin cambios) --- */}
+                <aside className="sidebar sticky-sidebar">
+                    <div className="card">
+                        <h3 className="card-title">Categorías</h3>
+                        <ul className="categories-list">
+                            {predefinedCategories.map(cat => (
+                                <li key={cat.id}>
+                                    <Link to="#">
+                                        <span className="dot" style={{ backgroundColor: cat.color }}></span> {cat.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="card">
+                        <h3 className="card-title">🏆 Top Sabios</h3>
+                        <div className="top-users">
+                            {/* --- Leaderboard Dinámico --- */}
+                            {topUsers.map((user, index) => (
+                                <Link to={`/perfil/${user.id}`} key={user.id} className="user">
+                                    <div className={`rank ${index === 0 ? 'gold' : ''}`}>{index + 1}</div>
+                                    <div>
+                                        <p className="user-name">{user.displayName}</p>
+                                        <p className="user-points">{user.points || 0} puntos</p>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </aside>
 
-            {/* --- Main Content Area --- */}
-            <div className="main-content">
-            <div className="question-feed-header">
-                <h2>Preguntas Recientes</h2>
-                <div className="question-feed-filters" style={{display: 'flex', gap: '0.5rem'}}>
-                <button>Más recientes</button>
-                <button>Sin responder</button>
+                {/* --- Main Content Area (MODIFICADO) --- */}
+                <div className="main-content">
+                    <div className="question-feed-header">
+                        <h2>Preguntas Recientes</h2>
+                        <div className="question-feed-filters" style={{ display: 'flex', gap: '0.5rem' }}>
+                            <button>Más recientes</button>
+                            <button>Sin responder</button>
+                        </div>
+                    </div>
+                    <div className="question-feed">
+                        {/* --- Lógica de renderizado condicional --- */}
+                        {loading && <div className="forum-loader"><i className="fas fa-spinner fa-spin"></i> Cargando...</div>}
+                        {error && <div className="forum-error">{error}</div>}
+                        {!loading && !error && questions.length === 0 && (
+                            <div className="forum-empty">
+                                <i className="fas fa-comment-slash"></i>
+                                <p>¡Aún no hay preguntas! Sé el primero en hacer una.</p>
+                                <Link to="/forum-dashboard" className="btn-primary">Crear Pregunta</Link>
+                            </div>
+                        )}
+                        {!loading && !error && questions.map(q => <QuestionCard key={q.id} question={q} />)}
+                    </div>
                 </div>
-            </div>
-            <div className="question-feed">
-                {questions.map(q => <QuestionCard key={q.id} question={q} />)}
-            </div>
-            </div>
 
-            {/* --- Right Sidebar --- */}
-            <aside className="sidebar sticky-sidebar">
-            <div className="card">
-                <h3 className="card-title">Tu Actividad</h3>
-                <div style={{'--tw-space-y-reverse': 0, marginTop: `calc(1rem * calc(1 - var(--tw-space-y-reverse)))`, marginBottom: `calc(1rem * var(--tw-space-y-reverse))`}}>
-                <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem', lineHeight: '1.25rem', marginBottom: '0.25rem'}}>
-                    <span>Progreso</span>
-                    <span>50/100 pts</span>
-                </div>
-                <div style={{width: '100%', backgroundColor: '#F4F5F7', borderRadius: '9999px', height: '0.625rem'}}>
-                    <div style={{background: 'linear-gradient(to right, var(--color-secondary), var(--color-primary))', height: '0.625rem', borderRadius: '9999px', width: '50%'}}></div>
-                </div>
-                </div>
-            </div>
-            <div className="card">
-                <h3 className="card-title">Preguntas Destacadas</h3>
-                {/* Aquí iría una lista de preguntas destacadas */}
-            </div>
-            </aside>
-        </main>
+                {/* --- Right Sidebar (sin cambios) --- */}
+                <aside className="sidebar sticky-sidebar">
+                    {/* ... tu sidebar derecho ... */}
+                </aside>
+            </main>
 
-        {/* --- Floating Action Button --- */}
-        <button className="floating-action-button">
-            <i className="fas fa-plus"></i>
-        </button>
+            {/* --- Floating Action Button --- */}
+            <Link to="/forum-dashboard" className="floating-action-button">
+                <i className="fas fa-plus"></i>
+            </Link>
         </div>
     );
 };

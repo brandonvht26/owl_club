@@ -1,93 +1,66 @@
-// src/components/Services/Services.jsx - ACTUALIZADO
-
-import React, { useEffect } from "react";
-import { useTranslation } from 'react-i18next'; // 1. Importar hook
+// src/components/Services/Services.jsx (Reemplaza el archivo completo)
+import React, { useState, useEffect } from "react";
 import AOS from "aos";
+import { Link } from "react-router-dom";
+import { dbFirebase } from '../../firebase';
+import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import './Services.css';
 
-// Swiper imports
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
-const temas = ["Matemática", "Física", "Biología", "Artes", "Inglés", "ECA"];
-
 const Services = () => {
-    const { t } = useTranslation(); // 2. Usar el hook
+    // NUEVO: Estado para los foros destacados
+    const [featured, setFeatured] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
+
+        const fetchFeatured = async () => {
+            try {
+                // Traemos los 3 foros con más "me gusta"
+                const q = query(collection(dbFirebase, "foros"), orderBy("likes", "desc"), limit(3));
+                const querySnapshot = await getDocs(q);
+                const featuredData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setFeatured(featuredData);
+            } catch (error) {
+                console.error("Error al cargar foros destacados:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchFeatured();
     }, []);
 
     return (
-        // Añadimos el id para que el scroll del header funcione
         <section className="services" id="services">
             <div className="questions">
-                {/* 3. Reemplazar texto */}
-                <h1 className="title">{t('services.title')}</h1>
+                <h1 className="title" data-aos="fade-up">¿Tienes una duda?</h1>
             </div>
-            <div className="search">
-                <h2 className="search_box">
-                    <i className="fas fa-search"></i> {t('services.search_placeholder')}
-                </h2>
+            <div className="search" data-aos="fade-up" data-aos-delay="100">
+                <Link to="/foro" className="search_box">
+                    <i className="fas fa-search"></i> Escribe tu pregunta aquí...
+                </Link>
             </div>
-            <div className="topics_container">
-                <h3 className="container_title">{t('services.recent_topics')}</h3>
+            <div className="topics_container" data-aos="fade-up" data-aos-delay="200">
+                <h3 className="container_title">🔥 Foros Populares</h3>
             </div>
-            {/* Swiper Carrusel (el contenido dentro del carrusel es de ejemplo, lo dejamos como está) */}
-            <Swiper
-                modules={[Navigation, Pagination]}
-                spaceBetween={24}
-                slidesPerView={1}
-                navigation
-                pagination={{ clickable: true }}
-                breakpoints={{
-                    640: { slidesPerView: 2 },
-                    1024: { slidesPerView: 3 },
-                }}
-                className="topics_swiper"
-            >
-                {temas.map((tema, idx) => (
-                    <SwiperSlide key={tema}>
-                        <div
-                            className="topic_item"
-                            data-aos="zoom-in"
-                            data-aos-delay={100 * idx}
-                        >
-                            <div className="topic_box">
-                                <div className="header">
-                                    <h4 className="title_box">
-                                        <i className="fas fa-circle"></i>
-                                        <div className="header_text">
-                                            <span className="header_title">Header</span>
-                                            <span className="header_subtitle">Subhead</span>
-                                        </div>
-                                    </h4>
-                                    <div className="label_menu_box">
-                                        <div className="box_label">
-                                            <i className="far fa-hand-pointer icon-hand"></i> {tema}
-                                        </div>
-                                        <i className="fas fa-ellipsis-v options_icon"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="content_box">
-                                <div className="topic_content">
-                                    <h5 className="content_title">TEMA</h5>
-                                    <h6 className="content_subtitle">Subtema</h6>
-                                    <p className="content">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                    </p>
-                                </div>
+            
+            <div className="featured-forums-grid" data-aos="fade-up" data-aos-delay="300">
+                {loading ? <p>Cargando foros...</p> : featured.map(forum => (
+                    <Link to={`/foro/${forum.id}`} key={forum.id} className="featured-card">
+                        <div className="featured-card-header">
+                            <span className="featured-category">{forum.categoria}</span>
+                            <div className="featured-likes">
+                                <i className="fas fa-thumbs-up"></i> {forum.likes || 0}
                             </div>
                         </div>
-                    </SwiperSlide>
+                        <h4 className="featured-title">{forum.titulo}</h4>
+                        <p className="featured-author">por {forum.userName}</p>
+                    </Link>
                 ))}
-            </Swiper>
+            </div>
         </section>
-    )
-}
+    );
+};
 
 export default Services;
