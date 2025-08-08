@@ -28,6 +28,8 @@ import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import InstallGuidePage from './pages/InstallGuidePage'; // <-- 1. AÑADE ESTA LÍNEA
+import ProfilePage from './components/PerfilPage/PerfilPage';
+
 
 function App() {
   useEffect(() => {
@@ -53,6 +55,7 @@ function App() {
             <Route path="/forum-dashboard" element={<ForumDashboardPage />} />
             <Route path="/memes" element={<MemesPage />} />
             <Route path="/foro" element={<ForumPage />} />
+            <Route path="/perfil" element={<ProfilePage />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

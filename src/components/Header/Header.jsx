@@ -86,6 +86,7 @@ function Header() {
                     ) : (
                         <>
                             <li><Link to="/dashboard" onClick={handleLinkClick}>Dashboard</Link></li>
+                            <li><Link to="/perfil" onClick={handleLinkClick}>Perfil</Link></li>
                             <li>
                                 <button onClick={handleLogout} className="btn-login" style={{ cursor: 'pointer' }}>
                                     Cerrar Sesión
