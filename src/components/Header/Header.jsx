@@ -95,8 +95,18 @@ function Header() {
                         </>
                     ) : (
                         <>
+<<<<<<< HEAD
                             <li><Link to="/dashboard" onClick={handleLinkClick}>{t('header.dashboard')}</Link></li>
                             <li><button onClick={handleLogout} className="btn-login">{t('header.logout')}</button></li>
+=======
+                            <li><Link to="/dashboard" onClick={handleLinkClick}>Dashboard</Link></li>
+                            <li><Link to="/perfil" onClick={handleLinkClick}>Perfil</Link></li>
+                            <li>
+                                <button onClick={handleLogout} className="btn-login" style={{ cursor: 'pointer' }}>
+                                    Cerrar Sesión
+                                </button>
+                            </li>
+>>>>>>> master
                         </>
                     )}
                 </ul>

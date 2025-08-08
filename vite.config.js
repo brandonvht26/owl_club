@@ -9,7 +9,7 @@ export default defineConfig({
 En caso de error, lo comentado es lo original*/
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { VitePWA } from 'vite-plugin-pwa' // <-- 1. Importa el plugin
+import { VitePWA } from 'vite-plugin-pwa' // <-- 1. Importamos el plugin
 
 // https://vite.dev/config/
 export default defineConfig({
