@@ -7,6 +7,7 @@
     "register": "Sign Up",
     "login": "Log In",
     "dashboard": "Dashboard",
+    "profile": "Profile",
     "logout": "Log Out"
   },
   "hero": {
@@ -15,7 +16,8 @@
   "services": {
     "title": "Have a question?",
     "search_placeholder": "Write your question here...",
-    "recent_topics": "Recent Topics"
+    "popular_forums": "🔥 Popular Forums",
+    "loading": "Loading forums..."
   },
   "gallery": {
     "title": "Gallery"
@@ -42,7 +44,8 @@
     "password_placeholder": "••••••••",
     "button": "Log In",
     "no_account": "Don't have an account?",
-    "register_link": "Sign Up"
+    "register_link": "Sign Up",
+    "error": "Incorrect email or password."
   },
   "register": {
     "create_account": "Create Your Account",
@@ -51,7 +54,10 @@
     "confirm_password_placeholder": "Repeat the password",
     "button": "Create Account",
     "have_account": "Already have an account?",
-    "login_link": "Log In"
+    "login_link": "Log In",
+    "success": "Registration successful! You will be redirected to log in.",
+    "error_in_use": "This email is already in use.",
+    "error_generic": "An error occurred while registering the account."
   },
   "not_found": {
     "title": "404",
@@ -69,5 +75,60 @@
     "desktop_text": "Click the button below to add the app to your desktop for direct access.",
     "desktop_button": "Install on Desktop",
     "fallback_text": "If you don't see the button, look for \"Install app\" in your browser's menu (⋮). Not all browsers support this option."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "logout_button": "Log Out",
+    "home_button": "Back to Home",
+    "my_forums_title": "My Forums",
+    "my_forums_subtitle": "Create and manage your questions and answers.",
+    "my_forums_button": "Go to My Forums",
+    "community_title": "Community",
+    "community_subtitle": "Explore and participate in discussions.",
+    "community_button": "View General Forum",
+    "recent_questions_title": "Recent community questions",
+    "loading_questions": "Loading questions...",
+    "no_questions": "There are no registered questions yet...",
+    "view_all_button": "View all questions →"
+  },
+  "forum": {
+    "welcome_title": "Welcome to Owl Club!",
+    "welcome_subtitle": "The community where wise people like you share knowledge and solve doubts.",
+    "search_placeholder": "What do you want to ask today?",
+    "search_button": "Search",
+    "categories": "Categories",
+    "top_sages": "🏆 Top Sages",
+    "points": "points",
+    "recent_questions": "Recent Questions",
+    "filter_recent": "Most Recent",
+    "filter_unanswered": "Unanswered",
+    "loading": "Loading...",
+    "error": "Could not load forum data.",
+    "empty_title": "No questions yet!",
+    "empty_subtitle": "Be the first to ask one.",
+    "create_question_button": "Create Question",
+    "view_question_button": "View Question"
+  },
+  "question_detail": {
+    "loading": "Loading...",
+    "load_error": "There was an error loading the page.",
+    "not_found_error": "Question not found.",
+    "back_to_forum": "Back to forum",
+    "published_at": "Published",
+    "views": "Views",
+    "replies": "Answers",
+    "answers_title": "Answers ({{count}})",
+    "best_answer_badge": "BEST ANSWER",
+    "answered_at": "Answered",
+    "unknown_date": "Unknown date",
+    "mark_as_best_button": "Mark as best",
+    "your_answer_title": "Your answer",
+    "answer_placeholder": "Write your answer here...",
+    "publish_button": "Publish Answer",
+    "login_to_vote": "You must be logged in to vote.",
+    "not_author_error": "Only the author of the question can mark the best answer.",
+    "best_answer_success": "Answer marked as best! The author of the answer has earned 15 points.",
+    "request_error": "There was an error processing your request.",
+    "publish_answer_error": "Could not publish your answer. Please try again."
   }
 }

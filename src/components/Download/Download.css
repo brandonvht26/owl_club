@@ -42,7 +42,7 @@
 
 .cta-title {
     font-family: var(--font-display);
-    color: var(--color-dark);
+    color: var(--color-secondary);
     font-size: 3rem;
     font-weight: 400;
     margin: 0 0 1rem 0;

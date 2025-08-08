@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { dbFirebase } from '../../firebase';
-import { doc, getDoc, collection, query, orderBy, getDocs, addDoc, runTransaction, updateDoc, serverTimestamp, increment } from 'firebase/firestore';
+import { doc, getDoc, collection, query, orderBy, getDocs, addDoc, runTransaction, updateDoc, increment } from 'firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
-import './QuestionDetail.css'; // Asegúrate que este archivo CSS contenga los estilos necesarios.
+import './QuestionDetail.css';
 
-// --- SUB-COMPONENTE PARA MOSTRAR CADA RESPUESTA ---
-// Este componente se toma de tu primera versión para una mejor organización.
-const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId }) => {
+// --- (El sub-componente AnswerCard no necesita cambios, se mantiene igual) ---
+const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
     const { currentUser } = useAuth();
     const isQuestionAuthor = currentUser?.uid === questionAuthorId;
 
-    // Determina si el usuario actual ha votado esta respuesta
     const userVote = currentUser ? {
         up: answer.upvotedBy?.includes(currentUser.uid),
         down: answer.downvotedBy?.includes(currentUser.uid),
@@ -21,7 +20,7 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId }) => {
 
     const formatDate = (timestamp) => {
         if (!timestamp) return '...';
-        return new Intl.DateTimeFormat('es-ES', { dateStyle: 'long', timeStyle: 'short' }).format(timestamp.toDate());
+        return new Intl.DateTimeFormat(t.language, { dateStyle: 'long', timeStyle: 'short' }).format(timestamp.toDate());
     };
 
     return (
@@ -32,16 +31,15 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId }) => {
                         <img src={answer.userPhotoURL} alt="Autor" className="author-avatar" />
                         <div>
                             <h3 className="author-name">{answer.userName}</h3>
-                            <p className="answer-date">Respondido {formatDate(answer.createdAt)}</p>
+                            <p className="answer-date">{t('question_detail.answered_at')} {formatDate(answer.createdAt)}</p>
                         </div>
                     </div>
                     {answer.isBest && (
                         <div className="best-answer-badge">
-                            <i className="fas fa-star"></i> MEJOR RESPUESTA
+                            <i className="fas fa-star"></i> {t('question_detail.best_answer_badge')}
                         </div>
                     )}
                 </div>
-                {/* Usamos dangerouslySetInnerHTML para renderizar el contenido HTML de la respuesta */}
                 <div className="prose" dangerouslySetInnerHTML={{ __html: answer.content }}></div>
                 <div className="answer-card-footer">
                     <div className="vote-controls">
@@ -53,9 +51,9 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId }) => {
                              <i className="fas fa-chevron-down vote-icon"></i>
                         </button>
                     </div>
-                    {isQuestionAuthor && !answer.isBest && !answer.isBest && (
+                    {isQuestionAuthor && !answer.isBest && (
                          <button onClick={() => onMarkBest(answer.id, answer.userId)} className="mark-best-btn">
-                            <i className="fas fa-check-circle"></i> Marcar como la mejor
+                            <i className="fas fa-check-circle"></i> {t('question_detail.mark_as_best_button')}
                         </button>
                     )}
                 </div>
@@ -65,60 +63,54 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId }) => {
 };
 
 
-// --- COMPONENTE PRINCIPAL ---
 const QuestionDetail = () => {
+    const { t } = useTranslation();
     const { questionId } = useParams();
     const { currentUser } = useAuth();
 
-    // --- Hooks de Estado ---
     const [question, setQuestion] = useState(null);
     const [answers, setAnswers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [newAnswer, setNewAnswer] = useState('');
-    const [isLiking, setIsLiking] = useState(false); // Estado para controlar el botón de "Me Gusta"
+    const [isLiking, setIsLiking] = useState(false);
     
-    // --- Hook de Referencia ---
     const questionContentRef = useRef(null);
 
-    // --- Carga de datos de la pregunta y respuestas ---
+    // --- (Todas las funciones como fetchQuestionAndAnswers, handleVote, etc. se mantienen igual) ---
     const fetchQuestionAndAnswers = useCallback(async () => {
         setLoading(true);
         try {
-            // Cargar la pregunta
             const questionRef = doc(dbFirebase, 'foros', questionId);
             const questionSnap = await getDoc(questionRef);
 
             if (questionSnap.exists()) {
                 const questionData = { id: questionSnap.id, ...questionSnap.data() };
-                // Incrementar vistas si es necesario
                 if (currentUser && questionData.userId !== currentUser.uid && !sessionStorage.getItem(`viewed_${questionId}`)) {
                     await updateDoc(questionRef, { views: (questionData.views || 0) + 1 });
                     sessionStorage.setItem(`viewed_${questionId}`, 'true');
                 }
                 setQuestion(questionData);
             } else {
-                setError('La pregunta no fue encontrada.');
+                setError(t('question_detail.not_found_error'));
                 return;
             }
 
-            // Cargar las respuestas, ordenadas por puntuación
             const answersQuery = query(collection(dbFirebase, 'foros', questionId, 'respuestas'), orderBy('score', 'desc'));
             const answersSnapshot = await getDocs(answersQuery);
             setAnswers(answersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
 
         } catch (err) {
             console.error("Error al cargar datos:", err);
-            setError('Hubo un error al cargar la página.');
+            setError(t('question_detail.load_error'));
         } finally {
             setLoading(false);
         }
-    }, [questionId, currentUser]);
+    }, [questionId, currentUser, t]);
 
-    // --- Lógica de Votación para Respuestas (de la versión con AnswerCard) ---
     const handleVote = async (answerId, voteType) => {
         if (!currentUser) {
-            alert("Debes iniciar sesión para votar.");
+            alert(t('question_detail.login_to_vote'));
             return;
         }
         const answerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', answerId);
@@ -135,17 +127,17 @@ const QuestionDetail = () => {
 
                 if (voteType === 'up') {
                     if (upvoteIndex >= 0) {
-                        data.upvotedBy.splice(upvoteIndex, 1); // Quitar upvote
+                        data.upvotedBy.splice(upvoteIndex, 1);
                     } else {
-                        data.upvotedBy.push(currentUser.uid); // Añadir upvote
-                        if (downvoteIndex >= 0) data.downvotedBy.splice(downvoteIndex, 1); // Quitar downvote si existe
+                        data.upvotedBy.push(currentUser.uid);
+                        if (downvoteIndex >= 0) data.downvotedBy.splice(downvoteIndex, 1);
                     }
                 } else if (voteType === 'down') {
                     if (downvoteIndex >= 0) {
-                        data.downvotedBy.splice(downvoteIndex, 1); // Quitar downvote
+                        data.downvotedBy.splice(downvoteIndex, 1);
                     } else {
-                        data.downvotedBy.push(currentUser.uid); // Añadir downvote
-                        if (upvoteIndex >= 0) data.upvotedBy.splice(upvoteIndex, 1); // Quitar upvote si existe
+                        data.downvotedBy.push(currentUser.uid);
+                        if (upvoteIndex >= 0) data.upvotedBy.splice(upvoteIndex, 1);
                     }
                 }
                 
@@ -156,13 +148,12 @@ const QuestionDetail = () => {
                     score: data.score
                 });
             });
-            fetchQuestionAndAnswers(); // Recargar para mostrar el nuevo score y estado del voto
+            fetchQuestionAndAnswers();
         } catch (error) {
             console.error("Error en la transacción de voto:", error);
         }
     };
 
-    // --- Lógica de "Me Gusta" y Mejor Respuesta (de la versión actualizada) ---
     const handleLike = async () => {
         if (!currentUser || isLiking) return;
         setIsLiking(true);
@@ -178,13 +169,13 @@ const QuestionDetail = () => {
                 const userIndex = likedBy.indexOf(currentUser.uid);
 
                 if (userIndex === -1) {
-                    likedBy.push(currentUser.uid); // Dar Like
+                    likedBy.push(currentUser.uid);
                 } else {
-                    likedBy.splice(userIndex, 1); // Quitar Like
+                    likedBy.splice(userIndex, 1);
                 }
                 
                 transaction.update(questionRef, { likes: likedBy.length, likedBy: likedBy });
-                setQuestion(prev => ({ ...prev, likes: likedBy.length, likedBy: likedBy })); // Actualización optimista
+                setQuestion(prev => ({ ...prev, likes: likedBy.length, likedBy: likedBy }));
             });
         } catch (e) {
             console.error("Error en la transacción de like: ", e);
@@ -195,7 +186,7 @@ const QuestionDetail = () => {
     
     const handleMarkBestAnswer = async (answerId, answerAuthorId) => {
         if (question.userId !== currentUser?.uid) {
-            alert("Solo el autor de la pregunta puede marcar la mejor respuesta.");
+            alert(t('question_detail.not_author_error'));
             return;
         }
 
@@ -205,7 +196,6 @@ const QuestionDetail = () => {
                 const answerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', answerId);
                 const answerAuthorRef = doc(dbFirebase, 'users', answerAuthorId);
 
-                // Desmarcar cualquier otra respuesta que fuera 'isBest'
                 answers.forEach(ans => {
                     if (ans.isBest && ans.id !== answerId) {
                         const oldBestAnswerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', ans.id);
@@ -213,63 +203,53 @@ const QuestionDetail = () => {
                     }
                 });
 
-                // Marcar la nueva mejor respuesta
                 transaction.update(answerRef, { isBest: true });
                 transaction.update(questionRef, { solved: true });
 
-                // Otorgar puntos
                 const authorDoc = await transaction.get(answerAuthorRef);
                 const currentPoints = authorDoc.data()?.points || 0;
                 transaction.update(answerAuthorRef, { points: currentPoints + 15 });
             });
             
             fetchQuestionAndAnswers();
-            alert("¡Respuesta marcada como la mejor! El autor de la respuesta ha ganado 15 puntos.");
+            alert(t('question_detail.best_answer_success'));
         } catch (error) {
             console.error("Error al marcar la mejor respuesta:", error);
-            alert("Hubo un error al procesar tu solicitud.");
+            alert(t('question_detail.request_error'));
         }
     };
 
-    // --- Lógica para enviar nuevas respuestas ---
     const handleAnswerSubmit = async (e) => {
-    e.preventDefault();
-    if (!newAnswer.trim() || !currentUser) return;
-    try {
-        // 1. Prepara los datos de la nueva respuesta
-        const answerData = {
-            content: newAnswer, userId: currentUser.uid, userName: currentUser.displayName || currentUser.email,
-            userPhotoURL: currentUser.photoURL || `https://i.pravatar.cc/150?u=${currentUser.uid}`,
-            createdAt: new Date(), isBest: false, score: 0, upvotedBy: [], downvotedBy: []
-        };
-        
-        // 2. Añade la respuesta a la subcolección
-        await addDoc(collection(dbFirebase, 'foros', questionId, 'respuestas'), answerData);
+        e.preventDefault();
+        if (!newAnswer.trim() || !currentUser) return;
+        try {
+            const answerData = {
+                content: newAnswer, userId: currentUser.uid, userName: currentUser.displayName || currentUser.email,
+                userPhotoURL: currentUser.photoURL || `https://i.pravatar.cc/150?u=${currentUser.uid}`,
+                createdAt: new Date(), isBest: false, score: 0, upvotedBy: [], downvotedBy: []
+            };
+            
+            await addDoc(collection(dbFirebase, 'foros', questionId, 'respuestas'), answerData);
 
-        // --- 3. ¡LA PARTE NUEVA! Actualiza el contador en el documento del foro ---
-        const questionRef = doc(dbFirebase, 'foros', questionId);
-        await updateDoc(questionRef, {
-            replies: increment(1) // increment(1) suma 1 al valor actual de forma segura
-        });
+            const questionRef = doc(dbFirebase, 'foros', questionId);
+            await updateDoc(questionRef, {
+                replies: increment(1)
+            });
 
-        // 4. Limpia el formulario y recarga los datos
-        setNewAnswer('');
-        fetchQuestionAndAnswers();
+            setNewAnswer('');
+            fetchQuestionAndAnswers();
 
-    } catch (error) { 
-        console.error("Error al publicar respuesta:", error); 
-        alert("No se pudo publicar tu respuesta. Inténtalo de nuevo.");
-    }
-};
+        } catch (error) { 
+            console.error("Error al publicar respuesta:", error); 
+            alert(t('question_detail.publish_answer_error'));
+        }
+    };
 
-
-    // --- Hooks de Efecto ---
     useEffect(() => {
         fetchQuestionAndAnswers();
     }, [fetchQuestionAndAnswers]);
 
     useEffect(() => {
-        // Renderizar fórmulas LaTeX con KaTeX después de cargar la pregunta
         if (questionContentRef.current) {
             const formulas = questionContentRef.current.querySelectorAll('.ql-formula');
             formulas.forEach(formula => {
@@ -278,20 +258,20 @@ const QuestionDetail = () => {
                     try {
                         katex.render(value, formula, { throwOnError: false });
                     } catch (e) {
-                        formula.innerHTML = value; // Fallback si hay error
+                        formula.innerHTML = value;
                     }
                 }
             });
         }
-    }, [question]); // Se ejecuta cuando la pregunta cambia
+    }, [question]);
 
-    // --- Renderizado del Componente ---
+
     const formatDate = (timestamp) => {
-        if (!timestamp) return 'Fecha desconocida';
-        return new Intl.DateTimeFormat('es-ES', { dateStyle: 'long', timeStyle: 'short' }).format(timestamp.toDate());
+        if (!timestamp) return t('question_detail.unknown_date');
+        return new Intl.DateTimeFormat(t.language, { dateStyle: 'long', timeStyle: 'short' }).format(timestamp.toDate());
     };
 
-    if (loading) return <div className="detail-loader">Cargando...</div>;
+    if (loading) return <div className="detail-loader">{t('question_detail.loading')}</div>;
     if (error) return <div className="detail-error">{error}</div>;
     if (!question) return null;
 
@@ -304,22 +284,23 @@ const QuestionDetail = () => {
             <main className="detail-main-content">
                 <div className="detail-back-link-wrapper">
                     <Link to="/foro" className="detail-back-link">
-                        <i className="fas fa-arrow-left"></i> Volver al foro
+                        <i className="fas fa-arrow-left"></i> {t('question_detail.back_to_forum')}
                     </Link>
                 </div>
                 
-                {/* Tarjeta de la Pregunta (de la versión actualizada) */}
                 <section className="question-main-card">
                     <div className="question-header">
-                        <Link to={`/perfil/${question.userId}`} className="author-info">
+                        <div className="author-info"> {/* Div principal para la info del autor */}
                             <img src={question.userPhotoURL || `https://i.pravatar.cc/150?u=${question.userId}`} alt={question.userName} className="author-avatar" />
                             <div>
-                                <span className="author-name">{question.userName}</span>
-                                <span className="post-date">Publicado {formatDate(question.createdAt)}</span>
+                                {/* AHORA CADA UNO EN SU PROPIA LÍNEA */}
+                                <Link to={`/perfil/${question.userId}`} className="author-name">{question.userName}</Link>
+                                <span className="post-date">{t('question_detail.published_at')} {formatDate(question.createdAt)}</span>
                             </div>
-                        </Link>
+                        </div>
                         <div className="question-category">{question.categoria}</div>
                     </div>
+                    
                     <div className="question-body">
                         <h1 className="question-title">{question.titulo}</h1>
                         <div
@@ -328,10 +309,12 @@ const QuestionDetail = () => {
                             dangerouslySetInnerHTML={{ __html: question.descripcion }}
                         />
                     </div>
+                    
                     <div className="question-footer">
+                        {/* AHORA CADA ESTADÍSTICA EN SU PROPIA LÍNEA */}
                         <div className="stats">
-                            <span>{answers.length} Respuestas</span>
-                            <span>{question.views || 0} Vistas</span>
+                            <div>{answers.length} {t('question_detail.replies')}</div>
+                            <div>{question.views || 0} {t('question_detail.views')}</div>
                         </div>
                         <div className="actions">
                             <button onClick={handleLike} className={`like-button ${userHasLiked ? 'liked' : ''}`} disabled={isLiking || !currentUser}>
@@ -342,30 +325,28 @@ const QuestionDetail = () => {
                     </div>
                 </section>
 
-                {/* Sección de Respuestas (usando AnswerCard) */}
                 <section className="answers-section">
-                    <h2 className="answers-title">Respuestas ({answers.length})</h2>
+                    <h2 className="answers-title">{t('question_detail.answers_title', { count: answers.length })}</h2>
                     
                     {bestAnswer && (
-                        <AnswerCard key={bestAnswer.id} answer={bestAnswer} onVote={handleVote} onMarkBest={handleMarkBestAnswer} questionAuthorId={question.userId} />
+                        <AnswerCard key={bestAnswer.id} answer={bestAnswer} onVote={handleVote} onMarkBest={handleMarkBestAnswer} questionAuthorId={question.userId} t={t} />
                     )}
                     
                     <div className="answers-list">
                         {otherAnswers.map(ans => (
-                            <AnswerCard key={ans.id} answer={ans} onVote={handleVote} onMarkBest={handleMarkBestAnswer} questionAuthorId={question.userId} />
+                            <AnswerCard key={ans.id} answer={ans} onVote={handleVote} onMarkBest={handleMarkBestAnswer} questionAuthorId={question.userId} t={t} />
                         ))}
                     </div>
                 </section>
 
-                {/* Formulario para Responder */}
                 {currentUser && (
                     <section className="answer-form-card">
                         <div className="answer-form-content">
-                            <h2 className="answer-form-title">Tu respuesta</h2>
+                            <h2 className="answer-form-title">{t('question_detail.your_answer_title')}</h2>
                             <form onSubmit={handleAnswerSubmit}>
                                 <div className="textarea-wrapper">
                                     <textarea
-                                        placeholder="Escribe tu respuesta aquí..."
+                                        placeholder={t('question_detail.answer_placeholder')}
                                         value={newAnswer}
                                         onChange={(e) => setNewAnswer(e.target.value)}
                                         required
@@ -373,7 +354,7 @@ const QuestionDetail = () => {
                                 </div>
                                 <div className="answer-form-actions">
                                     <button type="submit" className="submit-answer-btn">
-                                        Publicar respuesta
+                                        {t('question_detail.publish_button')}
                                     </button>
                                 </div>
                             </form>

@@ -1,13 +1,13 @@
-// src/components/Services/Services.jsx (Reemplaza el archivo completo)
 import React, { useState, useEffect } from "react";
 import AOS from "aos";
 import { Link } from "react-router-dom";
 import { dbFirebase } from '../../firebase';
 import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { useTranslation } from 'react-i18next'; // 1. Importar el hook
 import './Services.css';
 
 const Services = () => {
-    // NUEVO: Estado para los foros destacados
+    const { t } = useTranslation(); // 2. Usar el hook
     const [featured, setFeatured] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -16,7 +16,6 @@ const Services = () => {
 
         const fetchFeatured = async () => {
             try {
-                // Traemos los 3 foros con más "me gusta"
                 const q = query(collection(dbFirebase, "foros"), orderBy("likes", "desc"), limit(3));
                 const querySnapshot = await getDocs(q);
                 const featuredData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -31,22 +30,23 @@ const Services = () => {
         fetchFeatured();
     }, []);
 
+    // 3. Reemplazar el texto quemado
     return (
         <section className="services" id="services">
             <div className="questions">
-                <h1 className="title" data-aos="fade-up">¿Tienes una duda?</h1>
+                <h1 className="title" data-aos="fade-up">{t('services.title')}</h1>
             </div>
             <div className="search" data-aos="fade-up" data-aos-delay="100">
                 <Link to="/foro" className="search_box">
-                    <i className="fas fa-search"></i> Escribe tu pregunta aquí...
+                    <i className="fas fa-search"></i> {t('services.search_placeholder')}
                 </Link>
             </div>
             <div className="topics_container" data-aos="fade-up" data-aos-delay="200">
-                <h3 className="container_title">🔥 Foros Populares</h3>
+                <h3 className="container_title">{t('services.popular_forums')}</h3>
             </div>
             
             <div className="featured-forums-grid" data-aos="fade-up" data-aos-delay="300">
-                {loading ? <p>Cargando foros...</p> : featured.map(forum => (
+                {loading ? <p>{t('services.loading')}</p> : featured.map(forum => (
                     <Link to={`/foro/${forum.id}`} key={forum.id} className="featured-card">
                         <div className="featured-card-header">
                             <span className="featured-category">{forum.categoria}</span>

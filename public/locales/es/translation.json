@@ -7,6 +7,7 @@
     "register": "Regístrate",
     "login": "Inicia Sesión",
     "dashboard": "Dashboard",
+    "profile": "Perfil",
     "logout": "Cerrar Sesión"
   },
   "hero": {
@@ -15,7 +16,8 @@
   "services": {
     "title": "¿Tienes una duda?",
     "search_placeholder": "Escribe tu pregunta aquí...",
-    "recent_topics": "Temas recientes"
+    "popular_forums": "🔥 Foros Populares",
+    "loading": "Cargando foros..."
   },
   "gallery": {
     "title": "Galería"
@@ -42,7 +44,8 @@
     "password_placeholder": "••••••••",
     "button": "Iniciar Sesión",
     "no_account": "¿No tienes una cuenta?",
-    "register_link": "Regístrate"
+    "register_link": "Regístrate",
+    "error": "Correo electrónico o contraseña incorrectos."
   },
   "register": {
     "create_account": "Crea tu Cuenta",
@@ -51,7 +54,10 @@
     "confirm_password_placeholder": "Repite la contraseña",
     "button": "Crear Cuenta",
     "have_account": "¿Ya tienes una cuenta?",
-    "login_link": "Inicia Sesión"
+    "login_link": "Inicia Sesión",
+    "success": "¡Registro exitoso! Serás redirigido para iniciar sesión.",
+    "error_in_use": "Este correo electrónico ya está en uso.",
+    "error_generic": "Ocurrió un error al registrar la cuenta."
   },
   "not_found": {
     "title": "404",
@@ -69,5 +75,60 @@
     "desktop_text": "Haz clic en el botón de abajo para añadir la aplicación a tu escritorio y acceder a ella directamente.",
     "desktop_button": "Instalar en Escritorio",
     "fallback_text": "Si no ves el botón, busca \"Instalar aplicación\" en el menú (⋮) de tu navegador. No todos los navegadores son compatibles con esta opcion."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "logout_button": "Cerrar Sesión",
+    "home_button": "Volver al Inicio",
+    "my_forums_title": "Mis Foros",
+    "my_forums_subtitle": "Crea y gestiona tus preguntas y respuestas.",
+    "my_forums_button": "Ir a Mis Foros",
+    "community_title": "Comunidad",
+    "community_subtitle": "Explora y participa en las discusiones.",
+    "community_button": "Ver Foro General",
+    "recent_questions_title": "Preguntas recientes de la comunidad",
+    "loading_questions": "Cargando preguntas...",
+    "no_questions": "No existen preguntas registradas aún...",
+    "view_all_button": "Ver todas las preguntas →"
+  },
+  "forum": {
+    "welcome_title": "¡Bienvenido a Owl Club!",
+    "welcome_subtitle": "La comunidad donde los sabios como tú comparten conocimiento y resuelven dudas.",
+    "search_placeholder": "¿Qué quieres preguntar hoy?",
+    "search_button": "Buscar",
+    "categories": "Categorías",
+    "top_sages": "🏆 Top Sabios",
+    "points": "puntos",
+    "recent_questions": "Preguntas Recientes",
+    "filter_recent": "Más recientes",
+    "filter_unanswered": "Sin responder",
+    "loading": "Cargando...",
+    "error": "No se pudieron cargar los datos del foro.",
+    "empty_title": "¡Aún no hay preguntas!",
+    "empty_subtitle": "Sé el primero en hacer una.",
+    "create_question_button": "Crear Pregunta",
+    "view_question_button": "Ver Pregunta"
+  },
+  "question_detail": {
+    "loading": "Cargando...",
+    "load_error": "Hubo un error al cargar la página.",
+    "not_found_error": "La pregunta no fue encontrada.",
+    "back_to_forum": "Volver al foro",
+    "published_at": "Publicado",
+    "views": "Vistas",
+    "replies": "Respuestas",
+    "answers_title": "Respuestas ({{count}})",
+    "best_answer_badge": "MEJOR RESPUESTA",
+    "answered_at": "Respondido",
+    "unknown_date": "Fecha desconocida",
+    "mark_as_best_button": "Marcar como la mejor",
+    "your_answer_title": "Tu respuesta",
+    "answer_placeholder": "Escribe tu respuesta aquí...",
+    "publish_button": "Publicar respuesta",
+    "login_to_vote": "Debes iniciar sesión para votar.",
+    "not_author_error": "Solo el autor de la pregunta puede marcar la mejor respuesta.",
+    "best_answer_success": "¡Respuesta marcada como la mejor! El autor de la respuesta ha ganado 15 puntos.",
+    "request_error": "Hubo un error al procesar tu solicitud.",
+    "publish_answer_error": "No se pudo publicar tu respuesta. Inténtalo de nuevo."
   }
 }

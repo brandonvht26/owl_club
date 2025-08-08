@@ -1,11 +1,10 @@
-// src/components/Dashboard/Dashboard.jsx (ACTUALIZADO)
-
 import { authFirebase } from '../../firebase';
 import { dbFirebase } from "../../firebase";
 import { collection, getDocs, query, orderBy, limit } from "firebase/firestore";
 import { useState, useEffect } from 'react';
-import './Dashboard.css';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // 1. Importar el hook
+import './Dashboard.css';
 
 const predefinedCategories = [
     { id: 'matematicas', name: 'Matemáticas', icon: 'fa-square-root-alt' },
@@ -19,6 +18,7 @@ const predefinedCategories = [
 ];
 
 const Dashboard = () => {
+    const { t } = useTranslation(); // 2. Usar el hook
     const [recentQuestions, setRecentQuestions] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -26,10 +26,10 @@ const Dashboard = () => {
         try {
             await authFirebase.signOut();
             window.location.href = "/";
-        } catch (error) {
+        } catch (error){
             console.log(error);
         }
-    }
+    };
 
     useEffect(() => {
         const loadRecentQuestions = async () => {
@@ -55,49 +55,49 @@ const Dashboard = () => {
         loadRecentQuestions();
     }, []);
 
+    // 3. Reemplazar el texto quemado
     return (
         <main>
             <section className="header_dashboard">
-                <h2>Dashboard</h2>
+                <h2>{t('dashboard.title')}</h2>
                 <div className="header-actions">
-                    <button className="logout-btn" onClick={handleLogout}>Cerrar Sesión</button>
-                    <Link to="/home" className="home-btn">Volver al Inicio</Link>
+                    <button className="logout-btn" onClick={handleLogout}>{t('dashboard.logout_button')}</button>
+                    <Link to="/home" className="home-btn">{t('dashboard.home_button')}</Link>
                 </div>
             </section>
 
             <section className="quick-nav">
                 <div className="nav-card">
                     <i className="fas fa-comments"></i>
-                    <h3>Mis Foros</h3>
-                    <p>Crea y gestiona tus preguntas y respuestas.</p>
+                    <h3>{t('dashboard.my_forums_title')}</h3>
+                    <p>{t('dashboard.my_forums_subtitle')}</p>
                     <Link to="/forum-dashboard" className="nav-link">
-                        Ir a Mis Foros
+                        {t('dashboard.my_forums_button')}
                     </Link>
                 </div>
                 <div className="nav-card">
                     <i className="fas fa-users"></i>
-                    <h3>Comunidad</h3>
-                    <p>Explora y participa en las discusiones.</p>
+                    <h3>{t('dashboard.community_title')}</h3>
+                    <p>{t('dashboard.community_subtitle')}</p>
                     <Link to="/foro" className="nav-link">
-                        Ver Foro General
+                        {t('dashboard.community_button')}
                     </Link>
                 </div>
             </section>
             
-            {/* --- SECCIÓN PRINCIPAL MODIFICADA --- */}
             <section className="container_dashboard single-column">
                 <section className="list-section">
-                    <h4>Preguntas recientes de la comunidad</h4>
+                    <h4>{t('dashboard.recent_questions_title')}</h4>
                     
                     {loading ? (
                         <div className="loading-questions">
                             <i className="fas fa-spinner fa-spin"></i>
-                            <p>Cargando preguntas...</p>
+                            <p>{t('dashboard.loading_questions')}</p>
                         </div>
                     ) : recentQuestions.length === 0 ? (
                         <div className="no-questions">
                             <i className="fas fa-comment-slash"></i>
-                            <p>No existen preguntas registradas aún...</p>
+                            <p>{t('dashboard.no_questions')}</p>
                         </div>
                     ) : (
                         <div className="questions-list">
@@ -122,7 +122,7 @@ const Dashboard = () => {
                                 </div>
                             ))}
                             <Link to="/foro" className="view-all-link">
-                                Ver todas las preguntas →
+                                {t('dashboard.view_all_button')}
                             </Link>
                         </div>
                     )}
@@ -135,6 +135,6 @@ const Dashboard = () => {
             </footer>
         </main>
     )
-}
+};
 
 export default Dashboard;
