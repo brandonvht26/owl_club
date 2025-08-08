@@ -16,6 +16,7 @@
     "i18next-http-backend": "^3.0.2",
     "katex": "^0.16.22",
     "normalize.css": "^8.0.1",
+    "ps": "^1.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.60.0",

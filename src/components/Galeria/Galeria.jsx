@@ -1,28 +1,33 @@
-// src/components/Galeria/Galeria.jsx - ACTUALIZADO
 
 import React from 'react';
-import { useTranslation } from 'react-i18next'; // 1. Importar hook
+import { useTranslation } from 'react-i18next';
 import './Galeria.css'; 
 
-// ... (importaciones de imágenes sin cambios)
+/*
 import buho from '../../assets/images/buho.png'; 
 import buho_biblioteca from '../../assets/images/buho_biblioteca.png';
 import buho_lector from '../../assets/images/buho_lector.png';
 import buho_soleado from '../../assets/images/buho_soleado.png'; 
-import buholaptop from '../../assets/images/buholaptop.png';
 import buhotablet from '../../assets/images/buhotablet.png';
+*/
+import buholaptop from '../../assets/images/buholaptop.png';
+
+
+import debate from '../../assets/images/debate.webp'
+import estudiante from '../../assets/images/estudiante.webp'
+import foro from '../../assets/images/foro.webp'
+import libro from '../../assets/images/libro.webp'
 
 
 const Galeria = () => {
   const { t } = useTranslation(); // 2. Usar el hook
   
   const images = [
-    { src: buho, alt: 'Imagen de un búho' },
-    { src: buho_biblioteca, alt: 'Búho en una biblioteca' },
-    { src: buho_lector, alt: 'Búho leyendo' },
-    { src: buho_soleado, alt: 'Búho al sol' },
+    { src: debate, alt: 'Imagen de un búho' },
+    { src: estudiante, alt: 'Búho en una biblioteca' },
+    { src: foro, alt: 'Búho leyendo' },
+    { src: libro, alt: 'Búho al sol' },
     { src: buholaptop, alt: 'Búho con laptop' },
-    { src: buhotablet, alt: 'Búho con tablet' },
   ];
 
   return (
