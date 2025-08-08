@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     padding: 2rem 1rem;
-    background-color: var(--color-primary); /* CAMBIO: Nuevo color de fondo principal (morado de tu imagen) */
+    background-color: var(--color-primary); 
     font-family: var(--fuentePrincipal);
 }
 
@@ -11,7 +11,7 @@
     width: 100%;
     max-width: 800px;
     background-color: #fff;
-    border-radius: 24px; /* CAMBIO: Bordes más redondeados como en tu imagen */
+    border-radius: 24px; 
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     position: relative;
@@ -22,8 +22,8 @@
     top: 175px;
     right: 25px;
     background-color: #fff;
-    color: #A14B86; /* CAMBIO: Morado principal para el texto */
-    border: 1px solid #E8EAF6; /* CAMBIO: Borde sutil */
+    color: #A14B86; 
+    border: 1px solid #E8EAF6; 
     border-radius: 20px;
     padding: 8px 15px;
     font-weight: bold;
@@ -48,7 +48,6 @@
 .profile-cover-photo {
     width: 100%;
     height: 100%;
-    /* CAMBIO: Degradado sutil con el morado de fondo */
     background: var(--color-secondary);
 }
 
@@ -56,18 +55,18 @@
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    background-color: #A14B86; /* CAMBIO: Morado principal para el avatar */
+    background-color: #A14B86; 
     position: absolute;
     bottom: -70px;
     left: 50%;
     transform: translateX(-50%);
-    border: 6px solid #fff; /* CAMBIO: Borde un poco más grueso */
+    border: 6px solid #fff; 
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 4rem;
     font-family: var(--fuenteSecundaria, 'Coiny');
-    color: #fff; /* CAMBIO: Texto del avatar en blanco */
+    color: #fff; 
     overflow: hidden;
     z-index: 2;
 }
@@ -86,12 +85,12 @@
 .profile-display-name {
     font-size: 2.5rem;
     font-family: var(--fuenteSecundaria, 'Coiny');
-    color: #A14B86; /* CAMBIO: Morado principal para el nombre */
+    color: #A14B86; 
     margin: 0;
 }
 
 .profile-email {
-    color: #6a6a8f; /* CAMBIO: Morado más sutil para el correo */
+    color: #6a6a8f; 
     margin-top: 0.25rem;
     margin-bottom: 2rem;
 }
@@ -99,12 +98,12 @@
 .profile-section {
     text-align: left;
     margin-top: 2.5rem;
-    border-top: 1px solid #E8EAF6; /* CAMBIO: Borde con el color de fondo de los inputs */
+    border-top: 1px solid #E8EAF6; 
     padding-top: 2rem;
 }
 
 .profile-section h2 {
-    color: #A14B86; /* CAMBIO: Morado principal para los títulos de sección */
+    color: #A14B86; 
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
 }
@@ -129,7 +128,7 @@
 
 .detail-item i {
     font-size: 1.2rem;
-    color: #A14B86; /* CAMBIO: Íconos en el morado principal */
+    color: #A14B86; 
     margin-top: 5px;
     width: 25px;
     text-align: center;
@@ -146,13 +145,13 @@
     margin: 0;
 }
 
-/* Estilos para los inputs en modo edición */
+
 .profile-input {
     width: 100%;
-    padding: 12px 15px; /* CAMBIO: Un poco más de padding */
+    padding: 12px 15px; 
     border: 1px solid #E8EAF6;
-    background-color: #f7f8fc; /* CAMBIO: Fondo muy claro, similar al del registro */
-    border-radius: 12px; /* CAMBIO: Bordes más redondeados */
+    background-color: #f7f8fc; 
+    border-radius: 12px; 
     font-size: 1rem;
     font-family: var(--fuentePrincipal);
     transition: all 0.3s ease;
@@ -181,11 +180,11 @@
 }
 
 .profile-button {
-    background-color: #A14B86; /* CAMBIO: Botón principal con el morado del título */
-    color: #fff; /* CAMBIO: Texto blanco */
+    background-color: #A14B86; 
+    color: #fff; 
     border: none;
     padding: 12px 25px;
-    border-radius: 12px; /* CAMBIO: Bordes más redondeados */
+    border-radius: 12px; 
     cursor: pointer;
     font-size: 1rem;
     font-weight: bold;
@@ -209,10 +208,49 @@
     box-shadow: none;
 }
 
-/* Añadir al final de PerfilPage.css */
 
 .loader {
     color: #fff;
     font-size: 1.5rem;
     font-family: var(--fuenteSecundaria, 'Coiny');
+}
+
+
+.back-to-home-button {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #6a6a8f;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.back-to-home-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: #A14B86;
+}
+
+.back-to-home-button i {
+    font-size: 0.8rem;
+}
+
+
+@media (max-width: 768px) {
+    .back-to-home-button {
+        top: 1rem;
+        left: 1rem;
+        padding: 8px 15px;
+        font-size: 0.8rem;
+    }
 }

@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { dbFirebase as db } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -106,6 +107,9 @@ const ProfilePage = () => {
 
     return (
         <div className="profile-page-container">
+            <Link to="/home" className="back-to-home-button">
+                <i className="fas fa-arrow-left"></i> Volver al Inicio
+            </Link>
             <div className="profile-card-large">
                 <header className="profile-header">
                     <div className="profile-cover-photo"></div>
