@@ -8,7 +8,6 @@ import katex from 'katex';
 import 'katex/dist/katex.min.css';
 import './QuestionDetail.css';
 
-// --- (El sub-componente AnswerCard no necesita cambios, se mantiene igual) ---
 const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
     const { currentUser } = useAuth();
     const isQuestionAuthor = currentUser?.uid === questionAuthorId;
@@ -20,7 +19,10 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
 
     const formatDate = (timestamp) => {
         if (!timestamp) return '...';
-        return new Intl.DateTimeFormat(t.language, { dateStyle: 'long', timeStyle: 'short' }).format(timestamp.toDate());
+        return new Intl.DateTimeFormat(t.language, { 
+            dateStyle: 'medium', 
+            timeStyle: 'short' 
+        }).format(timestamp.toDate());
     };
 
     return (
@@ -28,40 +30,84 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
             <div className="answer-card-content">
                 <div className="answer-card-header">
                     <div className="author-info">
-                        <img src={answer.userPhotoURL} alt="Autor" className="author-avatar" />
-                        <div>
-                            <h3 className="author-name">{answer.userName}</h3>
-                            <p className="answer-date">{t('question_detail.answered_at')} {formatDate(answer.createdAt)}</p>
+                        <img 
+                            src={answer.userPhotoURL || `https://randomuser.me/api/portraits/women/65.jpg`} 
+                            alt="Autor" 
+                            className="author-avatar" 
+                        />
+                        <div className="author-details">
+                            <h3 className="author-name">
+                                {answer.userName}
+                                {answer.isVerified && <span className="verified-badge"></span>}
+                            </h3>
+                            <p className="author-role">Estudiante</p>
                         </div>
                     </div>
                     {answer.isBest && (
                         <div className="best-answer-badge">
-                            <i className="fas fa-star"></i> {t('question_detail.best_answer_badge')}
+                            <svg xmlns="http://www.w3.org/2000/svg" className="badge-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                            MEJOR RESPUESTA
                         </div>
                     )}
                 </div>
-                <div className="prose" dangerouslySetInnerHTML={{ __html: answer.content }}></div>
+                
+                <div className="answer-content">
+                    <div className="prose" dangerouslySetInnerHTML={{ __html: answer.content }}></div>
+                </div>
+                
                 <div className="answer-card-footer">
-                    <div className="vote-controls">
-                        <button onClick={() => onVote(answer.id, 'up')} className={`vote-btn ${userVote.up ? 'voted' : ''}`} disabled={!currentUser}>
-                            <i className="fas fa-chevron-up vote-icon"></i>
-                        </button>
-                        <span className="vote-score">{answer.score || 0}</span>
-                        <button onClick={() => onVote(answer.id, 'down')} className={`vote-btn ${userVote.down ? 'voted' : ''}`} disabled={!currentUser}>
-                             <i className="fas fa-chevron-down vote-icon"></i>
+                    <div className="answer-actions">
+                        <div className="vote-controls">
+                            <button 
+                                onClick={() => onVote(answer.id, 'up')} 
+                                className={`vote-btn ${userVote.up ? 'voted' : ''}`} 
+                                disabled={!currentUser}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="vote-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clipRule="evenodd" />
+                                </svg>
+                            </button>
+                            <span className="vote-score">{answer.score || 0}</span>
+                            <button 
+                                onClick={() => onVote(answer.id, 'down')} 
+                                className={`vote-btn ${userVote.down ? 'voted' : ''}`} 
+                                disabled={!currentUser}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="vote-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <button className="comment-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="comment-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+                            </svg>
+                            {answer.commentsCount || 0} comentarios
                         </button>
                     </div>
-                    {isQuestionAuthor && !answer.isBest && (
-                         <button onClick={() => onMarkBest(answer.id, answer.userId)} className="mark-best-btn">
-                            <i className="fas fa-check-circle"></i> {t('question_detail.mark_as_best_button')}
-                        </button>
-                    )}
+                    
+                    <div className="answer-meta">
+                        <span className="answer-date">Respondido {formatDate(answer.createdAt)}</span>
+                        {isQuestionAuthor && !answer.isBest && (
+                            <button 
+                                onClick={() => onMarkBest(answer.id, answer.userId)} 
+                                className="mark-best-btn"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="mark-best-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                </svg>
+                                Marcar como mejor
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
-
 
 const QuestionDetail = () => {
     const { t } = useTranslation();
@@ -74,10 +120,10 @@ const QuestionDetail = () => {
     const [error, setError] = useState(null);
     const [newAnswer, setNewAnswer] = useState('');
     const [isLiking, setIsLiking] = useState(false);
+    const [sortBy, setSortBy] = useState('score');
     
     const questionContentRef = useRef(null);
 
-    // --- (Todas las funciones como fetchQuestionAndAnswers, handleVote, etc. se mantienen igual) ---
     const fetchQuestionAndAnswers = useCallback(async () => {
         setLoading(true);
         try {
@@ -92,25 +138,29 @@ const QuestionDetail = () => {
                 }
                 setQuestion(questionData);
             } else {
-                setError(t('question_detail.not_found_error'));
+                setError(t('question_detail.not_found_error') || 'Pregunta no encontrada');
                 return;
             }
 
-            const answersQuery = query(collection(dbFirebase, 'foros', questionId, 'respuestas'), orderBy('score', 'desc'));
+            const orderByField = sortBy === 'recent' ? 'createdAt' : 'score';
+            const answersQuery = query(
+                collection(dbFirebase, 'foros', questionId, 'respuestas'), 
+                orderBy(orderByField, 'desc')
+            );
             const answersSnapshot = await getDocs(answersQuery);
             setAnswers(answersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
 
         } catch (err) {
             console.error("Error al cargar datos:", err);
-            setError(t('question_detail.load_error'));
+            setError(t('question_detail.load_error') || 'Error al cargar la pregunta');
         } finally {
             setLoading(false);
         }
-    }, [questionId, currentUser, t]);
+    }, [questionId, currentUser, t, sortBy]);
 
     const handleVote = async (answerId, voteType) => {
         if (!currentUser) {
-            alert(t('question_detail.login_to_vote'));
+            alert(t('question_detail.login_to_vote') || 'Debes iniciar sesión para votar');
             return;
         }
         const answerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', answerId);
@@ -186,7 +236,7 @@ const QuestionDetail = () => {
     
     const handleMarkBestAnswer = async (answerId, answerAuthorId) => {
         if (question.userId !== currentUser?.uid) {
-            alert(t('question_detail.not_author_error'));
+            alert(t('question_detail.not_author_error') || 'Solo el autor puede marcar la mejor respuesta');
             return;
         }
 
@@ -212,21 +262,29 @@ const QuestionDetail = () => {
             });
             
             fetchQuestionAndAnswers();
-            alert(t('question_detail.best_answer_success'));
+            alert(t('question_detail.best_answer_success') || 'Respuesta marcada como la mejor');
         } catch (error) {
             console.error("Error al marcar la mejor respuesta:", error);
-            alert(t('question_detail.request_error'));
+            alert(t('question_detail.request_error') || 'Error al procesar la solicitud');
         }
     };
 
     const handleAnswerSubmit = async (e) => {
         e.preventDefault();
         if (!newAnswer.trim() || !currentUser) return;
+        
         try {
             const answerData = {
-                content: newAnswer, userId: currentUser.uid, userName: currentUser.displayName || currentUser.email,
-                userPhotoURL: currentUser.photoURL || `https://i.pravatar.cc/150?u=${currentUser.uid}`,
-                createdAt: new Date(), isBest: false, score: 0, upvotedBy: [], downvotedBy: []
+                content: newAnswer,
+                userId: currentUser.uid,
+                userName: currentUser.displayName || currentUser.email,
+                userPhotoURL: currentUser.photoURL || `https://randomuser.me/api/portraits/men/75.jpg`,
+                createdAt: new Date(),
+                isBest: false,
+                score: 0,
+                upvotedBy: [],
+                downvotedBy: [],
+                commentsCount: 0
             };
             
             await addDoc(collection(dbFirebase, 'foros', questionId, 'respuestas'), answerData);
@@ -241,7 +299,7 @@ const QuestionDetail = () => {
 
         } catch (error) { 
             console.error("Error al publicar respuesta:", error); 
-            alert(t('question_detail.publish_answer_error'));
+            alert(t('question_detail.publish_answer_error') || 'Error al publicar la respuesta');
         }
     };
 
@@ -265,14 +323,33 @@ const QuestionDetail = () => {
         }
     }, [question]);
 
-
     const formatDate = (timestamp) => {
-        if (!timestamp) return t('question_detail.unknown_date');
-        return new Intl.DateTimeFormat(t.language, { dateStyle: 'long', timeStyle: 'short' }).format(timestamp.toDate());
+        if (!timestamp) return 'Fecha desconocida';
+        return new Intl.DateTimeFormat('es', { 
+            dateStyle: 'long', 
+            timeStyle: 'short' 
+        }).format(timestamp.toDate());
     };
 
-    if (loading) return <div className="detail-loader">{t('question_detail.loading')}</div>;
-    if (error) return <div className="detail-error">{error}</div>;
+    if (loading) {
+        return (
+            <div className="detail-loader">
+                <div className="loader-spinner"></div>
+                <p>Cargando pregunta...</p>
+            </div>
+        );
+    }
+    
+    if (error) {
+        return (
+            <div className="detail-error">
+                <h2>Error</h2>
+                <p>{error}</p>
+                <Link to="/foro" className="back-to-forum-btn">Volver al foro</Link>
+            </div>
+        );
+    }
+    
     if (!question) return null;
 
     const userHasLiked = question.likedBy?.includes(currentUser?.uid);
@@ -280,81 +357,187 @@ const QuestionDetail = () => {
     const otherAnswers = answers.filter(a => !a.isBest);
 
     return (
-        <div className="detail-page-container">
-            <main className="detail-main-content">
-                <div className="detail-back-link-wrapper">
-                    <Link to="/foro" className="detail-back-link">
-                        <i className="fas fa-arrow-left"></i> {t('question_detail.back_to_forum')}
+        <div className="question-detail-container">
+            <main className="question-detail-main">
+                {/* Back Navigation */}
+                <div className="back-navigation">
+                    <Link to="/foro" className="back-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="back-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                        </svg>
+                        Volver a preguntas
                     </Link>
                 </div>
-                
-                <section className="question-main-card">
+
+                {/* Question Section */}
+                <section className="question-section">
                     <div className="question-header">
-                        <div className="author-info"> {/* Div principal para la info del autor */}
-                            <img src={question.userPhotoURL || `https://i.pravatar.cc/150?u=${question.userId}`} alt={question.userName} className="author-avatar" />
-                            <div>
-                                {/* AHORA CADA UNO EN SU PROPIA LÍNEA */}
-                                <Link to={`/perfil/${question.userId}`} className="author-name">{question.userName}</Link>
-                                <span className="post-date">{t('question_detail.published_at')} {formatDate(question.createdAt)}</span>
+                        <div className="question-author-info">
+                            <img 
+                                src={question.userPhotoURL || `https://randomuser.me/api/portraits/men/32.jpg`} 
+                                alt="Autor" 
+                                className="question-author-avatar" 
+                            />
+                            <div className="question-author-details">
+                                <h3 className="question-author-name">{question.userName}</h3>
+                                <p className="question-author-role">Estudiante de Ingeniería</p>
                             </div>
                         </div>
-                        <div className="question-category">{question.categoria}</div>
+                        <div className="question-tags">
+                            <span className="question-category">{question.categoria}</span>
+                            <span className="question-subcategory">Álgebra</span>
+                        </div>
                     </div>
-                    
+
                     <div className="question-body">
                         <h1 className="question-title">{question.titulo}</h1>
-                        <div
+                        <div className="question-meta">
+                            <span>Publicado {formatDate(question.createdAt)}</span>
+                            <span>•</span>
+                            <span>{answers.length} respuestas</span>
+                            <span>•</span>
+                            <span>{question.views || 0} visualizaciones</span>
+                        </div>
+                    </div>
+
+                    <div className="question-content">
+                        <div 
                             ref={questionContentRef}
-                            className="prose"
+                            className="prose" 
                             dangerouslySetInnerHTML={{ __html: question.descripcion }}
                         />
                     </div>
-                    
+
                     <div className="question-footer">
-                        {/* AHORA CADA ESTADÍSTICA EN SU PROPIA LÍNEA */}
-                        <div className="stats">
-                            <div>{answers.length} {t('question_detail.replies')}</div>
-                            <div>{question.views || 0} {t('question_detail.views')}</div>
-                        </div>
-                        <div className="actions">
-                            <button onClick={handleLike} className={`like-button ${userHasLiked ? 'liked' : ''}`} disabled={isLiking || !currentUser}>
-                                <i className="fas fa-thumbs-up"></i>
-                                <span>{question.likes || 0}</span>
+                        <div className="question-actions">
+                            <button 
+                                onClick={handleLike}
+                                className={`like-btn ${userHasLiked ? 'liked' : ''}`}
+                                disabled={isLiking || !currentUser}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="like-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                                </svg>
+                                {question.likes || 0}
+                            </button>
+                            
+                            <button className="comment-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="comment-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+                                </svg>
+                                Comentar
                             </button>
                         </div>
+
+                        <div className="question-options">
+                            <button className="options-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="options-icon" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                </svg>
+                                Opciones
+                            </button>
+                            
+                            {currentUser && (
+                                <button className="respond-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="respond-icon" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
+                                    </svg>
+                                    Responder
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </section>
 
+                {/* Answers Section */}
                 <section className="answers-section">
-                    <h2 className="answers-title">{t('question_detail.answers_title', { count: answers.length })}</h2>
-                    
+                    <div className="answers-header">
+                        <h2 className="answers-title">Respuestas ({answers.length})</h2>
+                        <div className="answers-sort">
+                            <span>Ordenar por:</span>
+                            <select 
+                                value={sortBy} 
+                                onChange={(e) => setSortBy(e.target.value)}
+                                className="sort-select"
+                            >
+                                <option value="score">Mejor valoradas</option>
+                                <option value="recent">Más recientes</option>
+                                <option value="verified">Verificadas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Best Answer */}
                     {bestAnswer && (
-                        <AnswerCard key={bestAnswer.id} answer={bestAnswer} onVote={handleVote} onMarkBest={handleMarkBestAnswer} questionAuthorId={question.userId} t={t} />
+                        <AnswerCard 
+                            key={bestAnswer.id} 
+                            answer={bestAnswer} 
+                            onVote={handleVote} 
+                            onMarkBest={handleMarkBestAnswer} 
+                            questionAuthorId={question.userId} 
+                            t={t} 
+                        />
                     )}
-                    
+
+                    {/* Other Answers */}
                     <div className="answers-list">
-                        {otherAnswers.map(ans => (
-                            <AnswerCard key={ans.id} answer={ans} onVote={handleVote} onMarkBest={handleMarkBestAnswer} questionAuthorId={question.userId} t={t} />
+                        {otherAnswers.map(answer => (
+                            <AnswerCard 
+                                key={answer.id} 
+                                answer={answer} 
+                                onVote={handleVote} 
+                                onMarkBest={handleMarkBestAnswer} 
+                                questionAuthorId={question.userId} 
+                                t={t} 
+                            />
                         ))}
                     </div>
+
+                    {answers.length > 5 && (
+                        <div className="load-more">
+                            <button className="load-more-btn">
+                                Cargar más respuestas
+                            </button>
+                        </div>
+                    )}
                 </section>
 
+                {/* Answer Form */}
                 {currentUser && (
-                    <section className="answer-form-card">
-                        <div className="answer-form-content">
-                            <h2 className="answer-form-title">{t('question_detail.your_answer_title')}</h2>
+                    <section className="answer-form-section">
+                        <div className="answer-form-card">
+                            <h2 className="answer-form-title">Tu respuesta</h2>
                             <form onSubmit={handleAnswerSubmit}>
-                                <div className="textarea-wrapper">
+                                <div className="editor-container">
                                     <textarea
-                                        placeholder={t('question_detail.answer_placeholder')}
+                                        className="answer-textarea"
+                                        placeholder="Escribe tu respuesta aquí..."
                                         value={newAnswer}
                                         onChange={(e) => setNewAnswer(e.target.value)}
+                                        rows="10"
                                         required
-                                    ></textarea>
+                                    />
                                 </div>
-                                <div className="answer-form-actions">
-                                    <button type="submit" className="submit-answer-btn">
-                                        {t('question_detail.publish_button')}
+                                <div className="form-actions">
+                                    <div className="formatting-tools">
+                                        <button type="button" className="format-btn" title="Agregar fórmula">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="format-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                            </svg>
+                                        </button>
+                                        <button type="button" className="format-btn" title="Agregar imagen">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="format-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                        </button>
+                                        <button type="button" className="format-btn" title="Agregar tabla">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="format-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <button type="submit" className="submit-btn" disabled={!newAnswer.trim()}>
+                                        Publicar respuesta
                                     </button>
                                 </div>
                             </form>
@@ -362,6 +545,13 @@ const QuestionDetail = () => {
                     </section>
                 )}
             </main>
+
+            {/* Floating Action Button */}
+            <button className="floating-action-btn" title="Nueva pregunta">
+                <svg xmlns="http://www.w3.org/2000/svg" className="fab-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+            </button>
         </div>
     );
 };
