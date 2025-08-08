@@ -109,11 +109,13 @@
 /* Container principal */
 .container_dashboard {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* Comenta o elimina la siguiente línea */
+    /* grid-template-columns: 1fr 1fr; */ 
     gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    padding: 2rem;
+    background-color: var(--color-light);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 /* Sección del formulario */
@@ -424,4 +426,8 @@
     .question-item {
         padding: 1rem;
     }
+}
+
+.container_dashboard.single-column {
+    display: block; /* O grid-template-columns: 1fr; */
 }
