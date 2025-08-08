@@ -94,11 +94,9 @@ function Header() {
                             <li><Link to="/login" className="btn-login" onClick={handleLinkClick}>{t('header.login')}</Link></li>
                         </>
                     ) : (
-                        <>
-<<<<<<< HEAD
+                        <> 
                             <li><Link to="/dashboard" onClick={handleLinkClick}>{t('header.dashboard')}</Link></li>
                             <li><button onClick={handleLogout} className="btn-login">{t('header.logout')}</button></li>
-=======
                             <li><Link to="/dashboard" onClick={handleLinkClick}>Dashboard</Link></li>
                             <li><Link to="/perfil" onClick={handleLinkClick}>Perfil</Link></li>
                             <li>
@@ -106,7 +104,6 @@ function Header() {
                                     Cerrar Sesión
                                 </button>
                             </li>
->>>>>>> master
                         </>
                     )}
                 </ul>
