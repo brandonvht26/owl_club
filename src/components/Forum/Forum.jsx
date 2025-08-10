@@ -58,7 +58,10 @@ const QuestionCard = ({ question, t }) => {
                     </span>
                 </div>
                 <h3 className="question-title">{question.titulo}</h3>
-                <p className="question-body">{question.descripcion.replace(/<[^>]*>/g, '').substring(0, 150)}{question.descripcion.length > 150 && '...'}</p>
+                <p className="question-body">
+                    {question.descripcion.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().substring(0, 150)}
+                    {question.descripcion.length > 150 && '...'}
+                    </p>
                 <div className="question-footer">
                     <div className="question-stats">
                         <button><i className="far fa-comment-dots"></i> {question.replies || 0}</button>
