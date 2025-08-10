@@ -7,7 +7,7 @@
     align-items: center;
     padding: 1.5rem 2rem;
     background: var(--color-primary);
-    color: var(--color-light); /* Texto claro sobre fondo primario */
+    color: var(--color-text-secondary); /* Texto claro sobre fondo primario */
     margin-bottom: 2rem;
 }
 

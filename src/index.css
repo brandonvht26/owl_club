@@ -50,7 +50,7 @@ ol {
 :root {
   /* TEMA CLARO (POR DEFECTO) */
   --color-primary: #9C5297;
-  --color-primary-dark: #6A1B9A;
+  --color-primary-dark: #7E427A;
   --color-secondary: #FFC70F;
   --color-accent: #d179ca;
   --color-light: #FFFFFF;
@@ -60,6 +60,7 @@ ol {
   --color-text-light: #666666;
   --color-border: #DDDDDD;
   --color-error: #e74c3c;
+  --color-text-secondary: #FFFFFF;
 
   /* Tipografías */
   --font-main: "Comic Neue", sans-serif;
@@ -86,6 +87,7 @@ ol {
   --color-dark: #FFFFFF; 
   --color-bg: #1E1F20; 
   --color-text: #E8EAED; 
+  --color-text-secondary: #FFFFFF;
   --color-text-light: #A0A0A0; 
   --color-border: #444444; 
   --color-error: #FF5252;

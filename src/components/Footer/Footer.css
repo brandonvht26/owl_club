@@ -3,7 +3,7 @@
 .footer {
     /* ANTES: background: linear-gradient(-135deg, var(--colorCuatro), var(--colorCuatro), var(--colorTres)); */
     background: linear-gradient(-135deg, var(--color-primary-dark), var(--color-primary)); /* Gradiente con variables globales */
-    color: var(--color-light); /* Texto principal claro */
+    color: var(--color-text-secondary); /* Texto principal claro */
     padding: 4rem 1.5rem 2rem;
     font-family: var(--font-main);
     box-shadow: 0 -5px 15px -5px rgba(0,0,0,0.1);
@@ -47,7 +47,7 @@
 }
 
 .social-icons a {
-    color: var(--color-light);
+    color: var(--color-text-secondary);
     font-size: 1.2rem;
     width: 40px;
     height: 40px;
@@ -83,7 +83,7 @@
 .footer-contact p,
 .footer-contact span,
 .footer-slogan p {
-    color: var(--color-light); /* Texto claro */
+    color: var(--color-text-secondary); /* Texto claro */
     opacity: 0.9;
     text-decoration: none;
     transition: color 0.3s;
@@ -102,7 +102,7 @@
 .footer-slogan p {
     font-style: italic;
     font-size: 1.1rem;
-    color: var(--color-light);
+    color: var(--color-text-secondary);
     opacity: 0.9;
 }
 
@@ -115,7 +115,7 @@
 
 .footer-bottom p {
     margin: 0;
-    color: var(--color-light);
+    color: var(--color-text-secondary);
     opacity: 0.8;
     font-size: 0.9rem;
 }

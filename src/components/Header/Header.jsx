@@ -25,6 +25,22 @@ function Header() {
     const [theme, toggleTheme] = useTheme();
     const { t, i18n } = useTranslation(); // <-- 2. USAR EL HOOK
 
+    // --- ¡AÑADE ESTE CÓDIGO! ---
+    useEffect(() => {
+        // Si el menú está abierto, evitamos el scroll en el body
+        if (isMenuOpen || !isMenuOpen) {
+            document.body.style.overflowX = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        // Función de limpieza: se asegura de que el scroll vuelva a la normalidad
+        // si el componente se desmonta mientras el menú está abierto.
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    });
+
     // --- NUEVO: Función para cambiar el idioma ---
     const changeLanguage = (lng) => {
         i18n.changeLanguage(lng);

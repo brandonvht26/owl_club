@@ -7,7 +7,7 @@
 
 .forum-hero {
     background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-    color: var(--color-light);
+    color: var(--color-text-secondary);
     padding: 3rem 1rem;
     text-align: center;
 }
