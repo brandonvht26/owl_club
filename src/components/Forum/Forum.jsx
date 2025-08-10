@@ -82,6 +82,8 @@ const Forum = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [topUsers, setTopUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('all');
 
     useEffect(() => {
         const fetchForumData = async () => {
@@ -109,13 +111,42 @@ const Forum = () => {
         fetchForumData();
     }, [t]);
 
+    // Lógica de filtrado por búsqueda
+    const filteredQuestions = questions
+        .filter(question => {
+            // Primer filtro: por categoría seleccionada
+            if (selectedCategory === 'all') {
+                return true; // Si es "all", no se filtra por categoría
+            }
+            return question.categoria === selectedCategory;
+        })
+        .filter(question => {
+            // Segundo filtro: por término de búsqueda (funciona sobre la lista ya filtrada)
+            if (!searchTerm) {
+                return true; // Si no hay búsqueda, no se filtra por texto
+            }
+            const searchTermLower = searchTerm.toLowerCase();
+            const categoryName = predefinedCategories.find(c => c.id === question.categoria)?.name || '';
+
+            const titleMatch = question.titulo.toLowerCase().includes(searchTermLower);
+            const categoryMatch = categoryName.toLowerCase().includes(searchTermLower);
+
+            return titleMatch || categoryMatch;
+    });
+
     return (
         <div className="forum-page">
             <section className="forum-hero">
                 <h2 className="forum-hero-title">{t('forum.welcome_title')}</h2>
                 <p className="forum-hero-subtitle">{t('forum.welcome_subtitle')}</p>
                 <div className="search-bar">
-                    <input type="text" placeholder={t('forum.search_placeholder')} />
+                    <input
+                        type="text"
+                        placeholder={t('forum.search_placeholder')}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    
                     <button className="btn-secondary">
                         <i className="fas fa-search" style={{ marginRight: '0.25rem' }}></i> {t('forum.search_button')}
                     </button>
@@ -127,11 +158,24 @@ const Forum = () => {
                     <div className="card">
                         <h3 className="card-title">{t('forum.categories')}</h3>
                         <ul className="categories-list">
+                            <li>
+                                <button
+                                    className={`category-button ${selectedCategory === 'all' ? 'active' : ''}`}
+                                    onClick={() => setSelectedCategory('all')}
+                                >
+                                    <span className="dot" style={{ backgroundColor: 'var(--color-primary)' }}></span>
+                                    Todas
+                                </button>
+                            </li>
                             {predefinedCategories.map(cat => (
                                 <li key={cat.id}>
-                                    <Link to="#">
-                                        <span className="dot" style={{ backgroundColor: cat.color }}></span> {cat.name}
-                                    </Link>
+                                    <button
+                                        className={`category-button ${selectedCategory === cat.id ? 'active' : ''}`}
+                                        onClick={() => setSelectedCategory(cat.id)}
+                                    >
+                                        <span className="dot" style={{ backgroundColor: cat.color }}></span>
+                                        {cat.name}
+                                    </button>
                                 </li>
                             ))}
                         </ul>
@@ -170,7 +214,7 @@ const Forum = () => {
                                 <Link to="/forum-dashboard" className="btn-primary">{t('forum.create_question_button')}</Link>
                             </div>
                         )}
-                        {!loading && !error && questions.map(q => <QuestionCard key={q.id} question={q} t={t} />)}
+                        {!loading && !error && filteredQuestions.map(q => <QuestionCard key={q.id} question={q} t={t} />)}
                     </div>
                 </div>
 

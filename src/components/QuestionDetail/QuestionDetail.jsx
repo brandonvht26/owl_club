@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { dbFirebase } from '../../firebase';
-import { doc, getDoc, collection, query, orderBy, getDocs, addDoc, runTransaction, updateDoc, increment } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, orderBy, getDocs, addDoc, runTransaction, updateDoc, increment } from 'firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import katex from 'katex';
@@ -93,9 +93,10 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
                     
                     <div className="answer-meta">
                         <span className="answer-date">Respondido {formatDate(answer.createdAt)}</span>
-                        {isQuestionAuthor && !answer.isBest && (
-                            <button 
-                                onClick={() => onMarkBest(answer.id, answer.userId)} 
+                        
+                            {isQuestionAuthor && !answer.isBest && (
+                            <button
+                                onClick={() => onMarkBest(answer.id, answer.userId)}
                                 className="mark-best-btn"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="mark-best-icon" viewBox="0 0 20 20" fill="currentColor">
@@ -237,37 +238,41 @@ const QuestionDetail = () => {
     };
     
     const handleMarkBestAnswer = async (answerId, answerAuthorId) => {
-        if (question.userId !== currentUser?.uid) {
-            alert(t('question_detail.not_author_error') || 'Solo el autor puede marcar la mejor respuesta');
+        console.log("--- INICIANDO VERSIÓN DE PRUEBA SIMPLIFICADA ---");
+        console.log("Intentando dar puntos a:", answerAuthorId);
+
+        // Validaciones de seguridad
+        if (!answerAuthorId || !currentUser) {
+            alert("Error de prueba: Falta el ID del autor o el usuario actual.");
             return;
         }
 
         try {
+            // La transacción más simple posible: solo lee y actualiza un documento.
             await runTransaction(dbFirebase, async (transaction) => {
-                const questionRef = doc(dbFirebase, 'foros', questionId);
-                const answerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', answerId);
-                const answerAuthorRef = doc(dbFirebase, 'users', answerAuthorId);
+                console.log("Paso 1: Creando referencia al autor...");
+                const authorRef = doc(dbFirebase, 'users', answerAuthorId);
+                
+                console.log("Paso 2: Leyendo el documento del autor dentro de la transacción...");
+                const authorDoc = await transaction.get(authorRef);
 
-                answers.forEach(ans => {
-                    if (ans.isBest && ans.id !== answerId) {
-                        const oldBestAnswerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', ans.id);
-                        transaction.update(oldBestAnswerRef, { isBest: false });
-                    }
-                });
-
-                transaction.update(answerRef, { isBest: true });
-                transaction.update(questionRef, { solved: true });
-
-                const authorDoc = await transaction.get(answerAuthorRef);
-                const currentPoints = authorDoc.data()?.points || 0;
-                transaction.update(answerAuthorRef, { points: currentPoints + 15 });
+                if (!authorDoc.exists()) {
+                    throw new Error("El documento del autor no existe.");
+                }
+                
+                console.log("Paso 3: Calculando y actualizando los puntos...");
+                const currentPoints = authorDoc.data().points || 0;
+                transaction.update(authorRef, { points: currentPoints + 15 });
+                console.log("Paso 4: La actualización de puntos se preparó correctamente.");
             });
-            
-            fetchQuestionAndAnswers();
-            alert(t('question_detail.best_answer_success') || 'Respuesta marcada como la mejor');
+
+            alert("¡PRUEBA EXITOSA! La transacción simple funcionó.");
+            // Volvemos a cargar los datos para ver el cambio de puntos (si tienes un ranking visible)
+            fetchQuestionAndAnswers(); 
+
         } catch (error) {
-            console.error("Error al marcar la mejor respuesta:", error);
-            alert(t('question_detail.request_error') || 'Error al procesar la solicitud');
+            console.error("ERROR EN LA TRANSACCIÓN DE PRUEBA:", error);
+            alert("La prueba falló. Revisa la consola para ver el error detallado.");
         }
     };
 

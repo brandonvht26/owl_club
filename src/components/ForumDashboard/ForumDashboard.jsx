@@ -37,6 +37,33 @@ const ForumDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [editingForum, setEditingForum] = useState(null);
 
+    // Función para marcar/desmarcar un foro como resuelto
+    const handleToggleSolved = async (forumId, currentStatus) => {
+        try {
+            const forumRef = doc(dbFirebase, 'foros', forumId);
+            await updateDoc(forumRef, {
+                solved: !currentStatus // Invierte el estado actual
+            });
+            // Recargamos los foros para ver el cambio reflejado
+            loadUserForums();
+        } catch (error) {
+            console.error('Error al cambiar estado de resuelto:', error);
+        }
+    };
+
+    // Función para archivar/desarchivar un foro
+    const handleToggleArchived = async (forumId, currentStatus) => {
+        try {
+            const forumRef = doc(dbFirebase, 'foros', forumId);
+            await updateDoc(forumRef, {
+                archived: !currentStatus // Invierte el estado actual
+            });
+            loadUserForums();
+        } catch (error) {
+            console.error('Error al archivar el foro:', error);
+        }
+    };
+
     // --- Carga de Datos ---
     const loadUserForums = useCallback(async () => {
         if (!currentUser) return;
@@ -180,7 +207,15 @@ const ForumDashboard = () => {
                     {loading ? <div className="loading-state"><i className="fas fa-spinner fa-spin"></i><p>Cargando...</p></div>
                      : filteredForums.length === 0 ? <div className="empty-state"><i className="fas fa-comment-slash"></i><h3>No hay foros</h3><button className="btn-create-forum" onClick={openCreateModal}><i className="fas fa-plus"></i> Crear uno</button></div>
                      : filteredForums.map(forum => (
-                        <ForumCard key={forum.id} forum={forum} categories={categories} onEdit={() => openEditModal(forum)} onDelete={() => handleDeleteForum(forum.id)} />
+                        <ForumCard
+                            key={forum.id}
+                            forum={forum}
+                            categories={categories}
+                            onEdit={() => openEditModal(forum)}
+                            onDelete={() => handleDeleteForum(forum.id)}
+                            onToggleSolved={() => handleToggleSolved(forum.id, forum.solved)}
+                            onToggleArchived={() => handleToggleArchived(forum.id, forum.archived)}
+                        />
                     ))}
                 </div>
             </div>
@@ -200,7 +235,7 @@ const ForumDashboard = () => {
 
 // --- Sub-componentes de Ayuda ---
 
-const ForumCard = ({ forum, categories, onEdit, onDelete }) => {
+const ForumCard = ({ forum, categories, onEdit, onDelete, onToggleSolved, onToggleArchived }) => { // <-- 1. Añade las nuevas props
     const category = categories.find(cat => cat.id === forum.categoria);
     const [showMenu, setShowMenu] = useState(false);
     return (
@@ -209,14 +244,33 @@ const ForumCard = ({ forum, categories, onEdit, onDelete }) => {
                 <div className="category-badge"><i className={`fas ${category?.icon || 'fa-question-circle'}`}></i><span>{category?.name || forum.categoria}</span></div>
                 <div className="status-badges">{forum.solved && <span className="badge solved">Resuelto</span>}{forum.archived && <span className="badge archived">Archivado</span>}</div>
 
-                <div className="actions">
+                <div className="actions">    
                     <button className="action-btn" onClick={() => setShowMenu(!showMenu)} onBlur={() => setTimeout(() => setShowMenu(false), 200)}>
                         <i className="fas fa-ellipsis-h"></i>
                     </button>
                     {showMenu && (
                         <div className="action-menu">
                             <button onClick={onEdit}><i className="fas fa-edit"></i> Editar</button>
+                            
+                        
+                        
+                            {/* --- 2. AÑADE ESTOS BOTONES --- */}
+                            {/* Solo muestra "Marcar como resuelto" en foros activos */}
+                            {!forum.archived && (
+                                <button onClick={onToggleSolved}>
+                                    <i className={`fas ${forum.solved ? 'fa-times-circle' : 'fa-check-circle'}`}></i>
+                                    {forum.solved ? 'No Resuelto' : 'Resuelto'}
+                                </button>
+                            )}
+
+                            <button onClick={onToggleArchived}>
+                                <i className={`fas ${forum.archived ? 'fa-folder-open' : 'fa-archive'}`}></i>
+                                {forum.archived ? 'Desarchivar' : 'Archivar'}
+                            </button>
+                            {/* --- FIN DE LOS BOTONES AÑADIDOS --- */}
+
                             <button onClick={onDelete} className="delete"><i className="fas fa-trash"></i> Eliminar</button>
+
                         </div>
                     )}
                 </div>
