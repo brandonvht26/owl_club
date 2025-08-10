@@ -238,41 +238,46 @@ const QuestionDetail = () => {
     };
     
     const handleMarkBestAnswer = async (answerId, answerAuthorId) => {
-        console.log("--- INICIANDO VERSIÓN DE PRUEBA SIMPLIFICADA ---");
-        console.log("Intentando dar puntos a:", answerAuthorId);
+        console.log("Iniciando 'handleMarkBestAnswer'...", { questionId, answerId, answerAuthorId });
 
-        // Validaciones de seguridad
-        if (!answerAuthorId || !currentUser) {
-            alert("Error de prueba: Falta el ID del autor o el usuario actual.");
+        if (question.userId !== currentUser?.uid) {
+            alert('Solo el autor puede marcar la mejor respuesta');
+            return;
+        }
+
+        if (!questionId || !answerId || !answerAuthorId) {
+            console.error("Error Crítico: Faltan IDs.", { questionId, answerId, answerAuthorId });
+            alert("Error: Faltan datos para completar la operación.");
             return;
         }
 
         try {
-            // La transacción más simple posible: solo lee y actualiza un documento.
             await runTransaction(dbFirebase, async (transaction) => {
-                console.log("Paso 1: Creando referencia al autor...");
-                const authorRef = doc(dbFirebase, 'users', answerAuthorId);
-                
-                console.log("Paso 2: Leyendo el documento del autor dentro de la transacción...");
-                const authorDoc = await transaction.get(authorRef);
+                const questionRef = doc(dbFirebase, 'foros', questionId);
+                const newBestAnswerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', answerId);
+                const answerAuthorRef = doc(dbFirebase, 'users', answerAuthorId);
 
+                const authorDoc = await transaction.get(answerAuthorRef);
                 if (!authorDoc.exists()) {
-                    throw new Error("El documento del autor no existe.");
+                    throw new Error(`El documento del autor con ID ${answerAuthorId} no existe.`);
                 }
-                
-                console.log("Paso 3: Calculando y actualizando los puntos...");
-                const currentPoints = authorDoc.data().points || 0;
-                transaction.update(authorRef, { points: currentPoints + 15 });
-                console.log("Paso 4: La actualización de puntos se preparó correctamente.");
+
+                const bestAnswerQuery = query(collection(dbFirebase, 'foros', questionId, 'respuestas'), where('isBest', '==', true));
+                const currentBestAnswerSnap = await transaction.get(bestAnswerQuery);
+
+                currentBestAnswerSnap.forEach(doc => transaction.update(doc.ref, { isBest: false }));
+                transaction.update(newBestAnswerRef, { isBest: true });
+                transaction.update(questionRef, { solved: true });
+                const currentPoints = authorDoc.data()?.points || 0;
+                transaction.update(answerAuthorRef, { points: currentPoints + 15 });
             });
 
-            alert("¡PRUEBA EXITOSA! La transacción simple funcionó.");
-            // Volvemos a cargar los datos para ver el cambio de puntos (si tienes un ranking visible)
-            fetchQuestionAndAnswers(); 
+            fetchQuestionAndAnswers();
+            alert('¡Respuesta marcada como la mejor y +15 puntos para el sabio!');
 
         } catch (error) {
-            console.error("ERROR EN LA TRANSACCIÓN DE PRUEBA:", error);
-            alert("La prueba falló. Revisa la consola para ver el error detallado.");
+            console.error("Error DETALLADO al marcar la mejor respuesta:", error);
+            alert(`Ocurrió un error: ${error.message}`);
         }
     };
 

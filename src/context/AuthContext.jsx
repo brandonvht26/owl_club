@@ -2,6 +2,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { authFirebase } from '../firebase'; // Import your Firebase auth instance
 import { onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from "firebase/firestore"; // <-- AÑADE ESTA LÍNEA
+import { dbFirebase } from '../firebase'; // 
 
 const AuthContext = createContext();
 
@@ -34,8 +36,35 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Register function (optional, you can keep it in Register.jsx if you prefer)
-  const registerUser = (email, password) => {
-    return createUserWithEmailAndPassword(authFirebase, email, password);
+  const registerUser = async (email, password) => {
+      try {
+          // 1. Crea el usuario en Firebase Authentication (esto no cambia)
+          const userCredential = await createUserWithEmailAndPassword(authFirebase, email, password);
+          const newUser = userCredential.user;
+
+          // 2. ¡NUEVO! Crea el documento para ese usuario en la colección "users"
+          const userDocRef = doc(dbFirebase, "users", newUser.uid);
+          await setDoc(userDocRef, {
+              uid: newUser.uid,
+              email: newUser.email,
+              displayName: newUser.email.split('@')[0], // Un nombre por defecto
+              photoURL: '', // URL de foto vacía por defecto
+              points: 0,    // Empieza con 0 puntos
+              createdAt: new Date(),
+              // Otros campos que quieras inicializar
+              bio: '',
+              age: '',
+              nationality: '',
+              hobby: ''
+          });
+
+          return userCredential; // Devuelve las credenciales como antes
+
+      } catch (error) {
+          console.error("Error en el proceso de registro completo:", error);
+          // Re-lanza el error para que el componente Register pueda manejarlo
+          throw error;
+      }
   };
 
   const value = {
