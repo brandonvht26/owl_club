@@ -567,9 +567,50 @@
     margin-bottom: 12px;
 }
 
-@media (min-width: 768px) {
-    .answer-actions {
-        margin-bottom: 0;
+@media (max-width: 1024px) {
+    .question-detail-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px;
+        order: 1; /* AGREGADO: Mover sidebar después del contenido principal */
+    }
+    
+    .question-detail-main {
+        order: 1; /* AGREGADO: Asegurar que el contenido principal vaya primero */
+    }
+    
+    .related-questions-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 12px;
+    }
+    
+    /* AGREGADO: Mostrar el sidebar como sección expandible en móvil */
+    .related-forums {
+        background-color: var(--color-light);
+        border-radius: 8px;
+        padding: 16px;
+        margin-top: 24px;
+    }
+    
+    .related-forums h3 {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 12px;
+    }
+    
+    .related-forums h3::after {
+        content: "▼";
+        margin-left: auto;
+        transition: transform 0.2s ease;
     }
 }
 
@@ -1237,6 +1278,32 @@
     
     .comment-item {
         padding: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* ... mantén todos los estilos existentes y agrega: */
+    
+    .comments-section {
+        margin-top: 0; /* CAMBIADO: Quitar margen superior */
+        border-top: none; /* CAMBIADO: Quitar borde superior */
+        background-color: var(--color-light); /* CAMBIADO: Mismo fondo que la tarjeta */
+        border-radius: 0; /* CAMBIADO: Sin border radius */
+        padding: 16px 24px; /* AJUSTADO: Padding consistente */
+    }
+    
+    .new-comment-form h4 {
+        font-size: 0.875rem; /* CAMBIADO: Texto más pequeño en móvil */
+    }
+    
+    /* AGREGADO: Mejor espaciado para comentarios en móvil */
+    .comment-item {
+        padding: 12px;
+        margin-bottom: 8px;
+    }
+    
+    .nested-replies {
+        margin-left: 16px; /* CAMBIADO: Menos indentación en móvil */
     }
 }
 
