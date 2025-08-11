@@ -124,6 +124,8 @@ const QuestionDetail = () => {
     const [newAnswer, setNewAnswer] = useState('');
     const [isLiking, setIsLiking] = useState(false);
     const [sortBy, setSortBy] = useState('score');
+
+    const [questionAuthor, setQuestionAuthor] = useState(null);
     
     const questionContentRef = useRef(null);
 
@@ -140,6 +142,20 @@ const QuestionDetail = () => {
                     sessionStorage.setItem(`viewed_${questionId}`, 'true');
                 }
                 setQuestion(questionData);
+            
+                // Una vez que tenemos la pregunta, usamos el ID del autor para buscar su perfil
+                if (questionData.userId) {
+                    const authorRef = doc(dbFirebase, 'users', questionData.userId);
+                    const authorSnap = await getDoc(authorRef);
+                    if (authorSnap.exists()) {
+                        // Si encontramos el perfil, lo guardamos en nuestro nuevo estado
+                        setQuestionAuthor(authorSnap.data());
+                    } else {
+                        // Si el autor no tiene perfil en la DB, mostramos un aviso en consola
+                        console.warn(`Perfil de autor no encontrado para el ID: ${questionData.userId}`);
+                    }
+                }
+                // --- FIN DEL BLOQUE A PEGAR ---
             } else {
                 setError(t('question_detail.not_found_error') || 'Pregunta no encontrada');
                 return;
@@ -412,12 +428,12 @@ const QuestionDetail = () => {
                             />
                             <div className="question-author-details">
                                 <h3 className="question-author-name">{question.userName}</h3>
-                                <p className="question-author-role">Estudiante de Ingeniería</p>
+                                <p className="question-author-role">{questionAuthor?.role || 'Miembro del Club'}</p>
                             </div>
                         </div>
                         <div className="question-tags">
                             <span className="question-category">{question.categoria}</span>
-                            <span className="question-subcategory">Álgebra</span>
+                            {question.subcategoria && <span className="question-subcategory">{question.subcategoria}</span>}
                         </div>
                     </div>
 

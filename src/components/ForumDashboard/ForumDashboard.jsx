@@ -316,6 +316,15 @@ const ModalForm = ({ title, onClose, onSubmit, register, errors, categories, set
                         {errors.categoria && <span className="error">{errors.categoria.message}</span>}
                     </div>
                     <div className="form-group">
+                        <label>Subcategoría (Opcional)</label>
+                        <input 
+                            type="text" 
+                            placeholder="Ej: Álgebra, Programación Orientada a Objetos" 
+                            {...register('subcategoria')} // <-- Lo registramos en el formulario
+                        />
+                        {/* No añadimos validación de 'required' para que sea opcional */}
+                    </div>
+                    <div className="form-group">
                         <label>Detalles de tu pregunta (con soporte para fórmulas)</label>
                         <Controller name="descripcion" control={control} defaultValue={initialDescription} rules={{ required: 'La descripción es requerida' }} render={({ field }) => (<MathEditor value={field.value} onChange={field.onChange} />)} />
                         {errors.descripcion && <span className="error">{errors.descripcion.message}</span>}

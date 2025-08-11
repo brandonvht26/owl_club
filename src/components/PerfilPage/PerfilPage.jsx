@@ -150,6 +150,20 @@ const ProfilePage = () => {
                             <DetailItem icon="fas fa-birthday-cake" label="Edad" value={profileData.age}>
                                 {isEditing && <input type="number" name="age" className="profile-input" value={profileData.age} onChange={handleInputChange} placeholder="Ej: 25" />}
                             </DetailItem>
+
+                            <DetailItem icon="fas fa-user-tie" label="Rol o Título" value={profileData.role}>
+                                {isEditing && 
+                                    <input 
+                                        type="text" 
+                                        name="role" 
+                                        className="profile-input" 
+                                        value={profileData.role || ''} 
+                                        onChange={handleInputChange} 
+                                        placeholder="Ej: Estudiante de Ingeniería" 
+                                    />
+                                }
+                            </DetailItem>
+
                             <DetailItem icon="fas fa-flag" label="Nacionalidad" value={profileData.nationality}>
                                 {isEditing && <input type="text" name="nationality" className="profile-input" value={profileData.nationality} onChange={handleInputChange} placeholder="Ej: Ecuatoriana" />}
                             </DetailItem>
