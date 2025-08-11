@@ -833,3 +833,67 @@
 .question-card .question-tag {
     margin-left: 0;
 }
+
+.options-container {
+  position: relative; /* Permite posicionar el menú adentro */
+}
+
+.options-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--color-light);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid var(--color-border);
+  padding: 0.5rem;
+  z-index: 10;
+  width: 160px; /* Ancho del menú */
+}
+
+.options-menu button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px; /* Bordes redondeados para cada opción */
+}
+
+.options-menu button:hover {
+  background-color: var(--color-bg);
+}
+
+.comment-box {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.comment-box textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  resize: vertical;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+}
+
+.comment-box button {
+  background-color: var(--color-primary-dark);
+  color: var(--color-light);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.comment-box button:hover {
+  background-color: var(--color-primary);
+}

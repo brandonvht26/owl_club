@@ -14,6 +14,9 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
     const { currentUser } = useAuth();
     const isQuestionAuthor = currentUser?.uid === questionAuthorId;
 
+    const [showCommentBox, setShowCommentBox] = useState(false); // <-- AÑADE ESTA LÍNEA
+    const [commentText, setCommentText] = useState(""); 
+
     const userVote = currentUser ? {
         up: answer.upvotedBy?.includes(currentUser.uid),
         down: answer.downvotedBy?.includes(currentUser.uid),
@@ -83,7 +86,7 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
                             </button>
                         </div>
                         
-                        <button className="comment-btn">
+                        <button className="comment-btn" onClick={() => setShowCommentBox(!showCommentBox)}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="comment-icon" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
                             </svg>
@@ -108,6 +111,21 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
                     </div>
                 </div>
             </div>
+        
+            {showCommentBox && (
+                <div className="comment-box">
+                    <textarea
+                        rows="2"
+                        placeholder="Escribe un comentario..."
+                        value={commentText}
+                        onChange={(e) => setCommentText(e.target.value)}
+                    ></textarea>
+                    <button onClick={() => alert('Próximamente: Guardar comentario')}>
+                        Publicar
+                    </button>
+                </div>
+            )}
+            
         </div>
     );
 };
@@ -124,6 +142,9 @@ const QuestionDetail = () => {
     const [newAnswer, setNewAnswer] = useState('');
     const [isLiking, setIsLiking] = useState(false);
     const [sortBy, setSortBy] = useState('score');
+    const [showOptionsMenu, setShowOptionsMenu] = useState(false); 
+
+    const answerFormRef = useRef(null);
 
     const [questionAuthor, setQuestionAuthor] = useState(null);
     
@@ -478,15 +499,30 @@ const QuestionDetail = () => {
                         </div>
 
                         <div className="question-options">
-                            <button className="options-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="options-icon" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                                </svg>
-                                Opciones
-                            </button>
+                            <div className="options-container"> {/* 1. Nuevo contenedor */}
+                                <button className="options-btn" onClick={() => setShowOptionsMenu(!showOptionsMenu)}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="options-icon" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    </svg>
+                                    Opciones
+                                </button>
+
+                                {/* 2. Menú desplegable que aparece y desaparece */}
+                                {showOptionsMenu && (
+                                    <div className="options-menu">
+                                        {currentUser?.uid === question.userId && (
+                                            <button onClick={() => alert('Próximamente: Editar pregunta')}>Editar</button>
+                                        )}
+                                        <button onClick={() => alert('Próximamente: Reportar pregunta')}>Reportar</button>
+                                    </div>
+                                )}
+                            </div>
                             
                             {currentUser && (
-                                <button className="respond-btn">
+                                <button
+                                    className="respond-btn"
+                                    onClick={() => answerFormRef.current?.scrollIntoView({ behavior: 'smooth' })}
+                                >
                                     <svg xmlns="http://www.w3.org/2000/svg" className="respond-icon" viewBox="0 0 20 20" fill="currentColor">
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
                                     </svg>
@@ -552,7 +588,7 @@ const QuestionDetail = () => {
 
                 {/* Answer Form */}
                 {currentUser && (
-                    <section className="answer-form-section">
+                    <section ref={answerFormRef} className="answer-form-section">
                         <div className="answer-form-card">
                             <h2 className="answer-form-title">Tu respuesta</h2>
                             <form onSubmit={handleAnswerSubmit}>
