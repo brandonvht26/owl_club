@@ -111,3 +111,7 @@ ol {
 main {
   flex-grow: 1;
 }
+
+.body-no-scroll {
+  overflow: hidden;
+}

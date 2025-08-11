@@ -408,3 +408,41 @@
     border-radius: 50%;
     margin-right: 12px;
 }
+
+/* --- Estilos para la Paginación --- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.pagination button {
+  background-color: var(--color-light);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+  min-width: 40px;
+  height: 40px;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: var(--color-primary-transparent-10);
+  border-color: var(--color-primary);
+}
+
+.pagination button.active {
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  border-color: var(--color-primary);
+}
+
+.pagination button:disabled {
+  color: var(--color-border);
+  cursor: not-allowed;
+}

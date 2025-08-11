@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { dbFirebase } from '../../firebase';
-import { doc, getDoc, collection, query, where, orderBy, getDocs, addDoc, runTransaction, updateDoc, increment } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, orderBy, getDocs, addDoc, runTransaction, updateDoc, increment, writeBatch } from 'firebase/firestore';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import katex from 'katex';
@@ -238,7 +238,7 @@ const QuestionDetail = () => {
     };
     
     const handleMarkBestAnswer = async (answerId, answerAuthorId) => {
-        console.log("Iniciando 'handleMarkBestAnswer'...", { questionId, answerId, answerAuthorId });
+        console.log("Iniciando con el método 'Write Batch'...", { questionId, answerId, answerAuthorId });
 
         if (question.userId !== currentUser?.uid) {
             alert('Solo el autor puede marcar la mejor respuesta');
@@ -246,37 +246,57 @@ const QuestionDetail = () => {
         }
 
         if (!questionId || !answerId || !answerAuthorId) {
-            console.error("Error Crítico: Faltan IDs.", { questionId, answerId, answerAuthorId });
             alert("Error: Faltan datos para completar la operación.");
             return;
         }
 
         try {
-            await runTransaction(dbFirebase, async (transaction) => {
-                const questionRef = doc(dbFirebase, 'foros', questionId);
-                const newBestAnswerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', answerId);
-                const answerAuthorRef = doc(dbFirebase, 'users', answerAuthorId);
+            // --- 1. FASE DE LECTURA (usando funciones normales) ---
+            
+            // Obtenemos el documento del autor para saber sus puntos.
+            const authorRef = doc(dbFirebase, 'users', answerAuthorId);
+            const authorDoc = await getDoc(authorRef);
 
-                const authorDoc = await transaction.get(answerAuthorRef);
-                if (!authorDoc.exists()) {
-                    throw new Error(`El documento del autor con ID ${answerAuthorId} no existe.`);
-                }
+            if (!authorDoc.exists()) {
+                throw new Error(`El documento del autor con ID ${answerAuthorId} no existe.`);
+            }
+            const currentPoints = authorDoc.data().points || 0;
 
-                const bestAnswerQuery = query(collection(dbFirebase, 'foros', questionId, 'respuestas'), where('isBest', '==', true));
-                const currentBestAnswerSnap = await transaction.get(bestAnswerQuery);
+            // Buscamos si ya existe otra respuesta marcada como la mejor.
+            const bestAnswerQuery = query(collection(dbFirebase, 'foros', questionId, 'respuestas'), where('isBest', '==', true));
+            const currentBestAnswerSnap = await getDocs(bestAnswerQuery);
 
-                currentBestAnswerSnap.forEach(doc => transaction.update(doc.ref, { isBest: false }));
-                transaction.update(newBestAnswerRef, { isBest: true });
-                transaction.update(questionRef, { solved: true });
-                const currentPoints = authorDoc.data()?.points || 0;
-                transaction.update(answerAuthorRef, { points: currentPoints + 15 });
+            // --- 2. FASE DE ESCRITURA (usando un Batch) ---
+            
+            // Preparamos el "lote de escrituras".
+            const batch = writeBatch(dbFirebase);
+
+            // A. Si encontramos una "mejor respuesta" anterior, la desmarcamos.
+            currentBestAnswerSnap.forEach(doc => {
+                batch.update(doc.ref, { isBest: false });
             });
 
+            // B. Marcamos la nueva respuesta como la mejor.
+            const newBestAnswerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', answerId);
+            batch.update(newBestAnswerRef, { isBest: true });
+            
+            // C. Marcamos la pregunta principal como resuelta.
+            const questionRef = doc(dbFirebase, 'foros', questionId);
+            batch.update(questionRef, { solved: true });
+
+            // D. Actualizamos los puntos del autor.
+            batch.update(authorRef, { points: currentPoints + 15 });
+
+            // --- 3. EJECUTAR TODO ---
+            // Enviamos todas las operaciones a Firebase para que se ejecuten juntas.
+            await batch.commit();
+            
+            // --- 4. ACTUALIZAR UI ---
             fetchQuestionAndAnswers();
             alert('¡Respuesta marcada como la mejor y +15 puntos para el sabio!');
 
         } catch (error) {
-            console.error("Error DETALLADO al marcar la mejor respuesta:", error);
+            console.error("Error DETALLADO con el método 'Write Batch':", error);
             alert(`Ocurrió un error: ${error.message}`);
         }
     };
@@ -521,14 +541,12 @@ const QuestionDetail = () => {
                             <h2 className="answer-form-title">Tu respuesta</h2>
                             <form onSubmit={handleAnswerSubmit}>
                                 <div className="editor-container">
-                                    <textarea
-                                        className="answer-textarea"
-                                        placeholder="Escribe tu respuesta aquí..."
+
+                                    <MathEditor
                                         value={newAnswer}
-                                        onChange={(e) => setNewAnswer(e.target.value)}
-                                        rows="10"
-                                        required
+                                        onChange={setNewAnswer} // Pasamos la función para actualizar el estado directamente
                                     />
+                                    
                                 </div>
                                 <div className="form-actions">
                                     <div className="formatting-tools">

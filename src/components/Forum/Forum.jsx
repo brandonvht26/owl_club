@@ -84,6 +84,8 @@ const Forum = () => {
     const [topUsers, setTopUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
+    const [currentPage, setCurrentPage] = useState(1);
+    const POSTS_PER_PAGE = 10;
 
     useEffect(() => {
         const fetchForumData = async () => {
@@ -133,6 +135,25 @@ const Forum = () => {
 
             return titleMatch || categoryMatch;
     });
+
+    // --- AÑADE TODA ESTA LÓGICA DE PAGINACIÓN ---
+    // Calculamos el número total de páginas necesarias
+    const pageCount = Math.ceil(filteredQuestions.length / POSTS_PER_PAGE);
+
+    // Calculamos el índice del primer y último post de la página actual
+    const indexOfLastPost = currentPage * POSTS_PER_PAGE;
+    const indexOfFirstPost = indexOfLastPost - POSTS_PER_PAGE;
+
+    // "Rebanamos" el array para obtener solo los posts de la página actual
+    const paginatedQuestions = filteredQuestions.slice(indexOfFirstPost, indexOfLastPost);
+
+    // Función para cambiar de página
+    const handlePageClick = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        // Opcional: Desplaza la vista al inicio de la lista de preguntas
+        window.scrollTo({ top: 300, behavior: 'smooth' });
+    };
+    // --- FIN DE LA LÓGICA AÑADIDA ---
 
     return (
         <div className="forum-page">
@@ -205,6 +226,38 @@ const Forum = () => {
                         </div>
                     </div>
                     <div className="question-feed">
+                        
+                        {pageCount > 1 && (
+                            <div className="pagination">
+                                {/* Botón para ir a la página anterior */}
+                                <button
+                                    onClick={() => handlePageClick(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                >
+                                    &laquo;
+                                </button>
+
+                                {/* Generamos los botones de número de página */}
+                                {[...Array(pageCount).keys()].map(number => (
+                                    <button
+                                        key={number + 1}
+                                        onClick={() => handlePageClick(number + 1)}
+                                        className={currentPage === number + 1 ? 'active' : ''}
+                                    >
+                                        {number + 1}
+                                    </button>
+                                ))}
+
+                                {/* Botón para ir a la página siguiente */}
+                                <button
+                                    onClick={() => handlePageClick(currentPage + 1)}
+                                    disabled={currentPage === pageCount}
+                                >
+                                    &raquo;
+                                </button>
+                            </div>
+                        )}
+
                         {loading && <div className="forum-loader"><i className="fas fa-spinner fa-spin"></i> {t('forum.loading')}</div>}
                         {error && <div className="forum-error">{error}</div>}
                         {!loading && !error && questions.length === 0 && (
@@ -214,7 +267,7 @@ const Forum = () => {
                                 <Link to="/forum-dashboard" className="btn-primary">{t('forum.create_question_button')}</Link>
                             </div>
                         )}
-                        {!loading && !error && filteredQuestions.map(q => <QuestionCard key={q.id} question={q} t={t} />)}
+                        {!loading && !error && paginatedQuestions.map(q => <QuestionCard key={q.id} question={q} t={t} />)}
                     </div>
                 </div>
 
