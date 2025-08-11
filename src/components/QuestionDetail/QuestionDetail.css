@@ -1,13 +1,26 @@
-/* QuestionDetail.css */
+/* QuestionDetail.css - Versión Mejorada */
 
-/* Container Principal */
+/* Container Principal con layout de sidebar */
 .question-detail-container {
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
     background-color: var(--color-bg);
     font-family: var(--font-family);
     color: var(--color-text);
+    position: relative;
+}
+
+/* Sidebar para preguntas relacionadas */
+.sidebar {
+    width: 280px;
+    background-color: var(--color-light);
+    border-right: 1px solid var(--color-border);
+    padding: 24px 16px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    flex-shrink: 0;
 }
 
 .question-detail-main {
@@ -16,6 +29,73 @@
     width: 100%;
     margin: 0 auto;
     padding: 24px 16px;
+}
+
+/* Related Forums Styles */
+.related-forums h3 {
+    color: var(--color-dark);
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.related-questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.related-question-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 12px;
+    background-color: var(--color-bg);
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: all 0.2s ease;
+    border: 1px solid var(--color-border);
+}
+
+.related-question-item:hover {
+    background-color: var(--color-light);
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.related-question-content h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+}
+
+.related-question-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+}
+
+.related-question-status {
+    flex-shrink: 0;
+}
+
+.solved-indicator {
+    color: var(--color-secondary);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.related-loader {
+    text-align: center;
+    color: var(--color-text-light);
+    font-style: italic;
 }
 
 /* Back Navigation */
@@ -213,6 +293,12 @@
     gap: 12px;
 }
 
+/* ARREGLO PRINCIPAL - Menú de opciones mejorado */
+.options-container {
+    position: relative;
+    z-index: 1000; /* Asegurar que esté por encima de otros elementos */
+}
+
 .options-btn {
     display: flex;
     align-items: center;
@@ -222,11 +308,65 @@
     cursor: pointer;
     color: var(--color-text-light);
     transition: color 0.2s ease;
-    padding: 4px 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
 }
 
 .options-btn:hover {
     color: var(--color-primary);
+    background-color: rgba(156, 82, 151, 0.1);
+}
+
+.options-menu {
+    position: absolute;
+    top: calc(100% + 8px); /* Separación del botón */
+    right: 0;
+    background-color: var(--color-light);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border: 1px solid var(--color-border);
+    padding: 8px;
+    z-index: 9999; /* Muy alto para estar por encima de todo */
+    width: 200px;
+    animation: fadeInDown 0.2s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.options-menu button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 0.875rem;
+    transition: background-color 0.2s ease;
+}
+
+.options-menu button:hover {
+    background-color: var(--color-bg);
+    color: var(--color-primary);
+}
+
+.menu-icon {
+    height: 16px;
+    width: 16px;
+    flex-shrink: 0;
 }
 
 .respond-btn {
@@ -308,8 +448,9 @@
     background-color: var(--color-light);
     border-radius: 8px;
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    overflow: hidden;
+    overflow: visible; /* CAMBIO IMPORTANTE - permite que el menú se muestre */
     transition: all 0.3s ease;
+    position: relative; /* Para el posicionamiento de comentarios */
 }
 
 .answer-card:hover {
@@ -536,6 +677,227 @@
     width: 16px;
 }
 
+/* NUEVOS ESTILOS PARA COMENTARIOS MEJORADOS */
+.comments-section {
+    margin-top: 16px;
+    padding: 20px 24px;
+    background-color: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    border-radius: 0 0 8px 8px;
+}
+
+.new-comment-form {
+    margin-bottom: 24px;
+}
+
+.new-comment-form h4 {
+    margin: 0 0 12px 0;
+    color: var(--color-dark);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.comment-form-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.comment-submit-btn {
+    background-color: var(--color-primary);
+    color: var(--color-light);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 0.875rem;
+}
+
+.comment-submit-btn:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+}
+
+.comment-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.comment-cancel-btn {
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+}
+
+.comment-cancel-btn:hover {
+    background-color: var(--color-light);
+    border-color: var(--color-primary);
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.comment-item {
+    background-color: var(--color-light);
+    border-radius: 8px;
+    padding: 16px;
+    border-left: 3px solid var(--color-primary);
+    position: relative;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+    border: 2px solid var(--color-border);
+}
+
+.comment-author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-author-name {
+    font-weight: 600;
+    color: var(--color-dark);
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.comment-date {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+}
+
+.comment-content {
+    margin: 8px 0 12px 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.comment-content p {
+    margin: 0 0 8px 0;
+}
+
+.comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.reply-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.reply-btn:hover {
+    background-color: rgba(156, 82, 151, 0.1);
+    color: var(--color-primary-dark);
+}
+
+/* Respuestas anidadas */
+.nested-replies {
+    margin-left: 40px;
+    margin-top: 16px;
+    border-left: 2px solid var(--color-border);
+    padding-left: 16px;
+}
+
+.nested-replies .comment-item {
+    border-left: 2px solid var(--color-accent);
+    background-color: var(--color-bg);
+}
+
+/* Caja de respuesta a comentarios */
+.reply-box {
+    margin-top: 12px;
+    padding: 16px;
+    background-color: var(--color-bg);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+}
+
+.reply-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.reply-submit-btn {
+    background-color: var(--color-primary);
+    color: var(--color-light);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 0.75rem;
+}
+
+.reply-submit-btn:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+}
+
+.reply-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.reply-cancel-btn {
+    background: none;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.75rem;
+}
+
+.reply-cancel-btn:hover {
+    background-color: var(--color-light);
+    border-color: var(--color-primary);
+}
+
+.comments-loader {
+    text-align: center;
+    color: var(--color-text-light);
+    padding: 16px;
+    font-style: italic;
+}
+
+.no-comments {
+    text-align: center;
+    color: var(--color-text-light);
+    padding: 16px;
+    font-style: italic;
+}
+
 /* Load More */
 .load-more {
     margin-top: 32px;
@@ -748,6 +1110,27 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .question-detail-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        padding: 16px;
+    }
+    
+    .related-questions-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 12px;
+    }
+}
+
 @media (max-width: 768px) {
     .question-detail-main {
         padding: 16px 12px;
@@ -800,6 +1183,35 @@
         order: 1;
         align-self: stretch;
     }
+    
+    /* Ajustes del menú de opciones en móvil */
+    .options-menu {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 280px;
+        max-width: 90vw;
+        background-color: var(--color-light);
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        z-index: 9999;
+    }
+    
+    .options-menu::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        z-index: -1;
+    }
+    
+    .nested-replies {
+        margin-left: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -814,86 +1226,88 @@
         height: 20px;
         width: 20px;
     }
+    
+    .sidebar {
+        padding: 12px;
+    }
+    
+    .comments-section {
+        padding: 16px;
+    }
+    
+    .comment-item {
+        padding: 12px;
+    }
 }
 
+/* Estilos adicionales para mejor UX */
 .question-card .question-header {
-    /* Estilos que ya teníamos */
     background: none;
     border-bottom: 1px solid var(--color-border);
     padding: 16px;
     gap: 16px;
-
-    /* ¡NUEVAS REGLAS para FORZAR la alineación! */
-    width: 100%;                  /* 1. Le decimos que ocupe TODO el ancho */
-    justify-content: flex-start;  /* 2. Alinea el contenido (autor y tag) a la izquierda */
-    margin: 0;                    /* 3. Resetea cualquier margen que lo esté empujando */
+    width: 100%;
+    justify-content: flex-start;
+    margin: 0;
 }
 
-/* Y para asegurar que la etiqueta no se mueva sola */
 .question-card .question-tag {
     margin-left: 0;
 }
 
-.options-container {
-  position: relative; /* Permite posicionar el menú adentro */
+/* Mejoras visuales para las fórmulas en comentarios */
+.comment-content .ql-formula {
+    background-color: rgba(156, 82, 151, 0.1);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-family: 'Computer Modern', serif;
 }
 
-.options-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: var(--color-light);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  border: 1px solid var(--color-border);
-  padding: 0.5rem;
-  z-index: 10;
-  width: 160px; /* Ancho del menú */
+/* Animaciones suaves */
+.comment-item {
+    animation: slideInFromLeft 0.3s ease-out;
 }
 
-.options-menu button {
-  display: block;
-  width: 100%;
-  padding: 0.75rem;
-  background: none;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  border-radius: 4px; /* Bordes redondeados para cada opción */
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-.options-menu button:hover {
-  background-color: var(--color-bg);
+/* Estados de carga mejorados */
+.comments-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: var(--color-text-light);
 }
 
-.comment-box {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--color-border);
+.comments-loader::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--color-border);
+    border-top: 2px solid var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
 }
 
-.comment-box textarea {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-  resize: vertical;
-  font-family: var(--font-main);
-  font-size: 0.9rem;
+/* Mejoras de accesibilidad */
+.options-menu button:focus,
+.reply-btn:focus,
+.comment-submit-btn:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
-.comment-box button {
-  background-color: var(--color-primary-dark);
-  color: var(--color-light);
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.comment-box button:hover {
-  background-color: var(--color-primary);
+/* Scroll suave para comentarios */
+.comments-section {
+    scroll-margin-top: 80px;
 }

@@ -5,22 +5,300 @@ import { doc, getDoc, collection, query, where, orderBy, getDocs, addDoc, runTra
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import katex from 'katex';
-import MathEditor from '../MathEditor/MathEditor'; // <--- ¡ASEGÚRATE DE IMPORTAR ESTO!
+import MathEditor from '../MathEditor/MathEditor';
 import 'react-quill-new/dist/quill.snow.css';  
 import 'katex/dist/katex.min.css';
 import './QuestionDetail.css';
+
+// Componente para comentarios individuales
+const CommentItem = ({ comment, onReply }) => {
+    const { currentUser } = useAuth();
+    const [showReplyBox, setShowReplyBox] = useState(false);
+    const [replyText, setReplyText] = useState('');
+    const commentContentRef = useRef(null);
+
+    useEffect(() => {
+        if (commentContentRef.current) {
+            const formulas = commentContentRef.current.querySelectorAll('.ql-formula');
+            formulas.forEach(formula => {
+                const value = formula.getAttribute('data-value');
+                if (value) {
+                    try {
+                        katex.render(value, formula, { throwOnError: false });
+                    } catch (e) {
+                        formula.innerHTML = value;
+                    }
+                }
+            });
+        }
+    }, [comment]);
+
+    const formatDate = (timestamp) => {
+        if (!timestamp) return '...';
+        return new Intl.DateTimeFormat('es', { 
+            dateStyle: 'short', 
+            timeStyle: 'short' 
+        }).format(timestamp.toDate());
+    };
+
+    const handleReplySubmit = () => {
+        if (!replyText.trim()) return;
+        onReply(comment.id, replyText);
+        setReplyText('');
+        setShowReplyBox(false);
+    };
+
+    return (
+        <div className="comment-item">
+            <div className="comment-header">
+                <img 
+                    src={comment.userPhotoURL || `https://randomuser.me/api/portraits/men/32.jpg`} 
+                    alt="Usuario" 
+                    className="comment-avatar" 
+                />
+                <div className="comment-author-info">
+                    <span className="comment-author-name">{comment.userName}</span>
+                    <span className="comment-date">{formatDate(comment.createdAt)}</span>
+                </div>
+            </div>
+            <div 
+                ref={commentContentRef}
+                className="comment-content prose" 
+                dangerouslySetInnerHTML={{ __html: comment.content }}
+            />
+            <div className="comment-actions">
+                <button 
+                    className="reply-btn"
+                    onClick={() => setShowReplyBox(!showReplyBox)}
+                >
+                    Responder
+                </button>
+            </div>
+            
+            {showReplyBox && (
+                <div className="reply-box">
+                    <MathEditor
+                        value={replyText}
+                        onChange={setReplyText}
+                        placeholder="Escribe tu respuesta..."
+                        modules={{
+                            toolbar: [
+                                ['bold', 'italic', 'underline'],
+                                ['formula'],
+                                ['link']
+                            ]
+                        }}
+                    />
+                    <div className="reply-actions">
+                        <button 
+                            onClick={handleReplySubmit}
+                            disabled={!replyText.trim()}
+                            className="reply-submit-btn"
+                        >
+                            Responder
+                        </button>
+                        <button 
+                            onClick={() => setShowReplyBox(false)}
+                            className="reply-cancel-btn"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            )}
+            
+            {/* Respuestas anidadas */}
+            {comment.replies && comment.replies.length > 0 && (
+                <div className="nested-replies">
+                    {comment.replies.map(reply => (
+                        <CommentItem key={reply.id} comment={reply} onReply={onReply} />
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
+// Componente para foros relacionados
+const RelatedForums = ({ currentQuestionId, category, subcategory }) => {
+    const [relatedQuestions, setRelatedQuestions] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchRelatedQuestions = async () => {
+            setLoading(true);
+            try {
+                let relatedQuery;
+                if (subcategory) {
+                    relatedQuery = query(
+                        collection(dbFirebase, 'foros'),
+                        where('subcategoria', '==', subcategory),
+                        orderBy('createdAt', 'desc')
+                    );
+                } else {
+                    relatedQuery = query(
+                        collection(dbFirebase, 'foros'),
+                        where('categoria', '==', category),
+                        orderBy('createdAt', 'desc')
+                    );
+                }
+                
+                const snapshot = await getDocs(relatedQuery);
+                const questions = snapshot.docs
+                    .map(doc => ({ id: doc.id, ...doc.data() }))
+                    .filter(q => q.id !== currentQuestionId)
+                    .slice(0, 5);
+                
+                setRelatedQuestions(questions);
+            } catch (error) {
+                console.error("Error al cargar preguntas relacionadas:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (category) {
+            fetchRelatedQuestions();
+        }
+    }, [currentQuestionId, category, subcategory]);
+
+    if (loading) {
+        return (
+            <div className="related-forums">
+                <h3>Preguntas relacionadas</h3>
+                <div className="related-loader">Cargando...</div>
+            </div>
+        );
+    }
+
+    if (relatedQuestions.length === 0) return null;
+
+    return (
+        <div className="related-forums">
+            <h3>Preguntas relacionadas</h3>
+            <div className="related-questions-list">
+                {relatedQuestions.map(question => (
+                    <Link 
+                        key={question.id} 
+                        to={`/foro/${question.id}`}
+                        className="related-question-item"
+                    >
+                        <div className="related-question-content">
+                            <h4>{question.titulo}</h4>
+                            <div className="related-question-meta">
+                                <span>{question.replies || 0} respuestas</span>
+                                <span>•</span>
+                                <span>{question.views || 0} vistas</span>
+                            </div>
+                        </div>
+                        <div className="related-question-status">
+                            {question.solved && (
+                                <span className="solved-indicator">✓</span>
+                            )}
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
     const { currentUser } = useAuth();
     const isQuestionAuthor = currentUser?.uid === questionAuthorId;
 
-    const [showCommentBox, setShowCommentBox] = useState(false); // <-- AÑADE ESTA LÍNEA
-    const [commentText, setCommentText] = useState(""); 
+    const [showCommentBox, setShowCommentBox] = useState(false);
+    const [commentText, setCommentText] = useState("");
+    const [comments, setComments] = useState([]);
+    const [loadingComments, setLoadingComments] = useState(false);
 
     const userVote = currentUser ? {
         up: answer.upvotedBy?.includes(currentUser.uid),
         down: answer.downvotedBy?.includes(currentUser.uid),
     } : {};
+
+    // Cargar comentarios cuando se abre la sección
+    const loadComments = async () => {
+        if (loadingComments) return;
+        setLoadingComments(true);
+        
+        try {
+            const commentsQuery = query(
+                collection(dbFirebase, 'foros', answer.questionId, 'respuestas', answer.id, 'comentarios'),
+                orderBy('createdAt', 'asc')
+            );
+            const commentsSnapshot = await getDocs(commentsQuery);
+            setComments(commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+        } catch (error) {
+            console.error("Error al cargar comentarios:", error);
+        } finally {
+            setLoadingComments(false);
+        }
+    };
+
+    const handleCommentSubmit = async () => {
+        if (!commentText.trim() || !currentUser) return;
+        
+        try {
+            const commentData = {
+                content: commentText,
+                userId: currentUser.uid,
+                userName: currentUser.displayName || currentUser.email,
+                userPhotoURL: currentUser.photoURL,
+                createdAt: new Date(),
+                replies: []
+            };
+            
+            await addDoc(
+                collection(dbFirebase, 'foros', answer.questionId, 'respuestas', answer.id, 'comentarios'), 
+                commentData
+            );
+
+            // Actualizar contador de comentarios
+            const answerRef = doc(dbFirebase, 'foros', answer.questionId, 'respuestas', answer.id);
+            await updateDoc(answerRef, {
+                commentsCount: increment(1)
+            });
+
+            setCommentText('');
+            loadComments(); // Recargar comentarios
+        } catch (error) {
+            console.error("Error al publicar comentario:", error);
+            alert('Error al publicar el comentario');
+        }
+    };
+
+    const handleReplyToComment = async (commentId, replyText) => {
+        if (!replyText.trim() || !currentUser) return;
+        
+        try {
+            const replyData = {
+                content: replyText,
+                userId: currentUser.uid,
+                userName: currentUser.displayName || currentUser.email,
+                userPhotoURL: currentUser.photoURL,
+                createdAt: new Date(),
+                parentCommentId: commentId
+            };
+            
+            await addDoc(
+                collection(dbFirebase, 'foros', answer.questionId, 'respuestas', answer.id, 'comentarios'), 
+                replyData
+            );
+
+            loadComments(); // Recargar comentarios
+        } catch (error) {
+            console.error("Error al responder comentario:", error);
+            alert('Error al responder el comentario');
+        }
+    };
+
+    const toggleComments = () => {
+        setShowCommentBox(!showCommentBox);
+        if (!showCommentBox && comments.length === 0) {
+            loadComments();
+        }
+    };
 
     const formatDate = (timestamp) => {
         if (!timestamp) return '...';
@@ -86,7 +364,7 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
                             </button>
                         </div>
                         
-                        <button className="comment-btn" onClick={() => setShowCommentBox(!showCommentBox)}>
+                        <button className="comment-btn" onClick={toggleComments}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="comment-icon" viewBox="0 0 20 20" fill="currentColor">
                                 <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
                             </svg>
@@ -97,7 +375,7 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
                     <div className="answer-meta">
                         <span className="answer-date">Respondido {formatDate(answer.createdAt)}</span>
                         
-                            {isQuestionAuthor && !answer.isBest && (
+                        {isQuestionAuthor && !answer.isBest && (
                             <button
                                 onClick={() => onMarkBest(answer.id, answer.userId)}
                                 className="mark-best-btn"
@@ -112,20 +390,59 @@ const AnswerCard = ({ answer, onVote, onMarkBest, questionAuthorId, t }) => {
                 </div>
             </div>
         
+            {/* Sección de comentarios mejorada */}
             {showCommentBox && (
-                <div className="comment-box">
-                    <textarea
-                        rows="2"
-                        placeholder="Escribe un comentario..."
-                        value={commentText}
-                        onChange={(e) => setCommentText(e.target.value)}
-                    ></textarea>
-                    <button onClick={() => alert('Próximamente: Guardar comentario')}>
-                        Publicar
-                    </button>
+                <div className="comments-section">
+                    {/* Formulario para nuevo comentario */}
+                    <div className="new-comment-form">
+                        <h4>Agregar comentario</h4>
+                        <MathEditor
+                            value={commentText}
+                            onChange={setCommentText}
+                            placeholder="Escribe tu comentario..."
+                            modules={{
+                                toolbar: [
+                                    ['bold', 'italic'],
+                                    ['formula'],
+                                    ['code-block']
+                                ]
+                            }}
+                        />
+                        <div className="comment-form-actions">
+                            <button 
+                                onClick={handleCommentSubmit}
+                                disabled={!commentText.trim()}
+                                className="comment-submit-btn"
+                            >
+                                Publicar comentario
+                            </button>
+                            <button 
+                                onClick={() => setShowCommentBox(false)}
+                                className="comment-cancel-btn"
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Lista de comentarios existentes */}
+                    <div className="comments-list">
+                        {loadingComments ? (
+                            <div className="comments-loader">Cargando comentarios...</div>
+                        ) : comments.length > 0 ? (
+                            comments.map(comment => (
+                                <CommentItem 
+                                    key={comment.id} 
+                                    comment={comment} 
+                                    onReply={handleReplyToComment}
+                                />
+                            ))
+                        ) : (
+                            <div className="no-comments">No hay comentarios aún</div>
+                        )}
+                    </div>
                 </div>
             )}
-            
         </div>
     );
 };
@@ -142,12 +459,10 @@ const QuestionDetail = () => {
     const [newAnswer, setNewAnswer] = useState('');
     const [isLiking, setIsLiking] = useState(false);
     const [sortBy, setSortBy] = useState('score');
-    const [showOptionsMenu, setShowOptionsMenu] = useState(false); 
+    const [showOptionsMenu, setShowOptionsMenu] = useState(false);
 
     const answerFormRef = useRef(null);
-
     const [questionAuthor, setQuestionAuthor] = useState(null);
-    
     const questionContentRef = useRef(null);
 
     const fetchQuestionAndAnswers = useCallback(async () => {
@@ -164,19 +479,15 @@ const QuestionDetail = () => {
                 }
                 setQuestion(questionData);
             
-                // Una vez que tenemos la pregunta, usamos el ID del autor para buscar su perfil
                 if (questionData.userId) {
                     const authorRef = doc(dbFirebase, 'users', questionData.userId);
                     const authorSnap = await getDoc(authorRef);
                     if (authorSnap.exists()) {
-                        // Si encontramos el perfil, lo guardamos en nuestro nuevo estado
                         setQuestionAuthor(authorSnap.data());
                     } else {
-                        // Si el autor no tiene perfil en la DB, mostramos un aviso en consola
                         console.warn(`Perfil de autor no encontrado para el ID: ${questionData.userId}`);
                     }
                 }
-                // --- FIN DEL BLOQUE A PEGAR ---
             } else {
                 setError(t('question_detail.not_found_error') || 'Pregunta no encontrada');
                 return;
@@ -188,7 +499,12 @@ const QuestionDetail = () => {
                 orderBy(orderByField, 'desc')
             );
             const answersSnapshot = await getDocs(answersQuery);
-            setAnswers(answersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+            const answersData = answersSnapshot.docs.map(doc => ({ 
+                id: doc.id, 
+                questionId: questionId, // Agregar questionId para comentarios
+                ...doc.data() 
+            }));
+            setAnswers(answersData);
 
         } catch (err) {
             console.error("Error al cargar datos:", err);
@@ -288,9 +604,6 @@ const QuestionDetail = () => {
         }
 
         try {
-            // --- 1. FASE DE LECTURA (usando funciones normales) ---
-            
-            // Obtenemos el documento del autor para saber sus puntos.
             const authorRef = doc(dbFirebase, 'users', answerAuthorId);
             const authorDoc = await getDoc(authorRef);
 
@@ -299,36 +612,25 @@ const QuestionDetail = () => {
             }
             const currentPoints = authorDoc.data().points || 0;
 
-            // Buscamos si ya existe otra respuesta marcada como la mejor.
             const bestAnswerQuery = query(collection(dbFirebase, 'foros', questionId, 'respuestas'), where('isBest', '==', true));
             const currentBestAnswerSnap = await getDocs(bestAnswerQuery);
 
-            // --- 2. FASE DE ESCRITURA (usando un Batch) ---
-            
-            // Preparamos el "lote de escrituras".
             const batch = writeBatch(dbFirebase);
 
-            // A. Si encontramos una "mejor respuesta" anterior, la desmarcamos.
             currentBestAnswerSnap.forEach(doc => {
                 batch.update(doc.ref, { isBest: false });
             });
 
-            // B. Marcamos la nueva respuesta como la mejor.
             const newBestAnswerRef = doc(dbFirebase, 'foros', questionId, 'respuestas', answerId);
             batch.update(newBestAnswerRef, { isBest: true });
             
-            // C. Marcamos la pregunta principal como resuelta.
             const questionRef = doc(dbFirebase, 'foros', questionId);
             batch.update(questionRef, { solved: true });
 
-            // D. Actualizamos los puntos del autor.
             batch.update(authorRef, { points: currentPoints + 15 });
 
-            // --- 3. EJECUTAR TODO ---
-            // Enviamos todas las operaciones a Firebase para que se ejecuten juntas.
             await batch.commit();
             
-            // --- 4. ACTUALIZAR UI ---
             fetchQuestionAndAnswers();
             alert('¡Respuesta marcada como la mejor y +15 puntos para el sabio!');
 
@@ -371,6 +673,20 @@ const QuestionDetail = () => {
             alert(t('question_detail.publish_answer_error') || 'Error al publicar la respuesta');
         }
     };
+
+    // Cerrar menú de opciones al hacer click fuera
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showOptionsMenu && !event.target.closest('.options-container')) {
+                setShowOptionsMenu(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showOptionsMenu]);
 
     useEffect(() => {
         fetchQuestionAndAnswers();
@@ -427,6 +743,15 @@ const QuestionDetail = () => {
 
     return (
         <div className="question-detail-container">
+            {/* Sidebar con preguntas relacionadas */}
+            <aside className="sidebar">
+                <RelatedForums 
+                    currentQuestionId={questionId}
+                    category={question.categoria}
+                    subcategory={question.subcategoria}
+                />
+            </aside>
+
             <main className="question-detail-main">
                 {/* Back Navigation */}
                 <div className="back-navigation">
@@ -499,7 +824,7 @@ const QuestionDetail = () => {
                         </div>
 
                         <div className="question-options">
-                            <div className="options-container"> {/* 1. Nuevo contenedor */}
+                            <div className="options-container">
                                 <button className="options-btn" onClick={() => setShowOptionsMenu(!showOptionsMenu)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="options-icon" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
@@ -507,13 +832,28 @@ const QuestionDetail = () => {
                                     Opciones
                                 </button>
 
-                                {/* 2. Menú desplegable que aparece y desaparece */}
                                 {showOptionsMenu && (
                                     <div className="options-menu">
                                         {currentUser?.uid === question.userId && (
-                                            <button onClick={() => alert('Próximamente: Editar pregunta')}>Editar</button>
+                                            <button onClick={() => alert('Próximamente: Editar pregunta')}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="menu-icon" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                                </svg>
+                                                Editar pregunta
+                                            </button>
                                         )}
-                                        <button onClick={() => alert('Próximamente: Reportar pregunta')}>Reportar</button>
+                                        <button onClick={() => alert('Próximamente: Reportar pregunta')}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="menu-icon" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                            </svg>
+                                            Reportar pregunta
+                                        </button>
+                                        <button onClick={() => navigator.share ? navigator.share({title: question.titulo, url: window.location.href}) : navigator.clipboard.writeText(window.location.href)}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="menu-icon" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
+                                            </svg>
+                                            Compartir
+                                        </button>
                                     </div>
                                 )}
                             </div>
@@ -593,12 +933,10 @@ const QuestionDetail = () => {
                             <h2 className="answer-form-title">Tu respuesta</h2>
                             <form onSubmit={handleAnswerSubmit}>
                                 <div className="editor-container">
-
                                     <MathEditor
                                         value={newAnswer}
-                                        onChange={setNewAnswer} // Pasamos la función para actualizar el estado directamente
+                                        onChange={setNewAnswer}
                                     />
-                                    
                                 </div>
                                 <div className="form-actions">
                                     <div className="formatting-tools">
